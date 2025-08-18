@@ -1,30 +1,37 @@
+# -----------------------
 # Stage 1: Build
-FROM node:18 AS builder
+# -----------------------
+FROM node:18-bullseye AS builder
+
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia package.json y package-lock.json primero
+# Copia solo package.json y package-lock.json primero
 COPY package*.json ./
 
-# Instala todas las dependencias, incluidas dev
+# Instala todas las dependencias (incluidas dev)
 RUN npm install
 
-# Copia todo el proyecto
+# Copia todo el resto del proyecto
 COPY . .
 
-# Build del proyecto
+# Compila el proyecto NestJS
 RUN npm run build
 
+# -----------------------
 # Stage 2: Production
-FROM node:18-alpine
+# -----------------------
+FROM node:18-alpine AS production
+
 WORKDIR /app
 
-# Copia solo lo necesario del builder
-COPY --from=builder /app/package*.json ./
+# Copia los archivos necesarios desde el build
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
 
-# Exponer puerto
+# Expone el puerto que usa NestJS
 EXPOSE 3000
 
-# Ejecutar la app
+# Comando para iniciar la app
 CMD ["node", "dist/main.js"]
