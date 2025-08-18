@@ -4,23 +4,17 @@ FROM node:18
 # Directorio de trabajo
 WORKDIR /app
 
-# Copia package.json y package-lock.json primero (para aprovechar cache)
-COPY package*.json ./
-
-# Instala TODAS las dependencias (incluyendo dev) necesarias para compilar NestJS
-RUN npm install
-
-# Copia el resto del proyecto
+# Copia todos los archivos al contenedor primero
 COPY . .
 
-# Asegura que tsconfig.json esté en la raíz
-RUN ls -la
+# Instala todas las dependencias (dev incluidas)
+RUN npm install
 
-# Compila el proyecto
+# Compila el proyecto TypeScript
 RUN npm run build
 
-# Expone el puerto que usa NestJS
+# Expon el puerto que usa Nest
 EXPOSE 3000
 
-# Comando para iniciar la app
+# Ejecuta la app
 CMD ["node", "dist/main.js"]
