@@ -1,20 +1,30 @@
-# Usa Node 18 como base
-FROM node:18
-
-# Directorio de trabajo
+# Stage 1: Build
+FROM node:18 AS builder
 WORKDIR /app
 
-# Copia todos los archivos al contenedor primero
-COPY . .
+# Copia package.json y package-lock.json primero
+COPY package*.json ./
 
-# Instala todas las dependencias (dev incluidas)
+# Instala todas las dependencias, incluidas dev
 RUN npm install
 
-# Compila el proyecto TypeScript
+# Copia todo el proyecto
+COPY . .
+
+# Build del proyecto
 RUN npm run build
 
-# Expon el puerto que usa Nest
+# Stage 2: Production
+FROM node:18-alpine
+WORKDIR /app
+
+# Copia solo lo necesario del builder
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+
+# Exponer puerto
 EXPOSE 3000
 
-# Ejecuta la app
+# Ejecutar la app
 CMD ["node", "dist/main.js"]
