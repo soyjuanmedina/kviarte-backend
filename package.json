@@ -2,8 +2,10 @@
   "name": "kviarte-backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "nest start",
-    "start:dev": "nest start --watch"
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.20",
@@ -30,5 +32,4 @@
     "ts-loader": "^9.4.4",
     "typescript": "^5.1.3"
   }
-
 }
