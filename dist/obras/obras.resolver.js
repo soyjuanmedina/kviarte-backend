@@ -16,6 +16,7 @@ exports.ObrasResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const obras_service_1 = require("./obras.service");
 const obra_entity_1 = require("./entities/obra.entity");
+const create_obra_input_1 = require("./dto/create-obra.input");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
@@ -29,8 +30,14 @@ let ObrasResolver = class ObrasResolver {
     obra(id) {
         return this.service.findOne(id);
     }
-    createObra(titulo, id_artista, id_exposicion) {
-        return this.service.create({ titulo, artista: { id_artista }, exposicion: id_exposicion ? { id_exposicion } : null });
+    createObra(input) {
+        return this.service.create({
+            titulo: input.titulo,
+            descripcion: input.descripcion,
+            estilo: input.estilo,
+            artista: { id_artista: input.id_artista },
+            exposicion: input.id_exposicion ? { id_exposicion: input.id_exposicion } : null,
+        });
     }
 };
 exports.ObrasResolver = ObrasResolver;
@@ -42,7 +49,7 @@ __decorate([
 ], ObrasResolver.prototype, "obras", null);
 __decorate([
     (0, graphql_1.Query)(() => obra_entity_1.Obra),
-    __param(0, (0, graphql_1.Args)('id')),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
@@ -50,11 +57,9 @@ __decorate([
 __decorate([
     (0, graphql_1.Mutation)(() => obra_entity_1.Obra),
     (0, roles_decorator_1.Roles)('admin', 'galeria'),
-    __param(0, (0, graphql_1.Args)('titulo')),
-    __param(1, (0, graphql_1.Args)('id_artista')),
-    __param(2, (0, graphql_1.Args)('id_exposicion', { nullable: true })),
+    __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Number]),
+    __metadata("design:paramtypes", [create_obra_input_1.CreateObraInput]),
     __metadata("design:returntype", void 0)
 ], ObrasResolver.prototype, "createObra", null);
 exports.ObrasResolver = ObrasResolver = __decorate([

@@ -11,37 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Galeria = void 0;
 const typeorm_1 = require("typeorm");
-const graphql_1 = require("@nestjs/graphql");
-const oferta_entity_1 = require("../../ofertas/entities/oferta.entity");
+const exposicion_entity_1 = require("../../exposiciones/entities/exposicion.entity");
+const artista_entity_1 = require("../../artistas/entities/artista.entity");
 let Galeria = class Galeria {
 };
 exports.Galeria = Galeria;
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Galeria.prototype, "id_galeria", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Galeria.prototype, "nombre", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Galeria.prototype, "email", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Galeria.prototype, "telefono", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => oferta_entity_1.Oferta, oferta => oferta.galeria),
+    (0, typeorm_1.OneToMany)(() => exposicion_entity_1.Exposicion, exposicion => exposicion.galeria),
     __metadata("design:type", Array)
-], Galeria.prototype, "ofertas", void 0);
+], Galeria.prototype, "exposiciones", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => artista_entity_1.Artista, artista => artista.galeria),
+    __metadata("design:type", Array)
+], Galeria.prototype, "artistas", void 0);
 exports.Galeria = Galeria = __decorate([
-    (0, graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()
 ], Galeria);
 //# sourceMappingURL=galeria.entity.js.map

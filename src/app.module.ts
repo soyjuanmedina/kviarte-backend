@@ -13,19 +13,19 @@ import { ObrasModule } from './obras/obras.module';
 import { OfertasModule } from './ofertas/ofertas.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
 
-@Module( {
+@Module({
   imports: [
-    ConfigModule.forRoot( { isGlobal: true } ),
-    TypeOrmModule.forRoot( {
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
-    } ),
-    GraphQLModule.forRoot( {
-      autoSchemaFile: join( process.cwd(), 'src/schema.gql' ),
-      context: ( { req } ) => ( { req } ),
-    } ),
+    }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      context: ({ req }) => ({ req }),
+    }),
     AuthModule,
     UsuariosModule,
     GaleriasModule,
@@ -35,5 +35,5 @@ import { NewsletterModule } from './newsletter/newsletter.module';
     OfertasModule,
     NewsletterModule,
   ],
-} )
+})
 export class AppModule { }

@@ -21,21 +21,18 @@ let GaleriasService = class GaleriasService {
     constructor(repo) {
         this.repo = repo;
     }
-    findAll() {
-        return this.repo.find({ relations: ['ofertas'] });
+    async findAll() {
+        return this.repo.find({ relations: ['exposiciones', 'artistas'] });
     }
-    findOne(id) {
-        return this.repo.findOne({ where: { id_galeria: id }, relations: ['ofertas'] });
+    async findOne(id) {
+        return this.repo.findOne({
+            where: { id_galeria: id },
+            relations: ['exposiciones', 'artistas'],
+        });
     }
-    create(galeria) {
-        const g = this.repo.create(galeria);
-        return this.repo.save(g);
-    }
-    update(id, data) {
-        return this.repo.update(id, data);
-    }
-    delete(id) {
-        return this.repo.delete(id);
+    async create(input) {
+        const galeria = this.repo.create(input);
+        return this.repo.save(galeria);
     }
 };
 exports.GaleriasService = GaleriasService;

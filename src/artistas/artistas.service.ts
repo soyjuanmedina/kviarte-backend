@@ -2,29 +2,43 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Artista } from './entities/artista.entity';
+import { Galeria } from '../galerias/entities/galeria.entity';
+import { CreateArtistaInput } from './dto/create-artista.input';
 
 @Injectable()
 export class ArtistasService {
-  constructor ( @InjectRepository( Artista ) private repo: Repository<Artista> ) { }
+  constructor(
+    @InjectRepository(Artista) private repo: Repository<Artista>,
+    @InjectRepository(Galeria) private galeriaRepo: Repository<Galeria>,
+  ) { }
 
-  findAll () {
-    return this.repo.find( { relations: ['galeria', 'obras'] } );
+  async findAll(): Promise<Artista[]> {
+    return this.repo.find({ relations: ['galeria', 'obras', 'exposiciones'] });
   }
 
-  findOne ( id: number ) {
-    return this.repo.findOne( { where: { id_artista: id }, relations: ['galeria', 'obras'] } );
+  async findOne(id: number): Promise<Artista> {
+    return this.repo.findOne({
+      where: { id_artista: id },
+      relations: ['galeria', 'obras', 'exposiciones'],
+    });
   }
 
-  create ( artista: Partial<Artista> ) {
-    const a = this.repo.create( artista );
-    return this.repo.save( a );
-  }
+  async create(input: CreateArtistaInput): Promise<Artista> {
+    const galeria = await this.galeriaRepo.findOne({
+      where: { id_galeria: input.id_galeria },
+    });
 
-  update ( id: number, data: Partial<Artista> ) {
-    return this.repo.update( id, data );
-  }
+    if (!galeria) {
+      throw new Error('Galería no encontrada');
+    }
 
-  delete ( id: number ) {
-    return this.repo.delete( id );
+    const artista = this.repo.create({
+      nombre: input.nombre,
+      biografia: input.biografia,
+      estilo: input.estilo,
+      galeria,
+    });
+
+    return this.repo.save(artista);
   }
 }

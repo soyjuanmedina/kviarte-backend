@@ -17,31 +17,43 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const artista_entity_1 = require("./entities/artista.entity");
+const galeria_entity_1 = require("../galerias/entities/galeria.entity");
 let ArtistasService = class ArtistasService {
-    constructor(repo) {
+    constructor(repo, galeriaRepo) {
         this.repo = repo;
+        this.galeriaRepo = galeriaRepo;
     }
-    findAll() {
-        return this.repo.find({ relations: ['galeria', 'obras'] });
+    async findAll() {
+        return this.repo.find({ relations: ['galeria', 'obras', 'exposiciones'] });
     }
-    findOne(id) {
-        return this.repo.findOne({ where: { id_artista: id }, relations: ['galeria', 'obras'] });
+    async findOne(id) {
+        return this.repo.findOne({
+            where: { id_artista: id },
+            relations: ['galeria', 'obras', 'exposiciones'],
+        });
     }
-    create(artista) {
-        const a = this.repo.create(artista);
-        return this.repo.save(a);
-    }
-    update(id, data) {
-        return this.repo.update(id, data);
-    }
-    delete(id) {
-        return this.repo.delete(id);
+    async create(input) {
+        const galeria = await this.galeriaRepo.findOne({
+            where: { id_galeria: input.id_galeria },
+        });
+        if (!galeria) {
+            throw new Error('Galería no encontrada');
+        }
+        const artista = this.repo.create({
+            nombre: input.nombre,
+            biografia: input.biografia,
+            estilo: input.estilo,
+            galeria,
+        });
+        return this.repo.save(artista);
     }
 };
 exports.ArtistasService = ArtistasService;
 exports.ArtistasService = ArtistasService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(artista_entity_1.Artista)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(galeria_entity_1.Galeria)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], ArtistasService);
 //# sourceMappingURL=artistas.service.js.map

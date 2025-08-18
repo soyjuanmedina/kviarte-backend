@@ -11,47 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Obra = void 0;
 const typeorm_1 = require("typeorm");
-const graphql_1 = require("@nestjs/graphql");
 const artista_entity_1 = require("../../artistas/entities/artista.entity");
 const exposicion_entity_1 = require("../../exposiciones/entities/exposicion.entity");
 let Obra = class Obra {
 };
 exports.Obra = Obra;
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Obra.prototype, "id_obra", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Obra.prototype, "titulo", void 0);
 __decorate([
-    (0, graphql_1.Field)({ nullable: true }),
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Obra.prototype, "descripcion", void 0);
 __decorate([
-    (0, graphql_1.Field)({ nullable: true }),
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], Obra.prototype, "tecnica", void 0);
+], Obra.prototype, "estilo", void 0);
 __decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", String)
-], Obra.prototype, "ano", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => artista_entity_1.Artista, artista => artista.obras),
+    (0, typeorm_1.ManyToOne)(() => artista_entity_1.Artista, artista => artista.obras, { nullable: false }),
     __metadata("design:type", artista_entity_1.Artista)
 ], Obra.prototype, "artista", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => exposicion_entity_1.Exposicion, exposicion => exposicion.id_exposicion, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => exposicion_entity_1.Exposicion, exposicion => exposicion.obras, { nullable: true }),
     __metadata("design:type", exposicion_entity_1.Exposicion)
 ], Obra.prototype, "exposicion", void 0);
 exports.Obra = Obra = __decorate([
-    (0, graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()
 ], Obra);
 //# sourceMappingURL=obra.entity.js.map

@@ -17,31 +17,56 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const exposicion_entity_1 = require("./entities/exposicion.entity");
+const galeria_entity_1 = require("../galerias/entities/galeria.entity");
+const artista_entity_1 = require("../artistas/entities/artista.entity");
 let ExposicionesService = class ExposicionesService {
-    constructor(repo) {
-        this.repo = repo;
+    constructor(exposicionRepo, galeriaRepo, artistaRepo) {
+        this.exposicionRepo = exposicionRepo;
+        this.galeriaRepo = galeriaRepo;
+        this.artistaRepo = artistaRepo;
     }
-    findAll() {
-        return this.repo.find({ relations: ['galeria', 'artista'] });
+    async findAll() {
+        return this.exposicionRepo.find({
+            relations: ['galeria', 'artista', 'obras'],
+        });
     }
-    findOne(id) {
-        return this.repo.findOne({ where: { id_exposicion: id }, relations: ['galeria', 'artista'] });
+    async findOne(id) {
+        return this.exposicionRepo.findOne({
+            where: { id_exposicion: id },
+            relations: ['galeria', 'artista', 'obras'],
+        });
     }
-    create(exposicion) {
-        const e = this.repo.create(exposicion);
-        return this.repo.save(e);
-    }
-    update(id, data) {
-        return this.repo.update(id, data);
-    }
-    delete(id) {
-        return this.repo.delete(id);
+    async create(input) {
+        const galeria = await this.galeriaRepo.findOne({
+            where: { id_galeria: input.id_galeria },
+        });
+        if (!galeria)
+            throw new Error('Galería no encontrada');
+        let artista = null;
+        if (input.id_artista) {
+            artista = await this.artistaRepo.findOne({
+                where: { id_artista: input.id_artista },
+            });
+            if (!artista)
+                throw new Error('Artista no encontrado');
+        }
+        const exposicion = this.exposicionRepo.create({
+            titulo: input.titulo,
+            descripcion: input.descripcion,
+            galeria,
+            artista,
+        });
+        return this.exposicionRepo.save(exposicion);
     }
 };
 exports.ExposicionesService = ExposicionesService;
 exports.ExposicionesService = ExposicionesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(exposicion_entity_1.Exposicion)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(galeria_entity_1.Galeria)),
+    __param(2, (0, typeorm_1.InjectRepository)(artista_entity_1.Artista)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.Repository])
 ], ExposicionesService);
 //# sourceMappingURL=exposiciones.service.js.map

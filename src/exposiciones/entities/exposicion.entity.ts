@@ -1,34 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Galeria } from '../../galerias/entities/galeria.entity';
+import { Obra } from '../../obras/entities/obra.entity';
 import { Artista } from '../../artistas/entities/artista.entity';
 
-@ObjectType()
 @Entity()
 export class Exposicion {
-  @Field( () => ID )
   @PrimaryGeneratedColumn()
   id_exposicion: number;
 
-  @Field()
   @Column()
   titulo: string;
 
-  @Field( { nullable: true } )
-  @Column( { nullable: true } )
+  @Column({ nullable: true })
   descripcion?: string;
 
-  @Field( { nullable: true } )
-  @Column( { type: 'date', nullable: true } )
-  fecha_inicio?: string;
-
-  @Field( { nullable: true } )
-  @Column( { type: 'date', nullable: true } )
-  fecha_fin?: string;
-
-  @ManyToOne( () => Galeria, galeria => galeria.id_galeria, { nullable: false } )
+  @ManyToOne(() => Galeria, galeria => galeria.exposiciones)
   galeria: Galeria;
 
-  @ManyToOne( () => Artista, artista => artista.id_artista, { nullable: true } )
-  artista: Artista;
+  @ManyToOne(() => Artista, artista => artista.exposiciones, { nullable: true })
+  artista?: Artista;
+
+  @OneToMany(() => Obra, obra => obra.exposicion)
+  obras: Obra[];
 }

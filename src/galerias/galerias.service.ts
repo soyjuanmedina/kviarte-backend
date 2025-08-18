@@ -5,26 +5,24 @@ import { Galeria } from './entities/galeria.entity';
 
 @Injectable()
 export class GaleriasService {
-  constructor ( @InjectRepository( Galeria ) private repo: Repository<Galeria> ) { }
+  constructor(
+    @InjectRepository(Galeria)
+    private readonly repo: Repository<Galeria>,
+  ) { }
 
-  findAll () {
-    return this.repo.find( { relations: ['ofertas'] } );
+  async findAll(): Promise<Galeria[]> {
+    return this.repo.find({ relations: ['exposiciones', 'artistas'] });
   }
 
-  findOne ( id: number ) {
-    return this.repo.findOne( { where: { id_galeria: id }, relations: ['ofertas'] } );
+  async findOne(id: number): Promise<Galeria> {
+    return this.repo.findOne({
+      where: { id_galeria: id },
+      relations: ['exposiciones', 'artistas'],
+    });
   }
 
-  create ( galeria: Partial<Galeria> ) {
-    const g = this.repo.create( galeria );
-    return this.repo.save( g );
-  }
-
-  update ( id: number, data: Partial<Galeria> ) {
-    return this.repo.update( id, data );
-  }
-
-  delete ( id: number ) {
-    return this.repo.delete( id );
+  async create(input: Partial<Galeria>): Promise<Galeria> {
+    const galeria = this.repo.create(input);
+    return this.repo.save(galeria);
   }
 }

@@ -16,6 +16,7 @@ exports.ExposicionesResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const exposiciones_service_1 = require("./exposiciones.service");
 const exposicion_entity_1 = require("./entities/exposicion.entity");
+const create_exposicion_input_1 = require("./dto/create-exposicion.input");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
@@ -29,8 +30,8 @@ let ExposicionesResolver = class ExposicionesResolver {
     exposicion(id) {
         return this.service.findOne(id);
     }
-    createExposicion(titulo, id_galeria, id_artista) {
-        return this.service.create({ titulo, galeria: { id_galeria }, artista: id_artista ? { id_artista } : null });
+    createExposicion(data) {
+        return this.service.create(data);
     }
 };
 exports.ExposicionesResolver = ExposicionesResolver;
@@ -50,11 +51,9 @@ __decorate([
 __decorate([
     (0, graphql_1.Mutation)(() => exposicion_entity_1.Exposicion),
     (0, roles_decorator_1.Roles)('admin', 'galeria'),
-    __param(0, (0, graphql_1.Args)('titulo')),
-    __param(1, (0, graphql_1.Args)('id_galeria')),
-    __param(2, (0, graphql_1.Args)('id_artista', { nullable: true })),
+    __param(0, (0, graphql_1.Args)('data')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, Number]),
+    __metadata("design:paramtypes", [create_exposicion_input_1.CreateExposicionInput]),
     __metadata("design:returntype", void 0)
 ], ExposicionesResolver.prototype, "createExposicion", null);
 exports.ExposicionesResolver = ExposicionesResolver = __decorate([

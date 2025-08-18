@@ -19,6 +19,7 @@ const artista_entity_1 = require("./entities/artista.entity");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
+const create_artista_input_1 = require("./dto/create-artista.input");
 let ArtistasResolver = class ArtistasResolver {
     constructor(service) {
         this.service = service;
@@ -29,8 +30,8 @@ let ArtistasResolver = class ArtistasResolver {
     artista(id) {
         return this.service.findOne(id);
     }
-    createArtista(nombre, id_galeria) {
-        return this.service.create({ nombre, galeria: { id_galeria } });
+    createArtista(input) {
+        return this.service.create(input);
     }
 };
 exports.ArtistasResolver = ArtistasResolver;
@@ -50,10 +51,9 @@ __decorate([
 __decorate([
     (0, graphql_1.Mutation)(() => artista_entity_1.Artista),
     (0, roles_decorator_1.Roles)('admin', 'galeria'),
-    __param(0, (0, graphql_1.Args)('nombre')),
-    __param(1, (0, graphql_1.Args)('id_galeria')),
+    __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:paramtypes", [create_artista_input_1.CreateArtistaInput]),
     __metadata("design:returntype", void 0)
 ], ArtistasResolver.prototype, "createArtista", null);
 exports.ArtistasResolver = ArtistasResolver = __decorate([
