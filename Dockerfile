@@ -1,23 +1,26 @@
-# Usa una imagen oficial de Node.js
-FROM node:18-alpine
+# Usa Node 18 como base
+FROM node:18
 
-# Establece el directorio de trabajo dentro del contenedor
+# Directorio de trabajo
 WORKDIR /app
 
-# Copia package.json y package-lock.json para instalar dependencias primero (cache-friendly)
+# Copia package.json y package-lock.json primero (para aprovechar cache)
 COPY package*.json ./
 
-# Instala las dependencias
+# Instala TODAS las dependencias (incluyendo dev) necesarias para compilar NestJS
 RUN npm install
 
-# Copia todo el resto del proyecto
+# Copia el resto del proyecto
 COPY . .
 
-# Compila TypeScript a JavaScript
+# Asegura que tsconfig.json esté en la raíz
+RUN ls -la
+
+# Compila el proyecto
 RUN npm run build
 
-# Expone el puerto que usará NestJS
+# Expone el puerto que usa NestJS
 EXPOSE 3000
 
-# Comando por defecto para ejecutar la app
+# Comando para iniciar la app
 CMD ["node", "dist/main.js"]
