@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
@@ -14,26 +14,42 @@ import { OfertasModule } from './ofertas/ofertas.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
+const logger = new Logger( 'AppModule' );
+
 @Module( {
   imports: [
-    ConfigModule.forRoot( { isGlobal: true } ),
+    ConfigModule.forRoot( { isGlobal: true, envFilePath: '.env' } ),
 
-    // Configuración de TypeORM para Supabase con async
     TypeOrmModule.forRootAsync( {
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: ( config: ConfigService ) => ( {
-        type: 'postgres',
-        url: config.get<string>( 'DATABASE_URL' ),
-        ssl: { rejectUnauthorized: false }, // necesario para Supabase
-        autoLoadEntities: true,
-        synchronize: true,
-      } ),
+      useFactory: async ( config: ConfigService ) => {
+        const dbUrl = config.get<string>( 'DATABASE_URL' );
+
+        if ( !dbUrl ) {
+          logger.error( 'DATABASE_URL no definida en .env. TypeORM no se conectará.' );
+          return {
+            type: 'postgres',
+            url: '', // conexión vacía para que no intente fallar
+            autoLoadEntities: true,
+            synchronize: false,
+          };
+        }
+
+        logger.log( 'DATABASE_URL encontrada, inicializando conexión TypeORM...' );
+        return {
+          type: 'postgres',
+          url: dbUrl,
+          ssl: { rejectUnauthorized: false },
+          autoLoadEntities: true,
+          synchronize: true,
+        };
+      },
     } ),
 
     GraphQLModule.forRoot<ApolloDriverConfig>( {
       driver: ApolloDriver,
-      autoSchemaFile: join( process.cwd(), 'src/schema.gql' ), // archivo opcional
+      autoSchemaFile: join( process.cwd(), 'src/schema.gql' ),
       sortSchema: true,
       playground: true,
     } ),
