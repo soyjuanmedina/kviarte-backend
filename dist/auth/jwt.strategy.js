@@ -20,6 +20,7 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: config.get('JWT_SECRET'),
         });
+        this.config = config;
     }
     async validate(payload) {
         return { id: payload.sub, email: payload.email, rol: payload.rol };

@@ -14,10 +14,14 @@ import { Usuario } from '../usuarios/entities/usuario.entity';
     JwtModule.registerAsync( {
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async ( config: ConfigService ) => ( {
-        secret: config.get<string>( 'JWT_SECRET' ) || 'super-secret',
-        signOptions: { expiresIn: '1d' },
-      } ),
+      useFactory: async ( config: ConfigService ) => {
+        const jwtSecret = config.get<string>( 'JWT_SECRET' ) || 'super-secret';
+        console.log( 'JWT_SECRET desde ConfigService:', jwtSecret ); // <-- log aquí
+        return {
+          secret: jwtSecret,
+          signOptions: { expiresIn: '1d' },
+        };
+      },
     } ),
   ],
   providers: [AuthService, JwtStrategy, AuthResolver],

@@ -8,14 +8,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
 const auth_service_1 = require("./auth.service");
 const jwt_strategy_1 = require("./jwt.strategy");
 const auth_resolver_1 = require("./auth.resolver");
+const usuario_entity_1 = require("../usuarios/entities/usuario.entity");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
+        imports: [
+            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            typeorm_1.TypeOrmModule.forFeature([usuario_entity_1.Usuario]),
+            jwt_1.JwtModule.registerAsync({
+                imports: [config_1.ConfigModule],
+                inject: [config_1.ConfigService],
+                useFactory: async (config) => {
+                    const jwtSecret = config.get('JWT_SECRET') || 'super-secret';
+                    console.log('JWT_SECRET desde ConfigService:', jwtSecret);
+                    return {
+                        secret: jwtSecret,
+                        signOptions: { expiresIn: '1d' },
+                    };
+                },
+            }),
+        ],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, auth_resolver_1.AuthResolver],
         exports: [auth_service_1.AuthService],
     })

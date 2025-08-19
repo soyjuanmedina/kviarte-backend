@@ -10,7 +10,6 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const graphql_1 = require("@nestjs/graphql");
-const path_1 = require("path");
 const config_1 = require("@nestjs/config");
 const auth_module_1 = require("./auth/auth.module");
 const usuarios_module_1 = require("./usuarios/usuarios.module");
@@ -20,6 +19,7 @@ const exposiciones_module_1 = require("./exposiciones/exposiciones.module");
 const obras_module_1 = require("./obras/obras.module");
 const ofertas_module_1 = require("./ofertas/ofertas.module");
 const newsletter_module_1 = require("./newsletter/newsletter.module");
+const apollo_1 = require("@nestjs/apollo");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -34,8 +34,10 @@ exports.AppModule = AppModule = __decorate([
                 synchronize: true,
             }),
             graphql_1.GraphQLModule.forRoot({
-                autoSchemaFile: (0, path_1.join)(process.cwd(), 'src/schema.gql'),
-                context: ({ req }) => ({ req }),
+                driver: apollo_1.ApolloDriver,
+                autoSchemaFile: true,
+                sortSchema: true,
+                playground: true,
             }),
             auth_module_1.AuthModule,
             usuarios_module_1.UsuariosModule,
