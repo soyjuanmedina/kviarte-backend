@@ -1,3 +1,4 @@
+// src/app.module.ts
 import { Module, Logger } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -34,7 +35,7 @@ const logger = new Logger( 'AppModule' );
           return {
             type: 'postgres',
             url: '',
-            autoLoadEntities: true,
+            entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: false,
             extra: { ssl: false },
           };
@@ -47,7 +48,7 @@ const logger = new Logger( 'AppModule' );
         return {
           type: 'postgres',
           url: dbUrl,
-          autoLoadEntities: true,
+          entities: [__dirname + '/**/*.entity{.ts,.js}'], // Detecta todas las entidades
           synchronize: true,
           extra: dbSSL
             ? {
