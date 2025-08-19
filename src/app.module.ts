@@ -12,20 +12,23 @@ import { ExposicionesModule } from './exposiciones/exposiciones.module';
 import { ObrasModule } from './obras/obras.module';
 import { OfertasModule } from './ofertas/ofertas.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
-@Module({
+@Module( {
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({
+    ConfigModule.forRoot( { isGlobal: true } ),
+    TypeOrmModule.forRoot( {
       type: 'postgres',
       url: process.env.DATABASE_URL,
       autoLoadEntities: true,
       synchronize: true,
-    }),
-    GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req }) => ({ req }),
-    }),
+    } ),
+    GraphQLModule.forRoot<ApolloDriverConfig>( {
+      driver: ApolloDriver,
+      autoSchemaFile: true, // o una ruta './schema.gql' si prefieres archivo
+      sortSchema: true,
+      playground: true,     // opcional
+    } ),
     AuthModule,
     UsuariosModule,
     GaleriasModule,
@@ -35,5 +38,5 @@ import { NewsletterModule } from './newsletter/newsletter.module';
     OfertasModule,
     NewsletterModule,
   ],
-})
+} )
 export class AppModule { }
