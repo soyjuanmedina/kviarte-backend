@@ -1,7 +1,7 @@
-// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthResolver } from './auth.resolver';
@@ -9,10 +9,15 @@ import { Usuario } from '../usuarios/entities/usuario.entity';
 
 @Module( {
   imports: [
-    TypeOrmModule.forFeature( [Usuario] ), // 👈 para poder inyectar Repository<Usuario>
-    JwtModule.register( {
-      secret: process.env.JWT_SECRET || 'super-secret', // ⚠️ ponlo en .env
-      signOptions: { expiresIn: '1d' },
+    ConfigModule.forRoot( { isGlobal: true } ), // Hace que ConfigService esté disponible en todo el proyecto
+    TypeOrmModule.forFeature( [Usuario] ),
+    JwtModule.registerAsync( {
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async ( config: ConfigService ) => ( {
+        secret: config.get<string>( 'JWT_SECRET' ) || 'super-secret',
+        signOptions: { expiresIn: '1d' },
+      } ),
     } ),
   ],
   providers: [AuthService, JwtStrategy, AuthResolver],
