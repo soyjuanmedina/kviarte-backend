@@ -33,6 +33,7 @@ const logger = new Logger( 'AppModule' );
             url: '', // conexión vacía para que no intente fallar
             autoLoadEntities: true,
             synchronize: false,
+            ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
           };
         }
 
