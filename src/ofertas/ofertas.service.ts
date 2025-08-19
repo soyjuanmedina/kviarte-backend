@@ -1,30 +1,38 @@
+// src/ofertas/ofertas.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Oferta } from './entities/oferta.entity';
+import { CreateOfertaInput } from './dto/create-oferta.input';
+import { Galeria } from '../galerias/entities/galeria.entity';
+import { Obra } from '../obras/entities/obra.entity';
 
 @Injectable()
 export class OfertasService {
-  constructor ( @InjectRepository( Oferta ) private repo: Repository<Oferta> ) { }
+  constructor (
+    @InjectRepository( Oferta ) private repo: Repository<Oferta>,
+    @InjectRepository( Galeria ) private galeriaRepo: Repository<Galeria>,
+    @InjectRepository( Obra ) private obraRepo: Repository<Obra>,
+  ) { }
 
-  findAll () {
+  async findAll (): Promise<Oferta[]> {
     return this.repo.find( { relations: ['galeria', 'obra'] } );
   }
 
-  findOne ( id: number ) {
+  async findOne ( id: number ): Promise<Oferta> {
     return this.repo.findOne( { where: { id_oferta: id }, relations: ['galeria', 'obra'] } );
   }
 
-  create ( data: Partial<Oferta> ) {
-    const o = this.repo.create( data );
-    return this.repo.save( o );
-  }
+  async create ( input: CreateOfertaInput ): Promise<Oferta> {
+    const galeria = await this.galeriaRepo.findOne( { where: { id_galeria: input.id_galeria } } );
+    const obra = await this.obraRepo.findOne( { where: { id_obra: input.id_obra } } );
 
-  update ( id: number, data: Partial<Oferta> ) {
-    return this.repo.update( id, data );
-  }
+    const oferta = this.repo.create( {
+      precio: input.precio,
+      galeria,
+      obra,
+    } );
 
-  delete ( id: number ) {
-    return this.repo.delete( id );
+    return this.repo.save( oferta );
   }
 }

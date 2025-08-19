@@ -20,70 +20,37 @@ const obra_entity_1 = require("./entities/obra.entity");
 const artista_entity_1 = require("../artistas/entities/artista.entity");
 const exposicion_entity_1 = require("../exposiciones/entities/exposicion.entity");
 let ObrasService = class ObrasService {
-    constructor(obraRepository, artistaRepository, exposicionRepository) {
-        this.obraRepository = obraRepository;
-        this.artistaRepository = artistaRepository;
-        this.exposicionRepository = exposicionRepository;
+    constructor(repo, artistaRepo, exposicionRepo) {
+        this.repo = repo;
+        this.artistaRepo = artistaRepo;
+        this.exposicionRepo = exposicionRepo;
     }
     async findAll() {
-        return this.obraRepository.find({ relations: ['artista', 'exposicion'] });
+        return this.repo.find({ relations: ['artista', 'exposicion'] });
     }
     async findOne(id) {
-        const obra = await this.obraRepository.findOne({
+        return this.repo.findOne({
             where: { id_obra: id },
             relations: ['artista', 'exposicion'],
         });
-        if (!obra)
-            throw new common_1.NotFoundException(`Obra #${id} not found`);
-        return obra;
     }
-    async create(createObraInput) {
-        const { titulo, descripcion, estilo, id_artista, id_exposicion } = createObraInput;
-        const artista = await this.artistaRepository.findOne({ where: { id_artista } });
-        if (!artista)
-            throw new common_1.NotFoundException(`Artista #${id_artista} not found`);
-        let exposicion = null;
-        if (id_exposicion) {
-            exposicion = await this.exposicionRepository.findOne({ where: { id_exposicion } });
-            if (!exposicion)
-                throw new common_1.NotFoundException(`Exposición #${id_exposicion} not found`);
-        }
-        const obraPartial = {
-            titulo,
-            descripcion,
+    async create(input) {
+        const artista = await this.artistaRepo.findOne({
+            where: { id_artista: input.id_artista },
+        });
+        const exposicion = input.id_exposicion
+            ? await this.exposicionRepo.findOne({
+                where: { id_exposicion: input.id_exposicion },
+            })
+            : null;
+        const obra = this.repo.create({
+            titulo: input.titulo,
+            descripcion: input.descripcion,
+            estilo: input.estilo,
             artista,
             exposicion,
-        };
-        if (estilo)
-            obraPartial.estilo = estilo;
-        const obra = this.obraRepository.create(obraPartial);
-        return this.obraRepository.save(obra);
-    }
-    async update(id, updateObraInput) {
-        const obra = await this.findOne(id);
-        if (updateObraInput.titulo)
-            obra.titulo = updateObraInput.titulo;
-        if (updateObraInput.descripcion)
-            obra.descripcion = updateObraInput.descripcion;
-        if (updateObraInput.estilo)
-            obra.estilo = updateObraInput.estilo;
-        if (updateObraInput.id_artista) {
-            const artista = await this.artistaRepository.findOne({ where: { id_artista: updateObraInput.id_artista } });
-            if (!artista)
-                throw new common_1.NotFoundException(`Artista #${updateObraInput.id_artista} not found`);
-            obra.artista = artista;
-        }
-        if (updateObraInput.id_exposicion) {
-            const exposicion = await this.exposicionRepository.findOne({ where: { id_exposicion: updateObraInput.id_exposicion } });
-            if (!exposicion)
-                throw new common_1.NotFoundException(`Exposición #${updateObraInput.id_exposicion} not found`);
-            obra.exposicion = exposicion;
-        }
-        return this.obraRepository.save(obra);
-    }
-    async remove(id) {
-        const result = await this.obraRepository.delete(id);
-        return result.affected > 0;
+        });
+        return this.repo.save(obra);
     }
 };
 exports.ObrasService = ObrasService;

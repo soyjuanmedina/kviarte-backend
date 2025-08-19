@@ -5,15 +5,15 @@ export class CreateObraInput {
   @Field()
   titulo: string;
 
-  @Field({ nullable: true })
+  @Field( { nullable: true } )
   descripcion?: string;
 
-  @Field({ nullable: true })
+  @Field( { nullable: true } )
   estilo?: string;
 
-  @Field(() => Int)
+  @Field( () => Int )
   id_artista: number;
 
-  @Field(() => Int, { nullable: true })
+  @Field( () => Int, { nullable: true } )
   id_exposicion?: number;
 }

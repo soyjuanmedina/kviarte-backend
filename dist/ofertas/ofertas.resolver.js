@@ -16,6 +16,7 @@ exports.OfertasResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const ofertas_service_1 = require("./ofertas.service");
 const oferta_entity_1 = require("./entities/oferta.entity");
+const create_oferta_input_1 = require("./dto/create-oferta.input");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
@@ -29,8 +30,8 @@ let OfertasResolver = class OfertasResolver {
     oferta(id) {
         return this.service.findOne(id);
     }
-    createOferta(precio, id_galeria, id_obra) {
-        return this.service.create({ precio, galeria: { id_galeria }, obra: { id_obra } });
+    createOferta(input) {
+        return this.service.create(input);
     }
 };
 exports.OfertasResolver = OfertasResolver;
@@ -50,11 +51,9 @@ __decorate([
 __decorate([
     (0, graphql_1.Mutation)(() => oferta_entity_1.Oferta),
     (0, roles_decorator_1.Roles)('admin', 'galeria'),
-    __param(0, (0, graphql_1.Args)('precio')),
-    __param(1, (0, graphql_1.Args)('id_galeria')),
-    __param(2, (0, graphql_1.Args)('id_obra')),
+    __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, Number]),
+    __metadata("design:paramtypes", [create_oferta_input_1.CreateOfertaInput]),
     __metadata("design:returntype", void 0)
 ], OfertasResolver.prototype, "createOferta", null);
 exports.OfertasResolver = OfertasResolver = __decorate([

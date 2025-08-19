@@ -31,13 +31,7 @@ let ObrasResolver = class ObrasResolver {
         return this.service.findOne(id);
     }
     createObra(input) {
-        return this.service.create({
-            titulo: input.titulo,
-            descripcion: input.descripcion,
-            estilo: input.estilo,
-            artista: { id_artista: input.id_artista },
-            exposicion: input.id_exposicion ? { id_exposicion: input.id_exposicion } : null,
-        });
+        return this.service.create(input);
     }
 };
 exports.ObrasResolver = ObrasResolver;
