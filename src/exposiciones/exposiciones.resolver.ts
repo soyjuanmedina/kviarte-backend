@@ -5,25 +5,27 @@ import { CreateExposicionInput } from './dto/create-exposicion.input';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
+import { GqlAuthGuard } from '../common/guards/gql-auth.guard';
 
-@Resolver(() => Exposicion)
-@UseGuards(RolesGuard)
+@Resolver( () => Exposicion )
+@UseGuards( GqlAuthGuard, RolesGuard ) // primero Auth, luego Roles
 export class ExposicionesResolver {
-  constructor(private readonly service: ExposicionesService) { }
+  constructor ( private readonly service: ExposicionesService ) { }
 
-  @Query(() => [Exposicion])
-  exposiciones() {
+  @Query( () => [Exposicion] )
+  exposiciones () {
     return this.service.findAll();
   }
 
-  @Query(() => Exposicion)
-  exposicion(@Args('id') id: number) {
-    return this.service.findOne(id);
+  @Query( () => Exposicion )
+  exposicion ( @Args( 'id' ) id: number ) {
+    return this.service.findOne( id );
   }
 
-  @Mutation(() => Exposicion)
-  @Roles('admin', 'galeria')
-  createExposicion(@Args('data') data: CreateExposicionInput) {
-    return this.service.create(data);
+  @Mutation( () => Exposicion )
+  @Roles( 'admin', 'galeria' )
+  createExposicion ( @Args( 'data' ) data: CreateExposicionInput ) {
+    return this.service.create( data );
   }
 }
+
