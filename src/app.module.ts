@@ -25,7 +25,7 @@ const logger = new Logger( 'AppModule' );
       inject: [ConfigService],
       useFactory: async ( config: ConfigService ) => {
         const dbUrl = config.get<string>( 'DATABASE_URL' );
-        const dbSSL = process.env.DB_SSL === 'true';
+        const dbSSL = config.get<string>( 'DB_SSL' ) === 'true';
 
         if ( !dbUrl ) {
           logger.error(
@@ -52,7 +52,7 @@ const logger = new Logger( 'AppModule' );
           extra: dbSSL
             ? {
               ssl: {
-                rejectUnauthorized: false, // Supabase necesita esto
+                rejectUnauthorized: false, // obligatorio para Supabase pooler
               },
             }
             : { ssl: false },
