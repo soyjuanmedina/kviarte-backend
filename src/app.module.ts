@@ -15,20 +15,20 @@ import { OfertasModule } from './ofertas/ofertas.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
-const logger = new Logger( 'AppModule' );
+const logger = new Logger('AppModule');
 
-@Module( {
+@Module({
   imports: [
-    ConfigModule.forRoot( { isGlobal: true, envFilePath: '.env' } ),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
 
-    TypeOrmModule.forRootAsync( {
+    TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async ( config: ConfigService ) => {
-        const dbUrl = config.get<string>( 'DATABASE_URL' );
-        const dbSSL = config.get<string>( 'DB_SSL' ) === 'true';
+      useFactory: async (config: ConfigService) => {
+        const dbUrl = config.get<string>('DATABASE_URL');
+        const dbSSL = config.get<string>('DB_SSL') === 'true';
 
-        if ( !dbUrl ) {
+        if (!dbUrl) {
           logger.error(
             'DATABASE_URL no definida en .env. TypeORM no se conectará.',
           );
@@ -48,25 +48,25 @@ const logger = new Logger( 'AppModule' );
         return {
           type: 'postgres',
           url: dbUrl,
-          entities: [__dirname + '/**/*.entity{.ts,.js}'], // Detecta todas las entidades
-          synchronize: true,
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          synchronize: false, // 🔹 Importante: usar migraciones en lugar de sincronización
           extra: dbSSL
             ? {
-              ssl: {
-                rejectUnauthorized: false, // obligatorio para Supabase pooler
-              },
-            }
+                ssl: {
+                  rejectUnauthorized: false, // obligatorio para Supabase pooler
+                },
+              }
             : { ssl: false },
         };
       },
-    } ),
+    }),
 
-    GraphQLModule.forRoot<ApolloDriverConfig>( {
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join( process.cwd(), 'src/schema.gql' ),
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: true,
-    } ),
+    }),
 
     AuthModule,
     UsuariosModule,
@@ -77,5 +77,5 @@ const logger = new Logger( 'AppModule' );
     OfertasModule,
     NewsletterModule,
   ],
-} )
-export class AppModule { }
+})
+export class AppModule {}
