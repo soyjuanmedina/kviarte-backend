@@ -33,6 +33,7 @@ export class ExposicionesService {
   }
 
   async create ( input: CreateExposicionInput ): Promise<Exposicion> {
+    console.log('input.id_galeria:', input.id_galeria, typeof input.id_galeria);
     const galeria = await this.galeriaRepo.findOne( {
       where: { id_galeria: input.id_galeria },
     } );
