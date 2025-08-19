@@ -11,10 +11,18 @@ export class RolesGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ] );
+
     if ( !requiredRoles ) return true;
 
     const ctx = GqlExecutionContext.create( context );
     const user = ctx.getContext().req.user;
-    return requiredRoles.includes( user?.rol );
+
+    if ( !user?.rol ) return false;
+
+    // Normalizamos a mayúsculas tanto el rol del usuario como los roles requeridos
+    const userRole = user.rol.toUpperCase();
+    const rolesUpper = requiredRoles.map( r => r.toUpperCase() );
+
+    return rolesUpper.includes( userRole );
   }
 }
