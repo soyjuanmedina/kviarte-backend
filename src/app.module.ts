@@ -36,9 +36,7 @@ const logger = new Logger( 'AppModule' );
             url: '',
             autoLoadEntities: true,
             synchronize: false,
-            extra: {
-              ssl: false,
-            },
+            extra: { ssl: false },
           };
         }
 
@@ -51,9 +49,13 @@ const logger = new Logger( 'AppModule' );
           url: dbUrl,
           autoLoadEntities: true,
           synchronize: true,
-          extra: {
-            ssl: dbSSL ? { rejectUnauthorized: false } : false,
-          },
+          extra: dbSSL
+            ? {
+              ssl: {
+                rejectUnauthorized: false, // Supabase necesita esto
+              },
+            }
+            : { ssl: false },
         };
       },
     } ),
