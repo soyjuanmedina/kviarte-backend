@@ -1,5 +1,5 @@
 // src/exposiciones/entities/exposicion.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Galeria } from '../../galerias/entities/galeria.entity';
 import { Obra } from '../../obras/entities/obra.entity';
