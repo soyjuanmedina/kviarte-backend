@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AuthModule } from './auth/auth.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
@@ -17,18 +17,27 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 @Module( {
   imports: [
     ConfigModule.forRoot( { isGlobal: true } ),
-    TypeOrmModule.forRoot( {
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-      autoLoadEntities: true,
-      synchronize: true,
+
+    // Configuración de TypeORM para Supabase con async
+    TypeOrmModule.forRootAsync( {
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: ( config: ConfigService ) => ( {
+        type: 'postgres',
+        url: config.get<string>( 'DATABASE_URL' ),
+        ssl: { rejectUnauthorized: false }, // necesario para Supabase
+        autoLoadEntities: true,
+        synchronize: true,
+      } ),
     } ),
+
     GraphQLModule.forRoot<ApolloDriverConfig>( {
       driver: ApolloDriver,
-      autoSchemaFile: true, // o una ruta './schema.gql' si prefieres archivo
+      autoSchemaFile: join( process.cwd(), 'src/schema.gql' ), // archivo opcional
       sortSchema: true,
-      playground: true,     // opcional
+      playground: true,
     } ),
+
     AuthModule,
     UsuariosModule,
     GaleriasModule,

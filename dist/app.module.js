@@ -10,6 +10,7 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const graphql_1 = require("@nestjs/graphql");
+const path_1 = require("path");
 const config_1 = require("@nestjs/config");
 const auth_module_1 = require("./auth/auth.module");
 const usuarios_module_1 = require("./usuarios/usuarios.module");
@@ -27,15 +28,20 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ isGlobal: true }),
-            typeorm_1.TypeOrmModule.forRoot({
-                type: 'postgres',
-                url: process.env.DATABASE_URL,
-                autoLoadEntities: true,
-                synchronize: true,
+            typeorm_1.TypeOrmModule.forRootAsync({
+                imports: [config_1.ConfigModule],
+                inject: [config_1.ConfigService],
+                useFactory: (config) => ({
+                    type: 'postgres',
+                    url: config.get('DATABASE_URL'),
+                    ssl: { rejectUnauthorized: false },
+                    autoLoadEntities: true,
+                    synchronize: true,
+                }),
             }),
             graphql_1.GraphQLModule.forRoot({
                 driver: apollo_1.ApolloDriver,
-                autoSchemaFile: true,
+                autoSchemaFile: (0, path_1.join)(process.cwd(), 'src/schema.gql'),
                 sortSchema: true,
                 playground: true,
             }),
