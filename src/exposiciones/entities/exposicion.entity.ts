@@ -6,7 +6,7 @@ import { Obra } from '../../obras/entities/obra.entity';
 import { Artista } from '../../artistas/entities/artista.entity';
 
 @ObjectType()
-@Entity()
+@Entity({ name: 'exposiciones' })
 export class Exposicion {
   @Field( () => Int )
   @PrimaryGeneratedColumn()
