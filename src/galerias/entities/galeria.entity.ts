@@ -1,24 +1,29 @@
+// src/galerias/entities/galeria.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Artista } from '../../artistas/entities/artista.entity';
+import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
 
+@ObjectType()
 @Entity()
 export class Galeria {
+  @Field( () => Int )
   @PrimaryGeneratedColumn()
   id_galeria: number;
 
+  @Field()
   @Column()
   nombre: string;
 
-  @Column({ nullable: true })
-  email?: string;
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  direccion?: string;
 
-  @Column({ nullable: true })
-  telefono?: string;
+  @Field( () => [Artista], { nullable: true } )
+  @OneToMany( () => Artista, artista => artista.galeria )
+  artistas?: Artista[];
 
-  @OneToMany(() => Exposicion, exposicion => exposicion.galeria)
-  exposiciones: Exposicion[];
-
-  @OneToMany(() => Artista, artista => artista.galeria)
-  artistas: Artista[];
+  @Field( () => [Exposicion], { nullable: true } )
+  @OneToMany( () => Exposicion, exposicion => exposicion.galeria )
+  exposiciones?: Exposicion[];
 }
