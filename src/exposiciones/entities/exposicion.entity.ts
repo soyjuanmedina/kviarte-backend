@@ -22,10 +22,12 @@ export class Exposicion {
 
   @Field( () => Galeria )
   @ManyToOne( () => Galeria, galeria => galeria.exposiciones )
+  @JoinColumn({ name: 'id_galeria' })
   galeria: Galeria;
 
   @Field( () => Artista, { nullable: true } )
   @ManyToOne( () => Artista, artista => artista.exposiciones, { nullable: true } )
+  @JoinColumn({ name: 'id_artista' })  // opcional, si quieres nombrar la columna explícitamente
   artista?: Artista;
 
   @Field( () => [Obra], { nullable: true } )
