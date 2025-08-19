@@ -25,6 +25,7 @@ const logger = new Logger( 'AppModule' );
       inject: [ConfigService],
       useFactory: async ( config: ConfigService ) => {
         const dbUrl = config.get<string>( 'DATABASE_URL' );
+        const dbSSL = config.get<string>( 'DB_SSL' ) === 'true';
 
         if ( !dbUrl ) {
           logger.error( 'DATABASE_URL no definida en .env. TypeORM no se conectará.' );
@@ -33,15 +34,16 @@ const logger = new Logger( 'AppModule' );
             url: '', // conexión vacía para que no intente fallar
             autoLoadEntities: true,
             synchronize: false,
-            ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+            ssl: dbSSL ? { rejectUnauthorized: false } : false,
           };
         }
 
         logger.log( 'DATABASE_URL encontrada, inicializando conexión TypeORM...' );
+
         return {
           type: 'postgres',
           url: dbUrl,
-          ssl: { rejectUnauthorized: false },
+          ssl: dbSSL ? { rejectUnauthorized: false } : false,
           autoLoadEntities: true,
           synchronize: true,
         };
