@@ -25,6 +25,7 @@ export class RolesGuard implements CanActivate {
 
     // Normalizamos a mayúsculas tanto el rol del usuario como los roles requeridos
     const userRole = user.rol.toUpperCase();
+    console.log( 'User role desde req.user en RolesGuard:', userRole );
     const rolesUpper = requiredRoles.map( r => r.toUpperCase() );
 
     // Logs para depurar
