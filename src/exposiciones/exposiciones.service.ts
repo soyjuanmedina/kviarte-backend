@@ -33,54 +33,27 @@ export class ExposicionesService {
   }
 
   async create ( input: CreateExposicionInput ): Promise<Exposicion> {
-    // 1️⃣ Depuración: muestra lo que estás recibiendo
-    console.log( 'Buscando galería con id_galeria =', input.id_galeria );
-
-    // 2️⃣ Convierte input.id_galeria a número por si viene como string
-    const idGaleria = Number( input.id_galeria );
-
-    // 3️⃣ Buscar la galería en la base de datos
     const galeria = await this.galeriaRepo.findOne( {
-      where: { id_galeria: idGaleria }, // <-- asegúrate que la columna se llame 'id_galeria'
+      where: { id_galeria: input.id_galeria },
     } );
 
-    // 4️⃣ Depuración: muestra el resultado de la búsqueda
-    console.log( 'Resultado de la búsqueda de galería:', galeria );
+    if ( !galeria ) throw new Error( 'Galería no encontrada' );
 
-    // 5️⃣ Si no existe, lanza el error
-    if ( !galeria ) {
-      throw new Error( 'Galería no encontrada' );
+    let artista: Artista = null;
+    if ( input.id_artista ) {
+      artista = await this.artistaRepo.findOne( {
+        where: { id_artista: input.id_artista },
+      } );
+      if ( !artista ) throw new Error( 'Artista no encontrado' );
     }
 
-    // 6️⃣ Crear la exposición
     const exposicion = this.exposicionRepo.create( {
       titulo: input.titulo,
       descripcion: input.descripcion,
-      galeria: galeria, // asociar la galería encontrada
+      galeria,
+      artista,
     } );
 
-    // 7️⃣ Guardar en la base de datos
-    return await this.exposicionRepo.save( exposicion );
-  }
-
-
-  if (!galeria ) throw new Error( 'Galería no encontrada' );
-
-let artista: Artista = null;
-if ( input.id_artista ) {
-  artista = await this.artistaRepo.findOne( {
-    where: { id_artista: input.id_artista },
-  } );
-  if ( !artista ) throw new Error( 'Artista no encontrado' );
-}
-
-const exposicion = this.exposicionRepo.create( {
-  titulo: input.titulo,
-  descripcion: input.descripcion,
-  galeria,
-  artista,
-} );
-
-return this.exposicionRepo.save( exposicion );
+    return this.exposicionRepo.save( exposicion );
   }
 }
