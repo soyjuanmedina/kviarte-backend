@@ -7,7 +7,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 @Entity()
 export class Galeria {
   @Field( () => Int )
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn( { name: 'id_galeria' } )
   id_galeria: number;
 
   @Field()
