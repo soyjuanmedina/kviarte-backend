@@ -8,7 +8,6 @@ import { Roles } from '../common/decorators/roles.decorator';
 import { GqlAuthGuard } from '../common/guards/gql-auth.guard';
 
 @Resolver( () => Exposicion )
-@UseGuards( GqlAuthGuard, RolesGuard ) // primero Auth, luego Roles
 export class ExposicionesResolver {
   constructor ( private readonly service: ExposicionesService ) { }
 
@@ -23,6 +22,7 @@ export class ExposicionesResolver {
   }
 
   @Mutation( () => Exposicion )
+  @UseGuards( GqlAuthGuard, RolesGuard )
   @Roles( 'admin', 'galeria' )
   createExposicion ( @Args( 'data' ) data: CreateExposicionInput ) {
     return this.service.create( data );
