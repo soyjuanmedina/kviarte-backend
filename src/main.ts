@@ -7,7 +7,7 @@ async function bootstrap () {
   app.useGlobalPipes( new ValidationPipe() );
 
   app.enableCors( {
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'https://soyjuanmedina.github.io'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   } );
