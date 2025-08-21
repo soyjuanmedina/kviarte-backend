@@ -15,7 +15,12 @@ export class AuthResolver {
 
     return {
       token: result.access_token,
-      user: result.user, // Asegúrate de que tu service devuelva el objeto usuario
+      user: {
+        id: result.user.id_usuario,   // mapeo id_usuario -> id
+        email: result.user.email,
+        name: result.user.nombre,     // mapeo nombre -> name
+        role: result.user.rol,        // mapeo rol -> role
+      },
     };
   }
 
