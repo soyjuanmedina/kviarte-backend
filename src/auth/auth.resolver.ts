@@ -12,7 +12,7 @@ export class AuthResolver {
   async login ( @Args( 'input' ) input: LoginInput ) {
     // Esto ya debería devolver algo como { access_token, user }
     const result = await this.authService.login( input );
-
+    console.log( 'User from service:', result.user );
     return {
       token: result.access_token,
       user: {
