@@ -10,19 +10,20 @@ export class AuthResolver {
 
   @Mutation( () => LoginResponse )
   async login ( @Args( 'input' ) input: LoginInput ) {
-    // Esto ya debería devolver algo como { access_token, user }
     const result = await this.authService.login( input );
     console.log( 'User from service:', result.user );
+
     return {
       token: result.access_token,
       user: {
-        id: result.user.id_usuario,   // mapeo id_usuario -> id
+        id_usuario: result.user.id_usuario,  // coincide con @Field({ name: 'id_usuario' })
+        nombre: result.user.nombre,          // coincide con @Field() nombre
         email: result.user.email,
-        name: result.user.nombre,     // mapeo nombre -> name
-        role: result.user.rol,        // mapeo rol -> role
+        rol: result.user.rol,                // coincide con @Field() rol
       },
     };
   }
+
 
   @Mutation( () => String )
   async register ( @Args( 'input' ) input: RegisterInput ) {
