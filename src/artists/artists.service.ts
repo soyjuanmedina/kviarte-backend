@@ -23,8 +23,8 @@ export class ArtistsService {
     } );
   }
 
-  async create ( createArtistaInput: CreateArtistInput ): Promise<Artist> {
-    const { id_galeria, ...rest } = createArtistaInput;
+  async create ( createArtistInput: CreateArtistInput ): Promise<Artist> {
+    const { id_galeria, ...rest } = createArtistInput;
 
     const artista = this.artistRepo.create( rest );
 

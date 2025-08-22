@@ -50,8 +50,8 @@ export class Galeria {
   @OneToMany( () => Exposicion, exposicion => exposicion.galeria )
   exposiciones: Exposicion[];
 
-  @Field( () => [Artista], { nullable: true } )
-  @OneToMany( () => Artista, artista => artista.galeria )
-  artistas: Artista[];
+  @Field( () => [Artist], { nullable: true } )
+  @OneToMany( () => Artist, artist => artist.galeria )
+  artists: Artist[];
 }
 

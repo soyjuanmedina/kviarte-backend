@@ -12,48 +12,42 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ArtistasService = void 0;
+exports.ArtistsService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const artista_entity_1 = require("./entities/artista.entity");
+const artist_entity_1 = require("./entities/artist.entity");
 const galeria_entity_1 = require("../galerias/entities/galeria.entity");
-let ArtistasService = class ArtistasService {
-    constructor(repo, galeriaRepo) {
-        this.repo = repo;
-        this.galeriaRepo = galeriaRepo;
+let ArtistsService = class ArtistsService {
+    constructor(artistRepo, galeryRepository) {
+        this.artistRepo = artistRepo;
+        this.galeryRepository = galeryRepository;
     }
     async findAll() {
-        return this.repo.find({ relations: ['galeria', 'obras', 'exposiciones'] });
+        return this.artistRepo.find({ relations: ['galeria', 'obras', 'exposiciones'] });
     }
     async findOne(id) {
-        return this.repo.findOne({
+        return this.artistRepo.findOne({
             where: { id_artista: id },
             relations: ['galeria', 'obras', 'exposiciones'],
         });
     }
-    async create(input) {
-        const galeria = await this.galeriaRepo.findOne({
-            where: { id_galeria: input.id_galeria },
-        });
-        if (!galeria) {
-            throw new Error('Galería no encontrada');
+    async create(createArtistInput) {
+        const { id_galeria, ...rest } = createArtistInput;
+        const artista = this.artistRepo.create(rest);
+        if (id_galeria) {
+            const galeria = await this.galeryRepository.findOneBy({ id_galeria });
+            artista.galeria = galeria;
         }
-        const artista = this.repo.create({
-            nombre: input.nombre,
-            biografia: input.biografia,
-            estilo: input.estilo,
-            galeria,
-        });
-        return this.repo.save(artista);
+        return this.artistRepo.save(artista);
     }
 };
-exports.ArtistasService = ArtistasService;
-exports.ArtistasService = ArtistasService = __decorate([
+exports.ArtistsService = ArtistsService;
+exports.ArtistsService = ArtistsService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(artista_entity_1.Artista)),
+    __param(0, (0, typeorm_1.InjectRepository)(artist_entity_1.Artist)),
     __param(1, (0, typeorm_1.InjectRepository)(galeria_entity_1.Galeria)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository])
-], ArtistasService);
-//# sourceMappingURL=artistas.service.js.map
+], ArtistsService);
+//# sourceMappingURL=artists.service.js.map

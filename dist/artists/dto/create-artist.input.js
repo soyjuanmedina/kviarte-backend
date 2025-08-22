@@ -9,39 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Usuario = void 0;
-const typeorm_1 = require("typeorm");
+exports.CreateArtistInput = void 0;
 const graphql_1 = require("@nestjs/graphql");
-let Usuario = class Usuario {
+let CreateArtistInput = class CreateArtistInput {
 };
-exports.Usuario = Usuario;
+exports.CreateArtistInput = CreateArtistInput;
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.Int, { name: 'id_usuario' }),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    (0, graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateArtistInput.prototype, "nombre", void 0);
+__decorate([
+    (0, graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], CreateArtistInput.prototype, "biografia", void 0);
+__decorate([
+    (0, graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], CreateArtistInput.prototype, "estilo", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
     __metadata("design:type", Number)
-], Usuario.prototype, "id_usuario", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Usuario.prototype, "nombre", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", String)
-], Usuario.prototype, "email", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Usuario.prototype, "password_hash", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)({ default: 'usuario' }),
-    __metadata("design:type", String)
-], Usuario.prototype, "rol", void 0);
-exports.Usuario = Usuario = __decorate([
-    (0, typeorm_1.Entity)('usuarios'),
-    (0, graphql_1.ObjectType)(),
-    (0, typeorm_1.Entity)()
-], Usuario);
-//# sourceMappingURL=usuario.entity.js.map
+], CreateArtistInput.prototype, "id_galeria", void 0);
+exports.CreateArtistInput = CreateArtistInput = __decorate([
+    (0, graphql_1.InputType)()
+], CreateArtistInput);
+//# sourceMappingURL=create-artist.input.js.map

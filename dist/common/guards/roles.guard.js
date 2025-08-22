@@ -24,9 +24,17 @@ let RolesGuard = class RolesGuard {
         ]);
         if (!requiredRoles)
             return true;
-        const ctx = graphql_1.GqlExecutionContext.create(context);
-        const user = ctx.getContext().req.user;
-        return requiredRoles.includes(user?.rol);
+        const ctxGql = graphql_1.GqlExecutionContext.create(context);
+        const ctx = ctxGql.getContext();
+        const user = ctx.user || ctx.req?.user;
+        if (!user?.rol)
+            return false;
+        const userRole = user.rol.toUpperCase();
+        const rolesUpper = requiredRoles.map(r => r.toUpperCase());
+        console.log('User object:', user);
+        console.log('User role (upper):', userRole);
+        console.log('Required roles (upper):', rolesUpper);
+        return rolesUpper.includes(userRole);
     }
 };
 exports.RolesGuard = RolesGuard;

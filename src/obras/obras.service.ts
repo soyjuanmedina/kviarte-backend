@@ -10,7 +10,7 @@ import { Exposicion } from '../exposiciones/entities/exposicion.entity';
 export class ObrasService {
   constructor (
     @InjectRepository( Obra ) private repo: Repository<Obra>,
-    @InjectRepository( Artist ) private artistaRepo: Repository<Artist>,
+    @InjectRepository( Artist ) private artistRepo: Repository<Artist>,
     @InjectRepository( Exposicion ) private exposicionRepo: Repository<Exposicion>,
   ) { }
 
@@ -21,12 +21,12 @@ export class ObrasService {
   async findOne ( id: number ): Promise<Obra> {
     return this.repo.findOne( {
       where: { id_obra: id },
-      relations: ['artista', 'exposicion'],
+      relations: ['artist', 'exposicion'],
     } );
   }
 
   async create ( input: CreateObraInput ): Promise<Obra> {
-    const artista = await this.artistaRepo.findOne( {
+    const artist = await this.artistRepo.findOne( {
       where: { id_artista: input.id_artista },
     } );
 
@@ -40,7 +40,7 @@ export class ObrasService {
       titulo: input.titulo,
       descripcion: input.descripcion,
       estilo: input.estilo,
-      artista,
+      artist,
       exposicion,
     } );
 

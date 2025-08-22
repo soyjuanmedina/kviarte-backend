@@ -16,7 +16,7 @@ export class ExposicionesService {
     private readonly galeriaRepo: Repository<Galeria>,
 
     @InjectRepository( Artist )
-    private readonly artistaRepo: Repository<Artist>,
+    private readonly artistRepo: Repository<Artist>,
   ) { }
 
   async findAll (): Promise<Exposicion[]> {
@@ -40,19 +40,19 @@ export class ExposicionesService {
 
     if ( !galeria ) throw new Error( 'Galería no encontrada' );
 
-    let artista: Artista = null;
+    let artist: Artist = null;
     if ( input.id_artista ) {
-      artista = await this.artistaRepo.findOne( {
+      artist = await this.artistRepo.findOne( {
         where: { id_artista: input.id_artista },
       } );
-      if ( !artista ) throw new Error( 'Artista no encontrado' );
+      if ( !artist ) throw new Error( 'Artista no encontrado' );
     }
 
     const exposicion = this.exposicionRepo.create( {
       titulo: input.titulo,
       descripcion: input.descripcion,
       galeria,
-      artista,
+      artist,
     } );
 
     return this.exposicionRepo.save( exposicion );

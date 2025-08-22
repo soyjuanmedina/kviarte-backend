@@ -20,6 +20,7 @@ const create_exposicion_input_1 = require("./dto/create-exposicion.input");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
+const gql_auth_guard_1 = require("../common/guards/gql-auth.guard");
 let ExposicionesResolver = class ExposicionesResolver {
     constructor(service) {
         this.service = service;
@@ -50,6 +51,7 @@ __decorate([
 ], ExposicionesResolver.prototype, "exposicion", null);
 __decorate([
     (0, graphql_1.Mutation)(() => exposicion_entity_1.Exposicion),
+    (0, common_1.UseGuards)(gql_auth_guard_1.GqlAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('admin', 'galeria'),
     __param(0, (0, graphql_1.Args)('data')),
     __metadata("design:type", Function),
@@ -58,7 +60,6 @@ __decorate([
 ], ExposicionesResolver.prototype, "createExposicion", null);
 exports.ExposicionesResolver = ExposicionesResolver = __decorate([
     (0, graphql_1.Resolver)(() => exposicion_entity_1.Exposicion),
-    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     __metadata("design:paramtypes", [exposiciones_service_1.ExposicionesService])
 ], ExposicionesResolver);
 //# sourceMappingURL=exposiciones.resolver.js.map

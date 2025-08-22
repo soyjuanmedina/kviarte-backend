@@ -13,13 +13,13 @@ const exposiciones_service_1 = require("./exposiciones.service");
 const exposiciones_resolver_1 = require("./exposiciones.resolver");
 const exposicion_entity_1 = require("./entities/exposicion.entity");
 const galeria_entity_1 = require("../galerias/entities/galeria.entity");
-const artista_entity_1 = require("../artistas/entities/artista.entity");
+const artist_entity_1 = require("../artists/entities/artist.entity");
 let ExposicionesModule = class ExposicionesModule {
 };
 exports.ExposicionesModule = ExposicionesModule;
 exports.ExposicionesModule = ExposicionesModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([exposicion_entity_1.Exposicion, galeria_entity_1.Galeria, artista_entity_1.Artista])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([exposicion_entity_1.Exposicion, galeria_entity_1.Galeria, artist_entity_1.Artist])],
         providers: [exposiciones_service_1.ExposicionesService, exposiciones_resolver_1.ExposicionesResolver],
     })
 ], ExposicionesModule);

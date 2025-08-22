@@ -17,12 +17,12 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const obra_entity_1 = require("./entities/obra.entity");
-const artista_entity_1 = require("../artistas/entities/artista.entity");
+const artist_entity_1 = require("../artists/entities/artist.entity");
 const exposicion_entity_1 = require("../exposiciones/entities/exposicion.entity");
 let ObrasService = class ObrasService {
-    constructor(repo, artistaRepo, exposicionRepo) {
+    constructor(repo, artistRepo, exposicionRepo) {
         this.repo = repo;
-        this.artistaRepo = artistaRepo;
+        this.artistRepo = artistRepo;
         this.exposicionRepo = exposicionRepo;
     }
     async findAll() {
@@ -31,11 +31,11 @@ let ObrasService = class ObrasService {
     async findOne(id) {
         return this.repo.findOne({
             where: { id_obra: id },
-            relations: ['artista', 'exposicion'],
+            relations: ['artist', 'exposicion'],
         });
     }
     async create(input) {
-        const artista = await this.artistaRepo.findOne({
+        const artist = await this.artistRepo.findOne({
             where: { id_artista: input.id_artista },
         });
         const exposicion = input.id_exposicion
@@ -47,7 +47,7 @@ let ObrasService = class ObrasService {
             titulo: input.titulo,
             descripcion: input.descripcion,
             estilo: input.estilo,
-            artista,
+            artist,
             exposicion,
         });
         return this.repo.save(obra);
@@ -57,7 +57,7 @@ exports.ObrasService = ObrasService;
 exports.ObrasService = ObrasService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(obra_entity_1.Obra)),
-    __param(1, (0, typeorm_1.InjectRepository)(artista_entity_1.Artista)),
+    __param(1, (0, typeorm_1.InjectRepository)(artist_entity_1.Artist)),
     __param(2, (0, typeorm_1.InjectRepository)(exposicion_entity_1.Exposicion)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,

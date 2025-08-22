@@ -25,14 +25,14 @@ export class Artist {
   estilo?: string;
 
   @Field( () => Galeria, { nullable: true } )
-  @ManyToOne( () => Galeria, galeria => galeria.artistas )
+  @ManyToOne( () => Galeria, galeria => galeria.artists )
   galeria: Galeria;
 
   @Field( () => [Obra], { nullable: true } )
-  @OneToMany( () => Obra, obra => obra.artista )
+  @OneToMany( () => Obra, obra => obra.artist )
   obras: Obra[];
 
   @Field( () => [Exposicion], { nullable: true } )
-  @OneToMany( () => Exposicion, exposicion => exposicion.artista )
+  @OneToMany( () => Exposicion, exposicion => exposicion.artist )
   exposiciones: Exposicion[];
 }

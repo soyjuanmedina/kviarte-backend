@@ -8,7 +8,7 @@ import { CreateArtistInput } from './dto/create-artist.input';
 
 @Resolver( () => Artist )
 @UseGuards( RolesGuard )
-export class ArtistasResolver {
+export class ArtistsResolver {
   constructor ( private service: ArtistsService ) { }
 
   @Query( () => [Artist] )

@@ -22,9 +22,9 @@ export class Obra {
   @Column( { nullable: true } )
   estilo: string;
 
-  @Field( () => Artista, { nullable: true } )
-  @ManyToOne( () => Artista, artista => artista.obras, { nullable: false } )
-  artista: Artista;
+  @Field( () => Artist, { nullable: true } )
+  @ManyToOne( () => Artist, artist => artist.obras, { nullable: false } )
+  artist: Artist;
 
   @Field( () => Exposicion, { nullable: true } )
   @ManyToOne( () => Exposicion, exposicion => exposicion.obras, { nullable: true } )

@@ -29,8 +29,18 @@ let GaleriasResolver = class GaleriasResolver {
     galeria(id) {
         return this.service.findOne(id);
     }
-    createGaleria(nombre, email, telefono) {
-        return this.service.create({ nombre, email, telefono });
+    createGaleria(usuarioId, nombre, descripcion, direccion, ciudad, web, email_contacto, telefono, email) {
+        return this.service.create({
+            nombre,
+            descripcion,
+            direccion,
+            ciudad,
+            web,
+            email_contacto,
+            telefono,
+            email,
+            usuario_id: usuarioId,
+        });
     }
 };
 exports.GaleriasResolver = GaleriasResolver;
@@ -49,12 +59,18 @@ __decorate([
 ], GaleriasResolver.prototype, "galeria", null);
 __decorate([
     (0, graphql_1.Mutation)(() => galeria_entity_1.Galeria),
-    (0, roles_decorator_1.Roles)('admin', 'galeria'),
-    __param(0, (0, graphql_1.Args)('nombre')),
-    __param(1, (0, graphql_1.Args)('email')),
-    __param(2, (0, graphql_1.Args)('telefono')),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GALLERY'),
+    __param(0, (0, graphql_1.Args)('usuarioId')),
+    __param(1, (0, graphql_1.Args)('nombre')),
+    __param(2, (0, graphql_1.Args)('descripcion', { nullable: true })),
+    __param(3, (0, graphql_1.Args)('direccion', { nullable: true })),
+    __param(4, (0, graphql_1.Args)('ciudad', { nullable: true })),
+    __param(5, (0, graphql_1.Args)('web', { nullable: true })),
+    __param(6, (0, graphql_1.Args)('email_contacto', { nullable: true })),
+    __param(7, (0, graphql_1.Args)('telefono', { nullable: true })),
+    __param(8, (0, graphql_1.Args)('email', { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [Number, String, String, String, String, String, String, String, String]),
     __metadata("design:returntype", void 0)
 ], GaleriasResolver.prototype, "createGaleria", null);
 exports.GaleriasResolver = GaleriasResolver = __decorate([

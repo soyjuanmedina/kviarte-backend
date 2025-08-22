@@ -9,28 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateArtistaInput = void 0;
+exports.LoginResponse = void 0;
 const graphql_1 = require("@nestjs/graphql");
-let CreateArtistaInput = class CreateArtistaInput {
+const usuario_entity_1 = require("../../usuarios/entities/usuario.entity");
+let LoginResponse = class LoginResponse {
 };
-exports.CreateArtistaInput = CreateArtistaInput;
+exports.LoginResponse = LoginResponse;
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateArtistaInput.prototype, "nombre", void 0);
+], LoginResponse.prototype, "token", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.Int),
-    __metadata("design:type", Number)
-], CreateArtistaInput.prototype, "id_galeria", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], CreateArtistaInput.prototype, "biografia", void 0);
-__decorate([
-    (0, graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", String)
-], CreateArtistaInput.prototype, "estilo", void 0);
-exports.CreateArtistaInput = CreateArtistaInput = __decorate([
-    (0, graphql_1.InputType)()
-], CreateArtistaInput);
-//# sourceMappingURL=create-artista.input.js.map
+    (0, graphql_1.Field)(() => usuario_entity_1.Usuario),
+    __metadata("design:type", usuario_entity_1.Usuario)
+], LoginResponse.prototype, "user", void 0);
+exports.LoginResponse = LoginResponse = __decorate([
+    (0, graphql_1.ObjectType)()
+], LoginResponse);
+//# sourceMappingURL=login-response.dto.js.map

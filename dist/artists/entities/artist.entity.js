@@ -9,43 +9,52 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Artista = void 0;
+exports.Artist = void 0;
 const typeorm_1 = require("typeorm");
 const galeria_entity_1 = require("../../galerias/entities/galeria.entity");
 const obra_entity_1 = require("../../obras/entities/obra.entity");
 const exposicion_entity_1 = require("../../exposiciones/entities/exposicion.entity");
-let Artista = class Artista {
+const graphql_1 = require("@nestjs/graphql");
+let Artist = class Artist {
 };
-exports.Artista = Artista;
+exports.Artist = Artist;
 __decorate([
+    (0, graphql_1.Field)(() => graphql_1.Int),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Artista.prototype, "id_artista", void 0);
+], Artist.prototype, "id_artista", void 0);
 __decorate([
+    (0, graphql_1.Field)(),
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Artista.prototype, "nombre", void 0);
+], Artist.prototype, "nombre", void 0);
 __decorate([
+    (0, graphql_1.Field)({ nullable: true }),
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], Artista.prototype, "biografia", void 0);
+], Artist.prototype, "biografia", void 0);
 __decorate([
+    (0, graphql_1.Field)({ nullable: true }),
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], Artista.prototype, "estilo", void 0);
+], Artist.prototype, "estilo", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => galeria_entity_1.Galeria, galeria => galeria.artistas),
+    (0, graphql_1.Field)(() => galeria_entity_1.Galeria, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => galeria_entity_1.Galeria, galeria => galeria.artists),
     __metadata("design:type", galeria_entity_1.Galeria)
-], Artista.prototype, "galeria", void 0);
+], Artist.prototype, "galeria", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => obra_entity_1.Obra, obra => obra.artista),
+    (0, graphql_1.Field)(() => [obra_entity_1.Obra], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => obra_entity_1.Obra, obra => obra.artist),
     __metadata("design:type", Array)
-], Artista.prototype, "obras", void 0);
+], Artist.prototype, "obras", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => exposicion_entity_1.Exposicion, exposicion => exposicion.artista),
+    (0, graphql_1.Field)(() => [exposicion_entity_1.Exposicion], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => exposicion_entity_1.Exposicion, exposicion => exposicion.artist),
     __metadata("design:type", Array)
-], Artista.prototype, "exposiciones", void 0);
-exports.Artista = Artista = __decorate([
+], Artist.prototype, "exposiciones", void 0);
+exports.Artist = Artist = __decorate([
+    (0, graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()
-], Artista);
-//# sourceMappingURL=artista.entity.js.map
+], Artist);
+//# sourceMappingURL=artist.entity.js.map

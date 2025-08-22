@@ -18,12 +18,12 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const exposicion_entity_1 = require("./entities/exposicion.entity");
 const galeria_entity_1 = require("../galerias/entities/galeria.entity");
-const artista_entity_1 = require("../artistas/entities/artista.entity");
+const artist_entity_1 = require("../artists/entities/artist.entity");
 let ExposicionesService = class ExposicionesService {
-    constructor(exposicionRepo, galeriaRepo, artistaRepo) {
+    constructor(exposicionRepo, galeriaRepo, artistRepo) {
         this.exposicionRepo = exposicionRepo;
         this.galeriaRepo = galeriaRepo;
-        this.artistaRepo = artistaRepo;
+        this.artistRepo = artistRepo;
     }
     async findAll() {
         return this.exposicionRepo.find({
@@ -37,24 +37,25 @@ let ExposicionesService = class ExposicionesService {
         });
     }
     async create(input) {
+        console.log('input.id_galeria:', input.id_galeria, typeof input.id_galeria);
         const galeria = await this.galeriaRepo.findOne({
             where: { id_galeria: input.id_galeria },
         });
         if (!galeria)
             throw new Error('Galería no encontrada');
-        let artista = null;
+        let artist = null;
         if (input.id_artista) {
-            artista = await this.artistaRepo.findOne({
+            artist = await this.artistRepo.findOne({
                 where: { id_artista: input.id_artista },
             });
-            if (!artista)
+            if (!artist)
                 throw new Error('Artista no encontrado');
         }
         const exposicion = this.exposicionRepo.create({
             titulo: input.titulo,
             descripcion: input.descripcion,
             galeria,
-            artista,
+            artist,
         });
         return this.exposicionRepo.save(exposicion);
     }
@@ -64,7 +65,7 @@ exports.ExposicionesService = ExposicionesService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(exposicion_entity_1.Exposicion)),
     __param(1, (0, typeorm_1.InjectRepository)(galeria_entity_1.Galeria)),
-    __param(2, (0, typeorm_1.InjectRepository)(artista_entity_1.Artista)),
+    __param(2, (0, typeorm_1.InjectRepository)(artist_entity_1.Artist)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository])

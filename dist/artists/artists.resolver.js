@@ -12,15 +12,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ArtistasResolver = void 0;
+exports.ArtistsResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
-const artistas_service_1 = require("./artistas.service");
-const artista_entity_1 = require("./entities/artista.entity");
+const artists_service_1 = require("./artists.service");
+const artist_entity_1 = require("./entities/artist.entity");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
-const create_artista_input_1 = require("./dto/create-artista.input");
-let ArtistasResolver = class ArtistasResolver {
+const create_artist_input_1 = require("./dto/create-artist.input");
+let ArtistsResolver = class ArtistsResolver {
     constructor(service) {
         this.service = service;
     }
@@ -30,35 +30,35 @@ let ArtistasResolver = class ArtistasResolver {
     artista(id) {
         return this.service.findOne(id);
     }
-    createArtista(input) {
+    createArtist(input) {
         return this.service.create(input);
     }
 };
-exports.ArtistasResolver = ArtistasResolver;
+exports.ArtistsResolver = ArtistsResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [artista_entity_1.Artista]),
+    (0, graphql_1.Query)(() => [artist_entity_1.Artist]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], ArtistasResolver.prototype, "artistas", null);
+], ArtistsResolver.prototype, "artistas", null);
 __decorate([
-    (0, graphql_1.Query)(() => artista_entity_1.Artista),
+    (0, graphql_1.Query)(() => artist_entity_1.Artist),
     __param(0, (0, graphql_1.Args)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
-], ArtistasResolver.prototype, "artista", null);
+], ArtistsResolver.prototype, "artista", null);
 __decorate([
-    (0, graphql_1.Mutation)(() => artista_entity_1.Artista),
-    (0, roles_decorator_1.Roles)('admin', 'galeria'),
+    (0, graphql_1.Mutation)(() => artist_entity_1.Artist),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GALLERY', 'ARTIST'),
     __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_artista_input_1.CreateArtistaInput]),
+    __metadata("design:paramtypes", [create_artist_input_1.CreateArtistInput]),
     __metadata("design:returntype", void 0)
-], ArtistasResolver.prototype, "createArtista", null);
-exports.ArtistasResolver = ArtistasResolver = __decorate([
-    (0, graphql_1.Resolver)(() => artista_entity_1.Artista),
+], ArtistsResolver.prototype, "createArtist", null);
+exports.ArtistsResolver = ArtistsResolver = __decorate([
+    (0, graphql_1.Resolver)(() => artist_entity_1.Artist),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
-    __metadata("design:paramtypes", [artistas_service_1.ArtistasService])
-], ArtistasResolver);
-//# sourceMappingURL=artistas.resolver.js.map
+    __metadata("design:paramtypes", [artists_service_1.ArtistsService])
+], ArtistsResolver);
+//# sourceMappingURL=artists.resolver.js.map

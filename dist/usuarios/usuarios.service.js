@@ -27,6 +27,9 @@ let UsuariosService = class UsuariosService {
     findOne(id) {
         return this.repo.findOne({ where: { id_usuario: id } });
     }
+    findByRole(role) {
+        return this.repo.find({ where: { rol: role } });
+    }
 };
 exports.UsuariosService = UsuariosService;
 exports.UsuariosService = UsuariosService = __decorate([

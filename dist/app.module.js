@@ -12,43 +12,79 @@ const typeorm_1 = require("@nestjs/typeorm");
 const graphql_1 = require("@nestjs/graphql");
 const path_1 = require("path");
 const config_1 = require("@nestjs/config");
+const apollo_1 = require("@nestjs/apollo");
+const jwt_1 = require("@nestjs/jwt");
 const auth_module_1 = require("./auth/auth.module");
 const usuarios_module_1 = require("./usuarios/usuarios.module");
 const galerias_module_1 = require("./galerias/galerias.module");
-const artistas_module_1 = require("./artistas/artistas.module");
+const artists_module_1 = require("./artists/artists.module");
 const exposiciones_module_1 = require("./exposiciones/exposiciones.module");
 const obras_module_1 = require("./obras/obras.module");
 const ofertas_module_1 = require("./ofertas/ofertas.module");
 const newsletter_module_1 = require("./newsletter/newsletter.module");
-const apollo_1 = require("@nestjs/apollo");
+const logger = new common_1.Logger('AppModule');
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            config_1.ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 inject: [config_1.ConfigService],
-                useFactory: (config) => ({
-                    type: 'postgres',
-                    url: config.get('DATABASE_URL'),
-                    ssl: { rejectUnauthorized: false },
-                    autoLoadEntities: true,
-                    synchronize: true,
-                }),
+                useFactory: async (config) => {
+                    const dbUrl = config.get('DATABASE_URL');
+                    const dbSSL = config.get('DB_SSL') === 'true';
+                    if (!dbUrl) {
+                        logger.error('DATABASE_URL no definida en .env. TypeORM no se conectará.');
+                        return {
+                            type: 'postgres',
+                            url: '',
+                            entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                            synchronize: false,
+                            extra: { ssl: false },
+                        };
+                    }
+                    logger.log(`DATABASE_URL encontrada, inicializando conexión TypeORM (SSL=${dbSSL})...`);
+                    return {
+                        type: 'postgres',
+                        url: dbUrl,
+                        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+                        synchronize: false,
+                        extra: dbSSL
+                            ? { ssl: { rejectUnauthorized: false } }
+                            : { ssl: false },
+                    };
+                },
             }),
-            graphql_1.GraphQLModule.forRoot({
+            graphql_1.GraphQLModule.forRootAsync({
                 driver: apollo_1.ApolloDriver,
-                autoSchemaFile: (0, path_1.join)(process.cwd(), 'src/schema.gql'),
-                sortSchema: true,
-                playground: true,
+                imports: [auth_module_1.AuthModule],
+                inject: [jwt_1.JwtService],
+                useFactory: (jwtService) => ({
+                    autoSchemaFile: (0, path_1.join)(process.cwd(), 'src/schema.gql'),
+                    sortSchema: true,
+                    playground: true,
+                    context: ({ req }) => {
+                        const authHeader = req.headers.authorization || '';
+                        const token = authHeader.replace('Bearer ', '');
+                        if (!token)
+                            return { req };
+                        try {
+                            const user = jwtService.verify(token);
+                            return { req, user };
+                        }
+                        catch (err) {
+                            return { req };
+                        }
+                    },
+                }),
             }),
             auth_module_1.AuthModule,
             usuarios_module_1.UsuariosModule,
             galerias_module_1.GaleriasModule,
-            artistas_module_1.ArtistasModule,
+            artists_module_1.ArtistsModule,
             exposiciones_module_1.ExposicionesModule,
             obras_module_1.ObrasModule,
             ofertas_module_1.OfertasModule,

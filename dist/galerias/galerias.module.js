@@ -8,13 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GaleriasModule = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const galerias_service_1 = require("./galerias.service");
+const galerias_resolver_1 = require("./galerias.resolver");
+const galeria_entity_1 = require("./entities/galeria.entity");
 let GaleriasModule = class GaleriasModule {
 };
 exports.GaleriasModule = GaleriasModule;
 exports.GaleriasModule = GaleriasModule = __decorate([
     (0, common_1.Module)({
-        providers: [],
-        exports: [],
+        imports: [typeorm_1.TypeOrmModule.forFeature([galeria_entity_1.Galeria])],
+        providers: [galerias_service_1.GaleriasService, galerias_resolver_1.GaleriasResolver],
+        exports: [galerias_service_1.GaleriasService],
     })
 ], GaleriasModule);
 //# sourceMappingURL=galerias.module.js.map
