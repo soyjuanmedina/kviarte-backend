@@ -2,17 +2,18 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PassportModule } from '@nestjs/passport'; // 👈 falta
+import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthResolver } from './auth.resolver';
 import { Usuario } from '../usuarios/entities/usuario.entity';
+import { UsuariosModule } from '../usuarios/usuarios.module'; // 👈 IMPORTANTE
 
 @Module( {
   imports: [
     ConfigModule.forRoot( { isGlobal: true } ),
     TypeOrmModule.forFeature( [Usuario] ),
-    PassportModule.register( { defaultStrategy: 'jwt', session: false } ), // 👈 clave
+    PassportModule.register( { defaultStrategy: 'jwt', session: false } ),
     JwtModule.registerAsync( {
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -25,8 +26,9 @@ import { Usuario } from '../usuarios/entities/usuario.entity';
         };
       },
     } ),
+    UsuariosModule, // 👈 lo añades aquí
   ],
   providers: [AuthService, JwtStrategy, AuthResolver],
-  exports: [AuthService, PassportModule, JwtModule], // 👈 exporta también
+  exports: [AuthService, PassportModule, JwtModule],
 } )
 export class AuthModule { }
