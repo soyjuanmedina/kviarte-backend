@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Exposicion } from './entities/exposicion.entity';
 import { Galeria } from '../galerias/entities/galeria.entity';
-import { Artista } from '../artists/entities/artista.entity';
+import { Artist } from '../artists/entities/artist.entity';
 import { CreateExposicionInput } from './dto/create-exposicion.input';
 
 @Injectable()
@@ -15,8 +15,8 @@ export class ExposicionesService {
     @InjectRepository( Galeria )
     private readonly galeriaRepo: Repository<Galeria>,
 
-    @InjectRepository( Artista )
-    private readonly artistaRepo: Repository<Artista>,
+    @InjectRepository( Artist )
+    private readonly artistaRepo: Repository<Artist>,
   ) { }
 
   async findAll (): Promise<Exposicion[]> {

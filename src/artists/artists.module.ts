@@ -1,8 +1,8 @@
 // src/artistas/artistas.module.ts
 import { Module } from '@nestjs/common';
 
-@Module({
+@Module( {
   providers: [],
   exports: [],
-})
-export class ArtistasModule { }
+} )
+export class ArtistsModule { }

@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Obra } from './entities/obra.entity';
 import { CreateObraInput } from './dto/create-obra.input';
-import { Artista } from '../artists/entities/artista.entity';
+import { Artist } from '../artists/entities/artist.entity';
 import { Exposicion } from '../exposiciones/entities/exposicion.entity';
 
 @Injectable()
 export class ObrasService {
   constructor (
     @InjectRepository( Obra ) private repo: Repository<Obra>,
-    @InjectRepository( Artista ) private artistaRepo: Repository<Artista>,
+    @InjectRepository( Artist ) private artistaRepo: Repository<Artist>,
     @InjectRepository( Exposicion ) private exposicionRepo: Repository<Exposicion>,
   ) { }
 

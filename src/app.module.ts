@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthModule } from './auth/auth.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { GaleriasModule } from './galerias/galerias.module';
-import { ArtistasModule } from './artists/artistas.module';
+import { ArtistsModule } from './artists/artists.module';
 import { ExposicionesModule } from './exposiciones/exposiciones.module';
 import { ObrasModule } from './obras/obras.module';
 import { OfertasModule } from './ofertas/ofertas.module';
@@ -84,7 +84,7 @@ const logger = new Logger( 'AppModule' );
     AuthModule,
     UsuariosModule,
     GaleriasModule,
-    ArtistasModule,
+    ArtistsModule,
     ExposicionesModule,
     ObrasModule,
     OfertasModule,

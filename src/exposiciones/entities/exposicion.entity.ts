@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColum
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Galeria } from '../../galerias/entities/galeria.entity';
 import { Obra } from '../../obras/entities/obra.entity';
-import { Artista } from '../../artists/entities/artista.entity';
+import { Artist } from '../../artists/entities/artist.entity';
 
 @ObjectType()
 @Entity( { name: 'exposiciones' } )
