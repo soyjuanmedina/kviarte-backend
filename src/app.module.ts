@@ -59,10 +59,10 @@ const logger = new Logger( 'AppModule' );
     } ),
 
     GraphQLModule.forRootAsync<ApolloDriverConfig>( {
+      driver: ApolloDriver, // 🔹 driver obligatorio en NestJS v10
       imports: [AuthModule],
       inject: [JwtService],
       useFactory: ( jwtService: JwtService ) => ( {
-        driver: ApolloDriver,
         autoSchemaFile: join( process.cwd(), 'src/schema.gql' ),
         sortSchema: true,
         playground: true,
