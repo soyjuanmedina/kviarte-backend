@@ -21,14 +21,14 @@ export class ExposicionesService {
 
   async findAll (): Promise<Exposicion[]> {
     return this.exposicionRepo.find( {
-      relations: ['galeria', 'artista', 'obras'],
+      relations: ['galeria', 'artist', 'obras'],
     } );
   }
 
   async findOne ( id: number ): Promise<Exposicion> {
     return this.exposicionRepo.findOne( {
       where: { id_exposicion: id },
-      relations: ['galeria', 'artista', 'obras'],
+      relations: ['galeria', 'artist', 'obras'],
     } );
   }
 

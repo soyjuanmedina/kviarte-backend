@@ -15,7 +15,7 @@ export class ObrasService {
   ) { }
 
   async findAll (): Promise<Obra[]> {
-    return this.repo.find( { relations: ['artista', 'exposicion'] } );
+    return this.repo.find( { relations: ['artist', 'exposicion'] } );
   }
 
   async findOne ( id: number ): Promise<Obra> {

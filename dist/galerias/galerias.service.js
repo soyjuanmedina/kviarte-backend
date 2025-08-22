@@ -22,12 +22,12 @@ let GaleriasService = class GaleriasService {
         this.repo = repo;
     }
     async findAll() {
-        return this.repo.find({ relations: ['exposiciones', 'artistas'] });
+        return this.repo.find({ relations: ['exposiciones', 'artists'] });
     }
     async findOne(id) {
         return this.repo.findOne({
             where: { id_galeria: id },
-            relations: ['exposiciones', 'artistas'],
+            relations: ['exposiciones', 'artists'],
         });
     }
     async create(input) {

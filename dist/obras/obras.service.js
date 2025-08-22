@@ -26,7 +26,7 @@ let ObrasService = class ObrasService {
         this.exposicionRepo = exposicionRepo;
     }
     async findAll() {
-        return this.repo.find({ relations: ['artista', 'exposicion'] });
+        return this.repo.find({ relations: ['artist', 'exposicion'] });
     }
     async findOne(id) {
         return this.repo.findOne({
