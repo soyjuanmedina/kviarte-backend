@@ -14,4 +14,8 @@ export class UsuariosService {
   findOne ( id: number ) {
     return this.repo.findOne( { where: { id_usuario: id } } );
   }
+
+  findByRole ( role: string ) {
+    return this.repo.find( { where: { rol: role } } );
+  }
 }

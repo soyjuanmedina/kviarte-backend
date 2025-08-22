@@ -1,12 +1,20 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
 import { RegisterInput } from './dto/register.input';
 import { LoginResponse } from './dto/login-response.dto';
+import { Usuario } from '../usuarios/entities/usuario.entity';
+import { UsuariosService } from '../usuarios/usuarios.service';
 
 @Resolver()
 export class AuthResolver {
-  constructor ( private authService: AuthService ) { }
+  constructor ( private authService: AuthService, private usuariosService: UsuariosService ) { }
+
+  @Query( () => [Usuario] )
+  usuariosPorRol ( @Args( 'rol' ) rol: string ): Promise<Usuario[]> {
+    return this.usuariosService.findByRole( rol );
+  }
+
 
   @Mutation( () => LoginResponse )
   async login ( @Args( 'input' ) input: LoginInput ) {
@@ -23,7 +31,6 @@ export class AuthResolver {
       },
     };
   }
-
 
   @Mutation( () => String )
   async register ( @Args( 'input' ) input: RegisterInput ) {
