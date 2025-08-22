@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Obra } from './entities/obra.entity';
 import { CreateObraInput } from './dto/create-obra.input';
-import { Artista } from '../artistas/entities/artista.entity';
+import { Artista } from '../artists/entities/artista.entity';
 import { Exposicion } from '../exposiciones/entities/exposicion.entity';
 
 @Injectable()

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Exposicion } from './entities/exposicion.entity';
 import { Galeria } from '../galerias/entities/galeria.entity';
-import { Artista } from '../artistas/entities/artista.entity';
+import { Artista } from '../artists/entities/artista.entity';
 import { CreateExposicionInput } from './dto/create-exposicion.input';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class ExposicionesService {
   }
 
   async create ( input: CreateExposicionInput ): Promise<Exposicion> {
-    console.log('input.id_galeria:', input.id_galeria, typeof input.id_galeria);
+    console.log( 'input.id_galeria:', input.id_galeria, typeof input.id_galeria );
     const galeria = await this.galeriaRepo.findOne( {
       where: { id_galeria: input.id_galeria },
     } );

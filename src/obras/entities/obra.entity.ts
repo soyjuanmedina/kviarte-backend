@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Artista } from '../../artistas/entities/artista.entity';
+import { Artista } from '../../artists/entities/artista.entity';
 import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 

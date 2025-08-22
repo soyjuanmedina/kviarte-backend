@@ -7,7 +7,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity()
-export class Artista {
+export class Artist {
   @Field( () => Int )
   @PrimaryGeneratedColumn()
   id_artista: number;

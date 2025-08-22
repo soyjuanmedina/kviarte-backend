@@ -2,16 +2,16 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
-export class CreateArtistaInput {
+export class CreateArtistInput {
   @Field()
   nombre: string;
 
-  @Field(() => Int)
-  id_galeria: number;
-
-  @Field({ nullable: true })
+  @Field( { nullable: true } )
   biografia?: string;
 
-  @Field({ nullable: true })
+  @Field( { nullable: true } )
   estilo?: string;
+
+  @Field( () => Int, { nullable: true } )
+  id_galeria?: number;
 }

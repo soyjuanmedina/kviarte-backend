@@ -3,10 +3,10 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColum
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Galeria } from '../../galerias/entities/galeria.entity';
 import { Obra } from '../../obras/entities/obra.entity';
-import { Artista } from '../../artistas/entities/artista.entity';
+import { Artista } from '../../artists/entities/artista.entity';
 
 @ObjectType()
-@Entity({ name: 'exposiciones' })
+@Entity( { name: 'exposiciones' } )
 export class Exposicion {
   @Field( () => Int )
   @PrimaryGeneratedColumn()
@@ -22,12 +22,12 @@ export class Exposicion {
 
   @Field( () => Galeria )
   @ManyToOne( () => Galeria, galeria => galeria.exposiciones )
-  @JoinColumn({ name: 'id_galeria' })
+  @JoinColumn( { name: 'id_galeria' } )
   galeria: Galeria;
 
   @Field( () => Artista, { nullable: true } )
   @ManyToOne( () => Artista, artista => artista.exposiciones, { nullable: true } )
-  @JoinColumn({ name: 'id_artista' })  // opcional, si quieres nombrar la columna explícitamente
+  @JoinColumn( { name: 'id_artista' } )  // opcional, si quieres nombrar la columna explícitamente
   artista?: Artista;
 
   @Field( () => [Obra], { nullable: true } )
