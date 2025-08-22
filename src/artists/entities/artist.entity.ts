@@ -1,5 +1,5 @@
 // src/artistas/entities/artista.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Galeria } from '../../galerias/entities/galeria.entity';
 import { Obra } from '../../obras/entities/obra.entity';
 import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
@@ -26,6 +26,7 @@ export class Artist {
 
   @Field( () => Galeria, { nullable: true } )
   @ManyToOne( () => Galeria, galeria => galeria.artists )
+  @JoinColumn( { name: 'id_galeria' } )
   galeria: Galeria;
 
   @Field( () => [Obra], { nullable: true } )
