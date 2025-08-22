@@ -4,7 +4,7 @@ import { Artista } from '../../artistas/entities/artista.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
-@Entity('galerias')
+@Entity( 'galerias' )
 export class Galeria {
   @Field( () => Int )
   @PrimaryGeneratedColumn( { name: 'id_galeria' } )
@@ -22,6 +22,30 @@ export class Galeria {
   @Column( { nullable: true } )
   telefono?: string;
 
+  @Field( { nullable: true } )
+  @Column( { type: 'text', nullable: true } )
+  descripcion?: string;
+
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  direccion?: string;
+
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  ciudad?: string;
+
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  web?: string;
+
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  email_contacto?: string;
+
+  @Field( () => Int, { nullable: true } )
+  @Column( { nullable: true } )
+  usuario_id?: number;
+
   @Field( () => [Exposicion], { nullable: true } )
   @OneToMany( () => Exposicion, exposicion => exposicion.galeria )
   exposiciones: Exposicion[];
@@ -30,3 +54,4 @@ export class Galeria {
   @OneToMany( () => Artista, artista => artista.galeria )
   artistas: Artista[];
 }
+

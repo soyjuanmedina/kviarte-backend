@@ -5,28 +5,44 @@ import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 
-@Resolver(() => Galeria)
-@UseGuards(RolesGuard)
+@Resolver( () => Galeria )
+@UseGuards( RolesGuard )
 export class GaleriasResolver {
-  constructor(private readonly service: GaleriasService) { }
+  constructor ( private readonly service: GaleriasService ) { }
 
-  @Query(() => [Galeria])
-  galerias() {
+  @Query( () => [Galeria] )
+  galerias () {
     return this.service.findAll();
   }
 
-  @Query(() => Galeria)
-  galeria(@Args('id') id: number) {
-    return this.service.findOne(id);
+  @Query( () => Galeria )
+  galeria ( @Args( 'id' ) id: number ) {
+    return this.service.findOne( id );
   }
 
-  @Mutation(() => Galeria)
-  @Roles('admin', 'galeria')
-  createGaleria(
-    @Args('nombre') nombre: string,
-    @Args('email') email: string,
-    @Args('telefono') telefono: string
+  @Mutation( () => Galeria )
+  @Roles( 'admin', 'galeria' ) // usuarios con estos roles pueden crear
+  createGaleria (
+    @Args( 'usuarioId' ) usuarioId: number,
+    @Args( 'nombre' ) nombre: string,
+    @Args( 'descripcion', { nullable: true } ) descripcion?: string,
+    @Args( 'direccion', { nullable: true } ) direccion?: string,
+    @Args( 'ciudad', { nullable: true } ) ciudad?: string,
+    @Args( 'web', { nullable: true } ) web?: string,
+    @Args( 'email_contacto', { nullable: true } ) email_contacto?: string,
+    @Args( 'telefono', { nullable: true } ) telefono?: string,
+    @Args( 'email', { nullable: true } ) email?: string,
   ) {
-    return this.service.create({ nombre, email, telefono });
+    return this.service.create( {
+      nombre,
+      descripcion,
+      direccion,
+      ciudad,
+      web,
+      email_contacto,
+      telefono,
+      email,
+      usuario_id: usuarioId,
+    } );
   }
 }
