@@ -21,7 +21,7 @@ export class GaleriasResolver {
   }
 
   @Mutation( () => Galeria )
-  @Roles( 'admin', 'galeria' ) // usuarios con estos roles pueden crear
+  @Roles( 'ADMIN', 'GALLERY' ) // usuarios con estos roles pueden crear
   createGaleria (
     @Args( 'usuarioId' ) usuarioId: number,
     @Args( 'nombre' ) nombre: string,
