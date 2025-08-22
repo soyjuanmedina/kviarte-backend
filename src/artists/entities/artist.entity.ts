@@ -6,7 +6,7 @@ import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
-@Entity()
+@Entity( 'artista' )
 export class Artist {
   @Field( () => Int )
   @PrimaryGeneratedColumn()
