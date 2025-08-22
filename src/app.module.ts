@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { JwtService } from '@nestjs/jwt';
 
 import { AuthModule } from './auth/auth.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
@@ -13,22 +15,21 @@ import { ExposicionesModule } from './exposiciones/exposiciones.module';
 import { ObrasModule } from './obras/obras.module';
 import { OfertasModule } from './ofertas/ofertas.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
-const logger = new Logger('AppModule');
+const logger = new Logger( 'AppModule' );
 
-@Module({
+@Module( {
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
+    ConfigModule.forRoot( { isGlobal: true, envFilePath: '.env' } ),
 
-    TypeOrmModule.forRootAsync({
+    TypeOrmModule.forRootAsync( {
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (config: ConfigService) => {
-        const dbUrl = config.get<string>('DATABASE_URL');
-        const dbSSL = config.get<string>('DB_SSL') === 'true';
+      useFactory: async ( config: ConfigService ) => {
+        const dbUrl = config.get<string>( 'DATABASE_URL' );
+        const dbSSL = config.get<string>( 'DB_SSL' ) === 'true';
 
-        if (!dbUrl) {
+        if ( !dbUrl ) {
           logger.error(
             'DATABASE_URL no definida en .env. TypeORM no se conectará.',
           );
@@ -49,24 +50,36 @@ const logger = new Logger('AppModule');
           type: 'postgres',
           url: dbUrl,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: false, // 🔹 Importante: usar migraciones en lugar de sincronización
+          synchronize: false,
           extra: dbSSL
-            ? {
-                ssl: {
-                  rejectUnauthorized: false, // obligatorio para Supabase pooler
-                },
-              }
+            ? { ssl: { rejectUnauthorized: false } }
             : { ssl: false },
         };
       },
-    }),
+    } ),
 
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
-      playground: true,
-    }),
+    GraphQLModule.forRootAsync<ApolloDriverConfig>( {
+      imports: [AuthModule],
+      inject: [JwtService],
+      useFactory: ( jwtService: JwtService ) => ( {
+        driver: ApolloDriver,
+        autoSchemaFile: join( process.cwd(), 'src/schema.gql' ),
+        sortSchema: true,
+        playground: true,
+        context: ( { req } ) => {
+          const authHeader = req.headers.authorization || '';
+          const token = authHeader.replace( 'Bearer ', '' );
+          if ( !token ) return { req };
+
+          try {
+            const user = jwtService.verify( token );
+            return { req, user }; // usuario disponible en context.user
+          } catch ( err ) {
+            return { req };
+          }
+        },
+      } ),
+    } ),
 
     AuthModule,
     UsuariosModule,
@@ -77,5 +90,5 @@ const logger = new Logger('AppModule');
     OfertasModule,
     NewsletterModule,
   ],
-})
-export class AppModule {}
+} )
+export class AppModule { }
