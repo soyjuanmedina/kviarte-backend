@@ -4,7 +4,7 @@ import { Galeria } from '../../galerias/entities/galeria.entity';
 import { Obra } from '../../obras/entities/obra.entity';
 
 @ObjectType()
-@Entity()
+@Entity( 'ofertas' )
 export class Oferta {
   @Field( () => ID )
   @PrimaryGeneratedColumn()
