@@ -26,13 +26,13 @@ export class ArtistsService {
   async create ( createArtistInput: CreateArtistInput ): Promise<Artist> {
     const { id_galeria, ...rest } = createArtistInput;
 
-    const artista = this.artistRepo.create( rest );
+    const artist = this.artistRepo.create( rest );
 
     if ( id_galeria ) {
       const galeria = await this.galeryRepository.findOneBy( { id_galeria } );
-      artista.galeria = galeria;
+      artist.galeria = galeria;
     }
 
-    return this.artistRepo.save( artista );
+    return this.artistRepo.save( artist );
   }
 }

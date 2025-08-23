@@ -25,9 +25,12 @@ export class Artist {
   estilo?: string;
 
   @Field( () => Galeria, { nullable: true } )
-  @ManyToOne( () => Galeria, galeria => galeria.artists )
+  @ManyToOne( () => Galeria, galeria => galeria.artists, {
+    nullable: true,     // permite null en la DB
+    onDelete: 'SET NULL' // si se borra la galería, se limpia el campo
+  } )
   @JoinColumn( { name: 'id_galeria' } )
-  galeria: Galeria;
+  galeria?: Galeria;
 
   @Field( () => [Obra], { nullable: true } )
   @OneToMany( () => Obra, obra => obra.artist )
