@@ -25,4 +25,9 @@ export class GaleriasService {
     const galeria = this.repo.create( input );
     return this.repo.save( galeria );
   }
+
+  async delete ( id: number ): Promise<boolean> {
+    const result = await this.repo.delete( id );
+    return result.affected > 0;
+  }
 }
