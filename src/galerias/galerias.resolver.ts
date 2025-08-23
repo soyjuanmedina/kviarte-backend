@@ -29,7 +29,6 @@ export class GaleriasResolver {
     @Args( 'direccion', { nullable: true } ) direccion?: string,
     @Args( 'ciudad', { nullable: true } ) ciudad?: string,
     @Args( 'web', { nullable: true } ) web?: string,
-    @Args( 'email_contacto', { nullable: true } ) email_contacto?: string,
     @Args( 'telefono', { nullable: true } ) telefono?: string,
     @Args( 'email', { nullable: true } ) email?: string,
   ) {
@@ -39,7 +38,6 @@ export class GaleriasResolver {
       direccion,
       ciudad,
       web,
-      email_contacto,
       telefono,
       email,
       usuario_id: usuarioId,
