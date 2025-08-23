@@ -38,10 +38,6 @@ export class Galeria {
   @Column( { nullable: true } )
   web?: string;
 
-  @Field( { nullable: true } )
-  @Column( { nullable: true } )
-  email_contacto?: string;
-
   @Field( () => Int, { nullable: true } )
   @Column( { nullable: true } )
   usuario_id?: number;
