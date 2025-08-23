@@ -18,4 +18,9 @@ export class UsuariosService {
   findByRole ( role: string ) {
     return this.repo.find( { where: { rol: role } } );
   }
+
+  async delete ( id: number ): Promise<boolean> {
+    const result = await this.repo.delete( id );
+    return result.affected > 0;
+  }
 }

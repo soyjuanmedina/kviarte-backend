@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
 import { UsuariosService } from './usuarios.service';
 import { Usuario } from './entities/usuario.entity';
 import { UseGuards } from '@nestjs/common';
@@ -20,5 +20,11 @@ export class UsuariosResolver {
   @Roles( 'ADMIN' )
   usuario ( @Args( 'id', { type: () => Int } ) id: number ) {
     return this.service.findOne( id );
+  }
+
+  @Mutation( () => Boolean )
+  @Roles( 'ADMIN' )
+  async deleteUsuario ( @Args( 'id', { type: () => Int } ) id: number ): Promise<boolean> {
+    return this.service.delete( id );
   }
 }
