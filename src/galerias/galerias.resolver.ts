@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
 import { GaleriasService } from './galerias.service';
 import { Galeria } from './entities/galeria.entity';
 import { UseGuards } from '@nestjs/common';
@@ -44,5 +44,10 @@ export class GaleriasResolver {
       email,
       usuario_id: usuarioId,
     } );
+  }
+
+  @Mutation( () => Boolean )
+  async deleteGallery ( @Args( 'id', { type: () => Int } ) id: number ): Promise<boolean> {
+    return this.service.delete( id );
   }
 }
