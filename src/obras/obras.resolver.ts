@@ -22,7 +22,7 @@ export class ObrasResolver {
   }
 
   @Mutation( () => Obra )
-  @Roles( 'admin', 'galeria' )
+  @Roles( 'ADMIN', 'GALLERY' )
   createObra ( @Args( 'input' ) input: CreateObraInput ) {
     return this.service.create( input );
   }

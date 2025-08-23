@@ -27,7 +27,7 @@ export class NewsletterResolver {
   }
 
   @Mutation( () => String )
-  @Roles( 'admin' )
+  @Roles( 'ADMIN' )
   pruebaNewsletter () {
     return this.service.pruebaNewsletter().mensaje;
   }

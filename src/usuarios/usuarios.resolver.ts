@@ -11,13 +11,13 @@ export class UsuariosResolver {
   constructor ( private service: UsuariosService ) { }
 
   @Query( () => [Usuario] )
-  @Roles( 'admin' )
+  @Roles( 'ADMIN' )
   usuarios () {
     return this.service.findAll();
   }
 
   @Query( () => Usuario )
-  @Roles( 'admin' )
+  @Roles( 'ADMIN' )
   usuario ( @Args( 'id' ) id: number ) {
     return this.service.findOne( id );
   }

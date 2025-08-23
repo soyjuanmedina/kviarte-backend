@@ -23,7 +23,7 @@ export class OfertasResolver {
   }
 
   @Mutation( () => Oferta )
-  @Roles( 'admin', 'galeria' )
+  @Roles( 'ADMIN', 'GALLERY' )
   createOferta ( @Args( 'input' ) input: CreateOfertaInput ) {
     return this.service.create( input );
   }

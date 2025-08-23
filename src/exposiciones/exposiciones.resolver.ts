@@ -23,7 +23,7 @@ export class ExposicionesResolver {
 
   @Mutation( () => Exposicion )
   @UseGuards( GqlAuthGuard, RolesGuard )
-  @Roles( 'admin', 'galeria' )
+  @Roles( 'ADMIN', 'GALLERY' )
   createExposicion ( @Args( 'data' ) data: CreateExposicionInput ) {
     return this.service.create( data );
   }
