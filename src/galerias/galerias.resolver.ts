@@ -16,7 +16,7 @@ export class GaleriasResolver {
   }
 
   @Query( () => Galeria )
-  galeria ( @Args( 'id' ) id: number ) {
+  galeria ( @Args( 'id', { type: () => Int } ) id: number ) {
     return this.service.findOne( id );
   }
 
