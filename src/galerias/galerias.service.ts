@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Galeria } from './entities/galeria.entity';
@@ -23,6 +23,16 @@ export class GaleriasService {
 
   async create ( input: Partial<Galeria> ): Promise<Galeria> {
     const galeria = this.repo.create( input );
+    return this.repo.save( galeria );
+  }
+
+  async update ( id: number, data: Partial<Galeria> ): Promise<Galeria> {
+    const galeria = await this.repo.findOne( { where: { id_galeria: id } } );
+    if ( !galeria ) {
+      throw new NotFoundException( `Galería con id ${id} no encontrada` );
+    }
+
+    Object.assign( galeria, data );
     return this.repo.save( galeria );
   }
 
