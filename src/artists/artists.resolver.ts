@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
 import { ArtistsService } from './artists.service';
 import { Artist } from './entities/artist.entity';
 import { UseGuards } from '@nestjs/common';
@@ -25,6 +25,11 @@ export class ArtistsResolver {
   @Roles( 'ADMIN', 'GALLERY', 'ARTIST' )
   createArtist ( @Args( 'input' ) input: CreateArtistInput ) {
     return this.service.create( input );
+  }
+
+  @Mutation( () => Boolean )
+  async deleteArtist ( @Args( 'id', { type: () => Int } ) id: number ): Promise<boolean> {
+    return this.service.delete( id );
   }
 }
 

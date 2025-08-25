@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Artist } from './entities/artist.entity';
@@ -34,5 +34,18 @@ export class ArtistsService {
     }
 
     return this.artistRepo.save( artist );
+  }
+
+  async update ( id: number, data: Partial<Artist> ): Promise<Artist> {
+    const artista = await this.artistRepo.findOne( { where: { id_artista: id } } );
+    if ( !artista ) throw new NotFoundException( `Artista con id ${id} no encontrado` );
+    Object.assign( artista, data );
+    const saved = await this.artistRepo.save( artista );
+    return saved;
+  }
+
+  async delete ( id: number ): Promise<boolean> {
+    const result = await this.artistRepo.delete( id );
+    return result.affected > 0;
   }
 }
