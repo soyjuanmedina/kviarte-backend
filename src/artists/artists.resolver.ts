@@ -1,15 +1,19 @@
-import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Int, Float } from '@nestjs/graphql';
 import { ArtistsService } from './artists.service';
 import { Artist } from './entities/artist.entity';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CreateArtistInput } from './dto/create-artist.input';
+import { UpdateArtistInput } from './dto/update-artist.input';
+import { Galeria } from '../galerias/entities/galeria.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Resolver( () => Artist )
 @UseGuards( RolesGuard )
 export class ArtistsResolver {
-  constructor ( private service: ArtistsService ) { }
+  constructor ( private service: ArtistsService, @InjectRepository( Galeria ) private galleryRepository: Repository<Galeria> ) { }
 
   @Query( () => [Artist] )
   artistas () {
@@ -25,6 +29,22 @@ export class ArtistsResolver {
   @Roles( 'ADMIN', 'GALLERY', 'ARTIST' )
   createArtist ( @Args( 'input' ) input: CreateArtistInput ) {
     return this.service.create( input );
+  }
+
+  @Mutation( () => Artist )
+  async updateArtist (
+    @Args( 'id', { type: () => Float } ) id: number,
+    @Args( 'data' ) data: UpdateArtistInput,
+    @Args( 'id_galeria', { type: () => Float, nullable: true } ) id_galeria?: number
+  ) {
+    const updateData: Partial<Artist> = { ...data };
+
+    if ( id_galeria !== undefined ) {
+      const galeria = await this.galleryRepository.findOneBy( { id_galeria } );
+      updateData.galeria = galeria || null;
+    }
+
+    return this.service.update( id, updateData );
   }
 
   @Mutation( () => Boolean )
