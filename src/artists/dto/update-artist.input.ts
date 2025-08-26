@@ -12,5 +12,8 @@ export class UpdateArtistInput {
   @Field( { nullable: true } )
   estilo?: string;
 
+  @Field( { nullable: true } )
+  picture?: string;
+
   // NO ponemos id_galeria aquí, porque no es propiedad directa de Artist
 }

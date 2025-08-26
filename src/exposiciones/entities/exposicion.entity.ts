@@ -20,6 +20,10 @@ export class Exposicion {
   @Column( { nullable: true } )
   descripcion?: string;
 
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  picture: string;
+
   @Field( () => Galeria )
   @ManyToOne( () => Galeria, galeria => galeria.exposiciones )
   @JoinColumn( { name: 'id_galeria' } )

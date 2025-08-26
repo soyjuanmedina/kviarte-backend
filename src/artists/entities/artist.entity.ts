@@ -24,6 +24,10 @@ export class Artist {
   @Column( { nullable: true } )
   estilo?: string;
 
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  picture: string;
+
   @Field( () => Galeria, { nullable: true } )
   @ManyToOne( () => Galeria, galeria => galeria.artists, {
     nullable: true,     // permite null en la DB

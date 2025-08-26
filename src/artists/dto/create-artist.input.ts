@@ -14,4 +14,7 @@ export class CreateArtistInput {
 
   @Field( () => Int, { nullable: true } )
   id_galeria?: number;
+
+  @Field( { nullable: true } )
+  picture?: string;
 }

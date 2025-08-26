@@ -4,6 +4,8 @@ import { Galeria } from './entities/galeria.entity';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
+import { CreateGalleryInput } from './dto/create-gallery.input';
+import { UpdateGalleryInput } from './dto/update-gallery.input';
 
 @Resolver( () => Galeria )
 @UseGuards( RolesGuard )
@@ -21,52 +23,18 @@ export class GaleriasResolver {
   }
 
   @Mutation( () => Galeria )
-  @Roles( 'ADMIN', 'GALLERY' ) // usuarios con estos roles pueden crear
-  createGaleria (
-    @Args( 'usuario_id' ) usuario_id: number,
-    @Args( 'nombre' ) nombre: string,
-    @Args( 'descripcion', { nullable: true } ) descripcion?: string,
-    @Args( 'direccion', { nullable: true } ) direccion?: string,
-    @Args( 'ciudad', { nullable: true } ) ciudad?: string,
-    @Args( 'web', { nullable: true } ) web?: string,
-    @Args( 'telefono', { nullable: true } ) telefono?: string,
-    @Args( 'email', { nullable: true } ) email?: string,
-  ) {
-    return this.service.create( {
-      nombre,
-      descripcion,
-      direccion,
-      ciudad,
-      web,
-      telefono,
-      email,
-      usuario_id,
-    } );
+  @Roles( 'ADMIN', 'GALLERY' )
+  createGaleria ( @Args( 'input' ) input: CreateGalleryInput ) {
+    return this.service.create( input );
   }
 
   @Mutation( () => Galeria )
   @Roles( 'ADMIN', 'GALLERY' )
   updateGaleria (
     @Args( 'id', { type: () => Int } ) id: number,
-    @Args( 'usuario_id' ) usuario_id: number,
-    @Args( 'nombre' ) nombre: string,
-    @Args( 'descripcion', { nullable: true } ) descripcion?: string,
-    @Args( 'direccion', { nullable: true } ) direccion?: string,
-    @Args( 'ciudad', { nullable: true } ) ciudad?: string,
-    @Args( 'web', { nullable: true } ) web?: string,
-    @Args( 'telefono', { nullable: true } ) telefono?: string,
-    @Args( 'email', { nullable: true } ) email?: string,
+    @Args( 'data' ) data: UpdateGalleryInput
   ) {
-    return this.service.update( id, {
-      nombre,
-      descripcion,
-      direccion,
-      ciudad,
-      web,
-      telefono,
-      email,
-      usuario_id,
-    } );
+    return this.service.update( id, data );
   }
 
   @Mutation( () => Boolean )

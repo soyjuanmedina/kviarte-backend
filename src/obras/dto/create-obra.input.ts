@@ -16,4 +16,7 @@ export class CreateObraInput {
 
   @Field( () => Int, { nullable: true } )
   id_exposicion?: number;
+
+  @Field( { nullable: true } )
+  picture?: string;
 }

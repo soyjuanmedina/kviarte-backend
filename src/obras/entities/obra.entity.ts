@@ -22,6 +22,10 @@ export class Obra {
   @Column( { nullable: true } )
   estilo: string;
 
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  picture: string;
+
   @Field( () => Artist, { nullable: true } )
   @ManyToOne( () => Artist, artist => artist.obras, { nullable: false } )
   @JoinColumn( { name: 'id_artista' } )

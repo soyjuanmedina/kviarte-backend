@@ -42,6 +42,10 @@ export class Galeria {
   @Column( { nullable: true } )
   usuario_id?: number;
 
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  picture: string;
+
   @Field( () => [Exposicion], { nullable: true } )
   @OneToMany( () => Exposicion, exposicion => exposicion.galeria )
   exposiciones: Exposicion[];

@@ -5,12 +5,15 @@ export class CreateExposicionInput {
   @Field()
   titulo: string;
 
-  @Field({ nullable: true })
+  @Field( { nullable: true } )
   descripcion?: string;
 
-  @Field(() => Int)
+  @Field( () => Int )
   id_galeria: number;
 
-  @Field(() => Int, { nullable: true })
+  @Field( () => Int, { nullable: true } )
   id_artista?: number;
+
+  @Field( { nullable: true } )
+  picture?: string;
 }
