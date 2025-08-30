@@ -32,5 +32,15 @@ export class ExposicionesResolver {
   async deleteExhibition ( @Args( 'id', { type: () => Int } ) id: number ): Promise<boolean> {
     return this.service.delete( id );
   }
+
+  @Mutation( () => Exposicion )
+  @UseGuards( GqlAuthGuard, RolesGuard )
+  @Roles( 'ADMIN', 'GALLERY' )
+  updateExposicion (
+    @Args( 'id', { type: () => Int } ) id: number,
+    @Args( 'data' ) data: CreateExposicionInput
+  ) {
+    return this.service.update( id, data );
+  }
 }
 

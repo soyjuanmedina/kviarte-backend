@@ -62,4 +62,39 @@ export class ExposicionesService {
     const result = await this.exposicionRepo.delete( id );
     return result.affected > 0;
   }
+
+  async update ( id: number, input: CreateExposicionInput ): Promise<Exposicion> {
+    // Buscar la exposición existente
+    const exposicion = await this.exposicionRepo.findOne( {
+      where: { id_exposicion: id },
+      relations: ['galeria', 'artist', 'obras'],
+    } );
+
+    if ( !exposicion ) throw new Error( 'Exposición no encontrada' );
+
+    // Actualizar galería si se proporciona
+    if ( input.id_galeria ) {
+      const galeria = await this.galeriaRepo.findOne( {
+        where: { id_galeria: input.id_galeria },
+      } );
+      if ( !galeria ) throw new Error( 'Galería no encontrada' );
+      exposicion.galeria = galeria;
+    }
+
+    // Actualizar artista si se proporciona
+    if ( input.id_artista ) {
+      const artist = await this.artistRepo.findOne( {
+        where: { id_artista: input.id_artista },
+      } );
+      if ( !artist ) throw new Error( 'Artista no encontrado' );
+      exposicion.artist = artist;
+    }
+
+    // Actualizar otros campos
+    exposicion.titulo = input.titulo ?? exposicion.titulo;
+    exposicion.descripcion = input.descripcion ?? exposicion.descripcion;
+    exposicion.picture = input.picture ?? exposicion.picture;
+
+    return this.exposicionRepo.save( exposicion );
+  }
 }
