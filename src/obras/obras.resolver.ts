@@ -26,4 +26,19 @@ export class ObrasResolver {
   createObra ( @Args( 'input' ) input: CreateObraInput ) {
     return this.service.create( input );
   }
+
+  @Mutation( () => Obra )
+  @Roles( 'ADMIN', 'GALLERY' )
+  updateObra (
+    @Args( 'id', { type: () => Int } ) id: number,
+    @Args( 'input' ) input: CreateObraInput
+  ) {
+    return this.service.update( id, input );
+  }
+
+  @Mutation( () => Boolean )
+  @Roles( 'ADMIN', 'GALLERY' )
+  deleteObra ( @Args( 'id', { type: () => Int } ) id: number ) {
+    return this.service.delete( id );
+  }
 }

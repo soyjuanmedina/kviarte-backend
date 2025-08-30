@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Obra } from './entities/obra.entity';
@@ -40,10 +40,48 @@ export class ObrasService {
       titulo: input.titulo,
       descripcion: input.descripcion,
       estilo: input.estilo,
+      picture: input.picture,
       artist,
       exposicion,
     } );
 
     return this.repo.save( obra );
+  }
+
+  async update ( id: number, input: CreateObraInput ): Promise<Obra> {
+    const obra = await this.repo.findOne( { where: { id_obra: id } } );
+    if ( !obra ) {
+      throw new NotFoundException( `Obra con id ${id} no encontrada` );
+    }
+
+    const artist = await this.artistRepo.findOne( {
+      where: { id_artista: input.id_artista },
+    } );
+
+    const exposicion = input.id_exposicion
+      ? await this.exposicionRepo.findOne( {
+        where: { id_exposicion: input.id_exposicion },
+      } )
+      : null;
+
+    Object.assign( obra, {
+      titulo: input.titulo,
+      descripcion: input.descripcion,
+      estilo: input.estilo,
+      picture: input.picture,
+      artist,
+      exposicion,
+    } );
+
+    return this.repo.save( obra );
+  }
+
+  async delete ( id: number ): Promise<boolean> {
+    const obra = await this.repo.findOne( { where: { id_obra: id } } );
+    if ( !obra ) {
+      throw new NotFoundException( `Obra con id ${id} no encontrada` );
+    }
+    await this.repo.remove( obra );
+    return true;
   }
 }
