@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
 import { ExposicionesService } from './exposiciones.service';
 import { Exposicion } from './entities/exposicion.entity';
 import { CreateExposicionInput } from './dto/create-exposicion.input';
@@ -17,7 +17,7 @@ export class ExposicionesResolver {
   }
 
   @Query( () => Exposicion )
-  exposicion ( @Args( 'id' ) id: number ) {
+  exposicion ( @Args( 'id', { type: () => Int } ) id: number ) {
     return this.service.findOne( id );
   }
 
@@ -26,6 +26,11 @@ export class ExposicionesResolver {
   @Roles( 'ADMIN', 'GALLERY' )
   createExposicion ( @Args( 'data' ) data: CreateExposicionInput ) {
     return this.service.create( data );
+  }
+
+  @Mutation( () => Boolean )
+  async deleteExhibition ( @Args( 'id', { type: () => Int } ) id: number ): Promise<boolean> {
+    return this.service.delete( id );
   }
 }
 

@@ -57,4 +57,9 @@ export class ExposicionesService {
 
     return this.exposicionRepo.save( exposicion );
   }
+
+  async delete ( id: number ): Promise<boolean> {
+    const result = await this.exposicionRepo.delete( id );
+    return result.affected > 0;
+  }
 }
