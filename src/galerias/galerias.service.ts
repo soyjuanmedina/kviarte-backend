@@ -25,15 +25,18 @@ export class GaleriasService {
 
   async create ( input: Partial<Galeria> ): Promise<Galeria> {
     const galeria = this.repo.create( input );
-    return this.repo.save( galeria );
+    const saved = await this.repo.save( galeria );
+    // Cargar relaciones antes de devolver
+    return this.findOne( saved.id_galeria );
   }
 
   async update ( id: number, data: Partial<Galeria> ): Promise<Galeria> {
     const galeria = await this.repo.findOne( { where: { id_galeria: id } } );
     if ( !galeria ) throw new NotFoundException( `Galería con id ${id} no encontrada` );
     Object.assign( galeria, data );
-    const saved = await this.repo.save( galeria );
-    return saved;
+    await this.repo.save( galeria );
+    // Cargar relaciones antes de devolver
+    return this.findOne( id );
   }
 
   async delete ( id: number ): Promise<boolean> {
