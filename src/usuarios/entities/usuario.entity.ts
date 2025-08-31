@@ -4,7 +4,6 @@ import { Galeria } from '../../galerias/entities/galeria.entity';
 
 @Entity( 'usuarios' )
 @ObjectType()
-@Entity()
 export class Usuario {
   @Field( () => Int, { name: 'id_usuario' } )
   @PrimaryGeneratedColumn()

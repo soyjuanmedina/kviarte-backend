@@ -50,7 +50,7 @@ const logger = new Logger( 'AppModule' );
           type: 'postgres',
           url: dbUrl,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: true,
+          synchronize: false,
           extra: dbSSL
             ? { ssl: { rejectUnauthorized: false } }
             : { ssl: false },

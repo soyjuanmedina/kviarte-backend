@@ -44,7 +44,7 @@ export class Galeria {
   picture: string;
 
   @Field( () => Usuario )
-  @ManyToOne( () => Usuario, usuario => usuario.galerias, { nullable: false } )
+  @ManyToOne( () => Usuario, usuario => usuario.galerias, { nullable: true } )
   @JoinColumn( { name: 'usuario_id' } )
   propietario: Usuario;
 
