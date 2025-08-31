@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
+import { Galeria } from '../../galerias/entities/galeria.entity';
 
 @Entity( 'usuarios' )
 @ObjectType()
@@ -23,4 +24,7 @@ export class Usuario {
   @Field()
   @Column( { default: 'usuario' } )
   rol: string;
+
+  @OneToMany( () => Galeria, galeria => galeria.propietario )
+  galerias: Galeria[];
 }

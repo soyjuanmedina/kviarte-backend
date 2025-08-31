@@ -10,14 +10,16 @@ export class GaleriasService {
     private readonly repo: Repository<Galeria>,
   ) { }
 
-  async findAll (): Promise<Galeria[]> {
-    return this.repo.find( { relations: ['exposiciones', 'artists'] } );
+  findAll (): Promise<Galeria[]> {
+    return this.repo.find( {
+      relations: ['propietario', 'exposiciones', 'artists'],
+    } );
   }
 
   async findOne ( id: number ): Promise<Galeria> {
     return this.repo.findOne( {
       where: { id_galeria: id },
-      relations: ['exposiciones', 'artists'],
+      relations: ['propietario', 'exposiciones', 'artists'],
     } );
   }
 
