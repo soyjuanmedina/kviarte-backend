@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
 import { Artist } from '../../artists/entities/artist.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
@@ -39,15 +39,12 @@ export class Galeria {
   @Column( { nullable: true } )
   web?: string;
 
-  @Field( () => Int, { nullable: true } )
-  @Column( { nullable: true } )
-  usuario_id?: number;
-
   @Field( { nullable: true } )
   @Column( { nullable: true } )
   picture: string;
 
   @ManyToOne( () => Usuario, usuario => usuario.galerias, { nullable: false } )
+  @JoinColumn( { name: 'usuario_id' } )
   propietario: Usuario;
 
   @Field( () => [Exposicion], { nullable: true } )
