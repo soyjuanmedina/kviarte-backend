@@ -1,4 +1,4 @@
-import { InputType, Field, Float } from '@nestjs/graphql';
+import { InputType, Field, Float, Int } from '@nestjs/graphql';
 
 
 @InputType()
@@ -15,5 +15,6 @@ export class UpdateArtistInput {
   @Field( { nullable: true } )
   picture?: string;
 
-  // NO ponemos id_galeria aquí, porque no es propiedad directa de Artist
+  @Field( () => Int, { nullable: true } )
+  id_galeria?: number;
 }
