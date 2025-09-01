@@ -39,9 +39,10 @@ export class ArtistsResolver {
   ) {
     const updateData: Partial<Artist> = { ...data };
 
-    if ( id_galeria !== undefined ) {
-      const galeria = await this.galleryRepository.findOneBy( { id_galeria } );
-      updateData.galeria = galeria || null;
+    // Esto asegura que galeria se actualice correctamente
+    if ( 'id_galeria' in data || id_galeria !== undefined ) {
+      const galeria = id_galeria ? await this.galleryRepository.findOneBy( { id_galeria } ) : null;
+      updateData.galeria = galeria;
     }
 
     return this.service.update( id, updateData );

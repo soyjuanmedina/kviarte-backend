@@ -37,11 +37,13 @@ export class ArtistsService {
   }
 
   async update ( id: number, data: Partial<Artist> ): Promise<Artist> {
-    const artista = await this.artistRepo.findOne( { where: { id_artista: id } } );
+    const artista = await this.artistRepo.findOne( { where: { id_artista: id }, relations: ['galeria'] } );
     if ( !artista ) throw new NotFoundException( `Artista con id ${id} no encontrado` );
+
+    // Aquí ya data puede incluir galeria: null
     Object.assign( artista, data );
-    const saved = await this.artistRepo.save( artista );
-    return saved;
+
+    return this.artistRepo.save( artista );
   }
 
   async delete ( id: number ): Promise<boolean> {
