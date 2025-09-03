@@ -33,7 +33,7 @@ export class Obra {
   artist: Artist;
 
   @Field( () => Galeria )
-  @ManyToOne( () => Galeria, galeria => galeria.obras, { nullable: false } )
+  @ManyToOne( () => Galeria, galeria => galeria.obras, { nullable: false, eager: true } )
   @JoinColumn( { name: 'id_galeria' } )
   galeria: Galeria;
 
