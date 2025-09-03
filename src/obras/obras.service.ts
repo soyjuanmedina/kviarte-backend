@@ -91,8 +91,8 @@ export class ObrasService {
 
   async findByExposicion ( id_exposicion: number ): Promise<Obra[]> {
     return this.repo.find( {
-      where: { exposicion: { id_exposicion } }, // filtramos por la relación
-      relations: ['artist'], // para que GraphQL no devuelva null en artist
+      where: { exposicion: { id_exposicion } },
+      relations: ['artist', 'galeria', 'exposicion'], // agrega las relaciones necesarias
     } );
   }
 }
