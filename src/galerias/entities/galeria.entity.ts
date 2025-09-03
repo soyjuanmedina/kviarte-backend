@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
 import { Artist } from '../../artists/entities/artist.entity';
+import { Obra } from '../../obras/entities/obra.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Usuario } from '../../usuarios/entities/usuario.entity';
 
@@ -55,5 +56,8 @@ export class Galeria {
   @Field( () => [Artist], { nullable: true } )
   @OneToMany( () => Artist, artist => artist.galeria )
   artists: Artist[];
-}
 
+  @Field( () => [Obra], { nullable: true } )
+  @OneToMany( () => Obra, obra => obra.galeria )
+  obras: Obra[];
+}

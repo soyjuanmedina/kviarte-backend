@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Artist } from '../../artists/entities/artist.entity';
 import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
+import { Galeria } from '../../galerias/entities/galeria.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
@@ -26,13 +27,18 @@ export class Obra {
   @Column( { nullable: true } )
   picture: string;
 
-  @Field( () => Artist, { nullable: true } )
+  @Field( () => Artist )
   @ManyToOne( () => Artist, artist => artist.obras, { nullable: false } )
   @JoinColumn( { name: 'id_artista' } )
   artist: Artist;
 
+  @Field( () => Galeria )
+  @ManyToOne( () => Galeria, galeria => galeria.obras, { nullable: false } )
+  @JoinColumn( { name: 'id_galeria' } )
+  galeria: Galeria;
+
   @Field( () => Exposicion, { nullable: true } )
   @ManyToOne( () => Exposicion, exposicion => exposicion.obras, { nullable: true } )
   @JoinColumn( { name: 'id_exposicion' } )
-  exposicion: Exposicion;
+  exposicion?: Exposicion;
 }
