@@ -88,4 +88,11 @@ export class ObrasService {
     await this.repo.remove( obra );
     return true;
   }
+
+  async findByExposicion ( id_exposicion: number ): Promise<Obra[]> {
+    return this.repo.find( {
+      where: { exposicion: { id_exposicion } }, // filtramos por la relación
+      relations: ['artist'], // para que GraphQL no devuelva null en artist
+    } );
+  }
 }
