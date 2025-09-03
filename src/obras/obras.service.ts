@@ -54,24 +54,24 @@ export class ObrasService {
   }
 
   async update ( id: number, input: UpdateObraInput ): Promise<Obra> {
-    const obra = await this.repo.findOne( {
-      where: { id_obra: id },
-      relations: ['artist', 'exposicion', 'exposicion.galeria'],
-    } );
+    const obra = await this.repo.findOne( { where: { id_obra: id } } );
     if ( !obra ) {
       throw new NotFoundException( `Obra con id ${id} no encontrada` );
     }
 
-    if ( input.id_artista !== undefined ) {
+    if ( input.id_artista ) {
       const artist = await this.artistRepo.findOne( { where: { id_artista: input.id_artista } } );
-      obra.artist = artist || null;
+      obra.artist = artist;
     }
 
     if ( input.id_exposicion !== undefined ) {
-      const exposicion = await this.exposicionRepo.findOne( { where: { id_exposicion: input.id_exposicion }, relations: ['galeria'] } );
-      obra.exposicion = exposicion || null;
+      const exposicion = input.id_exposicion
+        ? await this.exposicionRepo.findOne( { where: { id_exposicion: input.id_exposicion } } )
+        : null;
+      obra.exposicion = exposicion;
     }
 
+    // Actualiza otros campos si vienen en el input
     if ( input.titulo !== undefined ) obra.titulo = input.titulo;
     if ( input.descripcion !== undefined ) obra.descripcion = input.descripcion;
     if ( input.estilo !== undefined ) obra.estilo = input.estilo;
@@ -79,6 +79,7 @@ export class ObrasService {
 
     return this.repo.save( obra );
   }
+
 
 
   async delete ( id: number ): Promise<boolean> {
