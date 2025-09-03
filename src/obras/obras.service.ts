@@ -18,10 +18,14 @@ export class ObrasService {
     return this.repo.find( { relations: ['artist', 'exposicion'] } );
   }
 
-  async findOne ( id: number ): Promise<Obra> {
+  async findOne ( id: number ) {
     return this.repo.findOne( {
       where: { id_obra: id },
-      relations: ['artist', 'exposicion'],
+      relations: [
+        'artist',
+        'exposicion',
+        'exposicion.galeria'  // <-- aquí está la clave
+      ],
     } );
   }
 
