@@ -19,4 +19,7 @@ export class CreateObraInput {
 
   @Field( { nullable: true } )
   picture?: string;
+
+  @Field( () => Int, { nullable: true } ) // <-- agregado
+  id_galeria?: number;
 }

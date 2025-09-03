@@ -5,6 +5,7 @@ import { Obra } from './entities/obra.entity';
 import { CreateObraInput } from './dto/create-obra.input';
 import { Artist } from '../artists/entities/artist.entity';
 import { Exposicion } from '../exposiciones/entities/exposicion.entity';
+import { UpdateObraInput } from './dto/update-obra.input';
 
 @Injectable()
 export class ObrasService {
@@ -52,33 +53,33 @@ export class ObrasService {
     return this.repo.save( obra );
   }
 
-  async update ( id: number, input: CreateObraInput ): Promise<Obra> {
-    const obra = await this.repo.findOne( { where: { id_obra: id } } );
+  async update ( id: number, input: UpdateObraInput ): Promise<Obra> {
+    const obra = await this.repo.findOne( {
+      where: { id_obra: id },
+      relations: ['artist', 'exposicion', 'exposicion.galeria'],
+    } );
     if ( !obra ) {
       throw new NotFoundException( `Obra con id ${id} no encontrada` );
     }
 
-    const artist = await this.artistRepo.findOne( {
-      where: { id_artista: input.id_artista },
-    } );
+    if ( input.id_artista !== undefined ) {
+      const artist = await this.artistRepo.findOne( { where: { id_artista: input.id_artista } } );
+      obra.artist = artist || null;
+    }
 
-    const exposicion = input.id_exposicion
-      ? await this.exposicionRepo.findOne( {
-        where: { id_exposicion: input.id_exposicion },
-      } )
-      : null;
+    if ( input.id_exposicion !== undefined ) {
+      const exposicion = await this.exposicionRepo.findOne( { where: { id_exposicion: input.id_exposicion }, relations: ['galeria'] } );
+      obra.exposicion = exposicion || null;
+    }
 
-    Object.assign( obra, {
-      titulo: input.titulo,
-      descripcion: input.descripcion,
-      estilo: input.estilo,
-      picture: input.picture,
-      artist,
-      exposicion,
-    } );
+    if ( input.titulo !== undefined ) obra.titulo = input.titulo;
+    if ( input.descripcion !== undefined ) obra.descripcion = input.descripcion;
+    if ( input.estilo !== undefined ) obra.estilo = input.estilo;
+    if ( input.picture !== undefined ) obra.picture = input.picture;
 
     return this.repo.save( obra );
   }
+
 
   async delete ( id: number ): Promise<boolean> {
     const obra = await this.repo.findOne( { where: { id_obra: id } } );
