@@ -23,8 +23,14 @@ export class GaleriasService {
     } );
   }
 
-  async create ( input: Partial<Galeria> ): Promise<Galeria> {
+  async create ( input: Partial<Galeria> & { usuario_id?: number } ): Promise<Galeria> {
     const galeria = this.repo.create( input );
+
+    if ( input.usuario_id ) {
+      galeria.propietario = { id_usuario: input.usuario_id } as any; // 'as any' para que TypeORM acepte solo la referencia
+      delete ( galeria as any ).usuario_id; // eliminar para que no intente asignar columna inexistente
+    }
+
     const saved = await this.repo.save( galeria );
     // Cargar relaciones antes de devolver
     return this.findOne( saved.id_galeria );
