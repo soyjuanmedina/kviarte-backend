@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
 import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
 import { Galeria } from '../../galerias/entities/galeria.entity';
 import { Obra } from '../../obras/entities/obra.entity';
@@ -7,12 +7,12 @@ import { Obra } from '../../obras/entities/obra.entity';
 @Entity( 'promotions' )
 export class Promotion {
   @Field( () => ID, { name: 'id_promotion' } )
-  @PrimaryGeneratedColumn( { name: 'id_oferta' } )
-  id: number; // propiedad interna de TS
+  @PrimaryGeneratedColumn( { name: 'id' } ) // ya renombraste la columna en la BBDD
+  id: number;
 
   @Field( () => Float, { name: 'precio' } )
   @Column( 'decimal' )
-  discount: number; // propiedad interna de TS
+  discount: number;
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
@@ -24,14 +24,15 @@ export class Promotion {
 
   @Field( () => Galeria )
   @ManyToOne( () => Galeria, galeria => galeria.promotions, { onDelete: 'CASCADE' } )
+  @JoinColumn( { name: 'id_galeria' } ) // indica explícitamente la columna FK
   galeria: Galeria;
 
   @Field( () => [Obra], { nullable: true, name: 'obra' } )
   @ManyToMany( () => Obra, obra => obra.promotions, { cascade: true } )
   @JoinTable( {
-    name: 'ofertas_obras',
-    joinColumn: { name: 'id_oferta', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'id_obra', referencedColumnName: 'id_obra' },
+    name: 'promotions_artworks', // renombraste la tabla intermedia
+    joinColumn: { name: 'promotion_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id_obra' },
   } )
   artworks?: Obra[];
 
@@ -40,10 +41,10 @@ export class Promotion {
   code?: string;
 
   @Field( () => Date )
-  @Column( { name: 'fecha_inicio', type: 'date' } )
+  @Column( { name: 'start_date', type: 'date' } )
   startDate: Date;
 
   @Field( () => Date )
-  @Column( { name: 'fecha_fin', type: 'date' } )
+  @Column( { name: 'end_date', type: 'date' } )
   endDate: Date;
 }

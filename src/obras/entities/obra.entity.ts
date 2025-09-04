@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Artist } from '../../artists/entities/artist.entity';
 import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
 import { Galeria } from '../../galerias/entities/galeria.entity';
@@ -49,5 +49,10 @@ export class Obra {
 
   @Field( () => [Promotion], { nullable: true } )
   @ManyToMany( () => Promotion, promotion => promotion.artworks )
+  @JoinTable( {
+    name: 'promotions_artworks',
+    joinColumn: { name: 'artwork_id', referencedColumnName: 'id_obra' },
+    inverseJoinColumn: { name: 'promotion_id', referencedColumnName: 'id' },
+  } )
   promotions?: Promotion[];
 }
