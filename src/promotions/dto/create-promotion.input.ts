@@ -1,5 +1,6 @@
 import { InputType, Field, Int, Float } from '@nestjs/graphql';
 
+//Coment
 @InputType()
 export class CreatePromotionInput {
   @Field( () => String )
