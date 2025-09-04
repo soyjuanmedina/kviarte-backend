@@ -19,6 +19,8 @@ const galeria_entity_1 = require("./entities/galeria.entity");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
+const create_gallery_input_1 = require("./dto/create-gallery.input");
+const update_gallery_input_1 = require("./dto/update-gallery.input");
 let GaleriasResolver = class GaleriasResolver {
     constructor(service) {
         this.service = service;
@@ -29,18 +31,14 @@ let GaleriasResolver = class GaleriasResolver {
     galeria(id) {
         return this.service.findOne(id);
     }
-    createGaleria(usuarioId, nombre, descripcion, direccion, ciudad, web, email_contacto, telefono, email) {
-        return this.service.create({
-            nombre,
-            descripcion,
-            direccion,
-            ciudad,
-            web,
-            email_contacto,
-            telefono,
-            email,
-            usuario_id: usuarioId,
-        });
+    createGaleria(input) {
+        return this.service.create(input);
+    }
+    updateGaleria(id, data) {
+        return this.service.update(id, data);
+    }
+    async deleteGallery(id) {
+        return this.service.delete(id);
     }
 };
 exports.GaleriasResolver = GaleriasResolver;
@@ -52,7 +50,7 @@ __decorate([
 ], GaleriasResolver.prototype, "galerias", null);
 __decorate([
     (0, graphql_1.Query)(() => galeria_entity_1.Galeria),
-    __param(0, (0, graphql_1.Args)('id')),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
@@ -60,19 +58,27 @@ __decorate([
 __decorate([
     (0, graphql_1.Mutation)(() => galeria_entity_1.Galeria),
     (0, roles_decorator_1.Roles)('ADMIN', 'GALLERY'),
-    __param(0, (0, graphql_1.Args)('usuarioId')),
-    __param(1, (0, graphql_1.Args)('nombre')),
-    __param(2, (0, graphql_1.Args)('descripcion', { nullable: true })),
-    __param(3, (0, graphql_1.Args)('direccion', { nullable: true })),
-    __param(4, (0, graphql_1.Args)('ciudad', { nullable: true })),
-    __param(5, (0, graphql_1.Args)('web', { nullable: true })),
-    __param(6, (0, graphql_1.Args)('email_contacto', { nullable: true })),
-    __param(7, (0, graphql_1.Args)('telefono', { nullable: true })),
-    __param(8, (0, graphql_1.Args)('email', { nullable: true })),
+    __param(0, (0, graphql_1.Args)('input')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, String, String, String, String, String, String, String]),
+    __metadata("design:paramtypes", [create_gallery_input_1.CreateGalleryInput]),
     __metadata("design:returntype", void 0)
 ], GaleriasResolver.prototype, "createGaleria", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => galeria_entity_1.Galeria),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GALLERY'),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
+    __param(1, (0, graphql_1.Args)('data')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, update_gallery_input_1.UpdateGalleryInput]),
+    __metadata("design:returntype", void 0)
+], GaleriasResolver.prototype, "updateGaleria", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], GaleriasResolver.prototype, "deleteGallery", null);
 exports.GaleriasResolver = GaleriasResolver = __decorate([
     (0, graphql_1.Resolver)(() => galeria_entity_1.Galeria),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),

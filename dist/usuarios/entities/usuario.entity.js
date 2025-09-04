@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 const typeorm_1 = require("typeorm");
 const graphql_1 = require("@nestjs/graphql");
+const galeria_entity_1 = require("../../galerias/entities/galeria.entity");
 let Usuario = class Usuario {
 };
 exports.Usuario = Usuario;
@@ -39,9 +40,13 @@ __decorate([
     (0, typeorm_1.Column)({ default: 'usuario' }),
     __metadata("design:type", String)
 ], Usuario.prototype, "rol", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => [galeria_entity_1.Galeria], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => galeria_entity_1.Galeria, galeria => galeria.propietario),
+    __metadata("design:type", Array)
+], Usuario.prototype, "galerias", void 0);
 exports.Usuario = Usuario = __decorate([
     (0, typeorm_1.Entity)('usuarios'),
-    (0, graphql_1.ObjectType)(),
-    (0, typeorm_1.Entity)()
+    (0, graphql_1.ObjectType)()
 ], Usuario);
 //# sourceMappingURL=usuario.entity.js.map

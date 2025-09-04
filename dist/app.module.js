@@ -20,7 +20,7 @@ const galerias_module_1 = require("./galerias/galerias.module");
 const artists_module_1 = require("./artists/artists.module");
 const exposiciones_module_1 = require("./exposiciones/exposiciones.module");
 const obras_module_1 = require("./obras/obras.module");
-const ofertas_module_1 = require("./ofertas/ofertas.module");
+const promotions_module_1 = require("./promotions/promotions.module");
 const newsletter_module_1 = require("./newsletter/newsletter.module");
 const logger = new common_1.Logger('AppModule');
 let AppModule = class AppModule {
@@ -87,7 +87,7 @@ exports.AppModule = AppModule = __decorate([
             artists_module_1.ArtistsModule,
             exposiciones_module_1.ExposicionesModule,
             obras_module_1.ObrasModule,
-            ofertas_module_1.OfertasModule,
+            promotions_module_1.PromotionsModule,
             newsletter_module_1.NewsletterModule,
         ],
     })

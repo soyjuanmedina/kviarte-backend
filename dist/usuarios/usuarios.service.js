@@ -30,6 +30,10 @@ let UsuariosService = class UsuariosService {
     findByRole(role) {
         return this.repo.find({ where: { rol: role } });
     }
+    async delete(id) {
+        const result = await this.repo.delete(id);
+        return result.affected > 0;
+    }
 };
 exports.UsuariosService = UsuariosService;
 exports.UsuariosService = UsuariosService = __decorate([

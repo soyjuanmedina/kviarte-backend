@@ -34,6 +34,11 @@ __decorate([
     __metadata("design:type", String)
 ], Exposicion.prototype, "descripcion", void 0);
 __decorate([
+    (0, graphql_1.Field)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Exposicion.prototype, "picture", void 0);
+__decorate([
     (0, graphql_1.Field)(() => galeria_entity_1.Galeria),
     (0, typeorm_1.ManyToOne)(() => galeria_entity_1.Galeria, galeria => galeria.exposiciones),
     (0, typeorm_1.JoinColumn)({ name: 'id_galeria' }),

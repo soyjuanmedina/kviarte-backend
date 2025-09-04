@@ -34,6 +34,14 @@ __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
     __metadata("design:type", Number)
 ], CreateObraInput.prototype, "id_exposicion", void 0);
+__decorate([
+    (0, graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], CreateObraInput.prototype, "picture", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
+    __metadata("design:type", Number)
+], CreateObraInput.prototype, "id_galeria", void 0);
 exports.CreateObraInput = CreateObraInput = __decorate([
     (0, graphql_1.InputType)()
 ], CreateObraInput);

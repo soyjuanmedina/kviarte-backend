@@ -8,13 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ObrasModule = void 0;
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const obra_entity_1 = require("./entities/obra.entity");
+const artist_entity_1 = require("../artists/entities/artist.entity");
+const exposicion_entity_1 = require("../exposiciones/entities/exposicion.entity");
+const obras_service_1 = require("./obras.service");
+const obras_resolver_1 = require("./obras.resolver");
 let ObrasModule = class ObrasModule {
 };
 exports.ObrasModule = ObrasModule;
 exports.ObrasModule = ObrasModule = __decorate([
     (0, common_1.Module)({
-        providers: [],
-        exports: [],
+        imports: [typeorm_1.TypeOrmModule.forFeature([obra_entity_1.Obra, artist_entity_1.Artist, exposicion_entity_1.Exposicion])],
+        providers: [obras_service_1.ObrasService, obras_resolver_1.ObrasResolver],
+        exports: [obras_service_1.ObrasService],
     })
 ], ObrasModule);
 //# sourceMappingURL=obras.module.js.map

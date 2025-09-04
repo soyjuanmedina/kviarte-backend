@@ -31,7 +31,11 @@ let ObrasService = class ObrasService {
     async findOne(id) {
         return this.repo.findOne({
             where: { id_obra: id },
-            relations: ['artist', 'exposicion'],
+            relations: [
+                'artist',
+                'exposicion',
+                'exposicion.galeria'
+            ],
         });
     }
     async create(input) {
@@ -47,10 +51,50 @@ let ObrasService = class ObrasService {
             titulo: input.titulo,
             descripcion: input.descripcion,
             estilo: input.estilo,
+            picture: input.picture,
             artist,
             exposicion,
         });
         return this.repo.save(obra);
+    }
+    async update(id, input) {
+        const obra = await this.repo.findOne({ where: { id_obra: id } });
+        if (!obra) {
+            throw new common_1.NotFoundException(`Obra con id ${id} no encontrada`);
+        }
+        if (input.id_artista) {
+            const artist = await this.artistRepo.findOne({ where: { id_artista: input.id_artista } });
+            obra.artist = artist;
+        }
+        if (input.id_exposicion !== undefined) {
+            const exposicion = input.id_exposicion
+                ? await this.exposicionRepo.findOne({ where: { id_exposicion: input.id_exposicion } })
+                : null;
+            obra.exposicion = exposicion;
+        }
+        if (input.titulo !== undefined)
+            obra.titulo = input.titulo;
+        if (input.descripcion !== undefined)
+            obra.descripcion = input.descripcion;
+        if (input.estilo !== undefined)
+            obra.estilo = input.estilo;
+        if (input.picture !== undefined)
+            obra.picture = input.picture;
+        return this.repo.save(obra);
+    }
+    async delete(id) {
+        const obra = await this.repo.findOne({ where: { id_obra: id } });
+        if (!obra) {
+            throw new common_1.NotFoundException(`Obra con id ${id} no encontrada`);
+        }
+        await this.repo.remove(obra);
+        return true;
+    }
+    async findByExposicion(id_exposicion) {
+        return this.repo.find({
+            where: { exposicion: { id_exposicion } },
+            relations: ['artist', 'galeria', 'exposicion'],
+        });
     }
 };
 exports.ObrasService = ObrasService;

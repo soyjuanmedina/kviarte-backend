@@ -39,8 +39,17 @@ __decorate([
     __metadata("design:type", String)
 ], Artist.prototype, "estilo", void 0);
 __decorate([
+    (0, graphql_1.Field)({ nullable: true }),
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Artist.prototype, "picture", void 0);
+__decorate([
     (0, graphql_1.Field)(() => galeria_entity_1.Galeria, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => galeria_entity_1.Galeria, galeria => galeria.artists),
+    (0, typeorm_1.ManyToOne)(() => galeria_entity_1.Galeria, galeria => galeria.artists, {
+        nullable: true,
+        onDelete: 'SET NULL'
+    }),
+    (0, typeorm_1.JoinColumn)({ name: 'id_galeria' }),
     __metadata("design:type", galeria_entity_1.Galeria)
 ], Artist.prototype, "galeria", void 0);
 __decorate([
@@ -55,6 +64,6 @@ __decorate([
 ], Artist.prototype, "exposiciones", void 0);
 exports.Artist = Artist = __decorate([
     (0, graphql_1.ObjectType)(),
-    (0, typeorm_1.Entity)()
+    (0, typeorm_1.Entity)('artistas')
 ], Artist);
 //# sourceMappingURL=artist.entity.js.map

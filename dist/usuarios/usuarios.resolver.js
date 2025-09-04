@@ -29,23 +29,34 @@ let UsuariosResolver = class UsuariosResolver {
     usuario(id) {
         return this.service.findOne(id);
     }
+    async deleteUsuario(id) {
+        return this.service.delete(id);
+    }
 };
 exports.UsuariosResolver = UsuariosResolver;
 __decorate([
     (0, graphql_1.Query)(() => [usuario_entity_1.Usuario]),
-    (0, roles_decorator_1.Roles)('admin'),
+    (0, roles_decorator_1.Roles)('ADMIN'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], UsuariosResolver.prototype, "usuarios", null);
 __decorate([
     (0, graphql_1.Query)(() => usuario_entity_1.Usuario),
-    (0, roles_decorator_1.Roles)('admin'),
-    __param(0, (0, graphql_1.Args)('id')),
+    (0, roles_decorator_1.Roles)('ADMIN'),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], UsuariosResolver.prototype, "usuario", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => Boolean),
+    (0, roles_decorator_1.Roles)('ADMIN'),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], UsuariosResolver.prototype, "deleteUsuario", null);
 exports.UsuariosResolver = UsuariosResolver = __decorate([
     (0, graphql_1.Resolver)(() => usuario_entity_1.Usuario),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),

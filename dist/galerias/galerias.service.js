@@ -21,18 +21,37 @@ let GaleriasService = class GaleriasService {
     constructor(repo) {
         this.repo = repo;
     }
-    async findAll() {
-        return this.repo.find({ relations: ['exposiciones', 'artists'] });
+    findAll() {
+        return this.repo.find({
+            relations: ['propietario', 'exposiciones', 'artists'],
+        });
     }
     async findOne(id) {
         return this.repo.findOne({
             where: { id_galeria: id },
-            relations: ['exposiciones', 'artists'],
+            relations: ['propietario', 'exposiciones', 'artists'],
         });
     }
     async create(input) {
         const galeria = this.repo.create(input);
-        return this.repo.save(galeria);
+        if (input.usuario_id) {
+            galeria.propietario = { id_usuario: input.usuario_id };
+            delete galeria.usuario_id;
+        }
+        const saved = await this.repo.save(galeria);
+        return this.findOne(saved.id_galeria);
+    }
+    async update(id, data) {
+        const galeria = await this.repo.findOne({ where: { id_galeria: id } });
+        if (!galeria)
+            throw new common_1.NotFoundException(`Galería con id ${id} no encontrada`);
+        Object.assign(galeria, data);
+        await this.repo.save(galeria);
+        return this.findOne(id);
+    }
+    async delete(id) {
+        const result = await this.repo.delete(id);
+        return result.affected > 0;
     }
 };
 exports.GaleriasService = GaleriasService;

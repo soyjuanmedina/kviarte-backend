@@ -30,6 +30,10 @@ __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
     __metadata("design:type", Number)
 ], CreateArtistInput.prototype, "id_galeria", void 0);
+__decorate([
+    (0, graphql_1.Field)({ nullable: true }),
+    __metadata("design:type", String)
+], CreateArtistInput.prototype, "picture", void 0);
 exports.CreateArtistInput = CreateArtistInput = __decorate([
     (0, graphql_1.InputType)()
 ], CreateArtistInput);

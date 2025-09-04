@@ -34,12 +34,23 @@ let ArtistsService = class ArtistsService {
     }
     async create(createArtistInput) {
         const { id_galeria, ...rest } = createArtistInput;
-        const artista = this.artistRepo.create(rest);
+        const artist = this.artistRepo.create(rest);
         if (id_galeria) {
             const galeria = await this.galeryRepository.findOneBy({ id_galeria });
-            artista.galeria = galeria;
+            artist.galeria = galeria;
         }
+        return this.artistRepo.save(artist);
+    }
+    async update(id, data) {
+        const artista = await this.artistRepo.findOne({ where: { id_artista: id }, relations: ['galeria'] });
+        if (!artista)
+            throw new common_1.NotFoundException(`Artista con id ${id} no encontrado`);
+        Object.assign(artista, data);
         return this.artistRepo.save(artista);
+    }
+    async delete(id) {
+        const result = await this.artistRepo.delete(id);
+        return result.affected > 0;
     }
 };
 exports.ArtistsService = ArtistsService;

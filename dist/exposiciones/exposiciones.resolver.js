@@ -21,9 +21,12 @@ const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
 const gql_auth_guard_1 = require("../common/guards/gql-auth.guard");
+const obra_entity_1 = require("../obras/entities/obra.entity");
+const obras_service_1 = require("../obras/obras.service");
 let ExposicionesResolver = class ExposicionesResolver {
-    constructor(service) {
+    constructor(service, obrasService) {
         this.service = service;
+        this.obrasService = obrasService;
     }
     exposiciones() {
         return this.service.findAll();
@@ -33,6 +36,17 @@ let ExposicionesResolver = class ExposicionesResolver {
     }
     createExposicion(data) {
         return this.service.create(data);
+    }
+    async deleteExhibition(id) {
+        return this.service.delete(id);
+    }
+    updateExposicion(id, data) {
+        return this.service.update(id, data);
+    }
+    async obras(exposicion) {
+        const { id_exposicion } = exposicion;
+        const obras = await this.obrasService.findByExposicion(id_exposicion);
+        return obras || [];
     }
 };
 exports.ExposicionesResolver = ExposicionesResolver;
@@ -44,7 +58,7 @@ __decorate([
 ], ExposicionesResolver.prototype, "exposiciones", null);
 __decorate([
     (0, graphql_1.Query)(() => exposicion_entity_1.Exposicion),
-    __param(0, (0, graphql_1.Args)('id')),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
@@ -52,14 +66,38 @@ __decorate([
 __decorate([
     (0, graphql_1.Mutation)(() => exposicion_entity_1.Exposicion),
     (0, common_1.UseGuards)(gql_auth_guard_1.GqlAuthGuard, roles_guard_1.RolesGuard),
-    (0, roles_decorator_1.Roles)('admin', 'galeria'),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GALLERY'),
     __param(0, (0, graphql_1.Args)('data')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_exposicion_input_1.CreateExposicionInput]),
     __metadata("design:returntype", void 0)
 ], ExposicionesResolver.prototype, "createExposicion", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ExposicionesResolver.prototype, "deleteExhibition", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => exposicion_entity_1.Exposicion),
+    (0, common_1.UseGuards)(gql_auth_guard_1.GqlAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'GALLERY'),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
+    __param(1, (0, graphql_1.Args)('data')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, create_exposicion_input_1.CreateExposicionInput]),
+    __metadata("design:returntype", void 0)
+], ExposicionesResolver.prototype, "updateExposicion", null);
+__decorate([
+    (0, graphql_1.ResolveField)(() => [obra_entity_1.Obra], { name: 'obras' }),
+    __param(0, (0, graphql_1.Parent)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [exposicion_entity_1.Exposicion]),
+    __metadata("design:returntype", Promise)
+], ExposicionesResolver.prototype, "obras", null);
 exports.ExposicionesResolver = ExposicionesResolver = __decorate([
     (0, graphql_1.Resolver)(() => exposicion_entity_1.Exposicion),
-    __metadata("design:paramtypes", [exposiciones_service_1.ExposicionesService])
+    __metadata("design:paramtypes", [exposiciones_service_1.ExposicionesService, obras_service_1.ObrasService])
 ], ExposicionesResolver);
 //# sourceMappingURL=exposiciones.resolver.js.map

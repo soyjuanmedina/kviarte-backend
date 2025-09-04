@@ -60,7 +60,7 @@ __decorate([
 ], NewsletterResolver.prototype, "unsubscribe", null);
 __decorate([
     (0, graphql_1.Mutation)(() => String),
-    (0, roles_decorator_1.Roles)('admin'),
+    (0, roles_decorator_1.Roles)('ADMIN'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

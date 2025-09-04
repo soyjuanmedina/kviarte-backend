@@ -20,9 +20,14 @@ const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
 const create_artist_input_1 = require("./dto/create-artist.input");
+const update_artist_input_1 = require("./dto/update-artist.input");
+const galeria_entity_1 = require("../galerias/entities/galeria.entity");
+const typeorm_1 = require("typeorm");
+const typeorm_2 = require("@nestjs/typeorm");
 let ArtistsResolver = class ArtistsResolver {
-    constructor(service) {
+    constructor(service, galleryRepository) {
         this.service = service;
+        this.galleryRepository = galleryRepository;
     }
     artistas() {
         return this.service.findAll();
@@ -32,6 +37,17 @@ let ArtistsResolver = class ArtistsResolver {
     }
     createArtist(input) {
         return this.service.create(input);
+    }
+    async updateArtist(id, data, id_galeria) {
+        const updateData = { ...data };
+        if ('id_galeria' in data || id_galeria !== undefined) {
+            const galeria = id_galeria ? await this.galleryRepository.findOneBy({ id_galeria }) : null;
+            updateData.galeria = galeria;
+        }
+        return this.service.update(id, updateData);
+    }
+    async deleteArtist(id) {
+        return this.service.delete(id);
     }
 };
 exports.ArtistsResolver = ArtistsResolver;
@@ -56,9 +72,26 @@ __decorate([
     __metadata("design:paramtypes", [create_artist_input_1.CreateArtistInput]),
     __metadata("design:returntype", void 0)
 ], ArtistsResolver.prototype, "createArtist", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => artist_entity_1.Artist),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Float })),
+    __param(1, (0, graphql_1.Args)('data')),
+    __param(2, (0, graphql_1.Args)('id_galeria', { type: () => graphql_1.Float, nullable: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, update_artist_input_1.UpdateArtistInput, Number]),
+    __metadata("design:returntype", Promise)
+], ArtistsResolver.prototype, "updateArtist", null);
+__decorate([
+    (0, graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, graphql_1.Args)('id', { type: () => graphql_1.Int })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], ArtistsResolver.prototype, "deleteArtist", null);
 exports.ArtistsResolver = ArtistsResolver = __decorate([
     (0, graphql_1.Resolver)(() => artist_entity_1.Artist),
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
-    __metadata("design:paramtypes", [artists_service_1.ArtistsService])
+    __param(1, (0, typeorm_2.InjectRepository)(galeria_entity_1.Galeria)),
+    __metadata("design:paramtypes", [artists_service_1.ArtistsService, typeorm_1.Repository])
 ], ArtistsResolver);
 //# sourceMappingURL=artists.resolver.js.map
