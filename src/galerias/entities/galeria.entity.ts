@@ -1,15 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
-import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
-import { Artist } from '../../artists/entities/artist.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Obra } from '../../obras/entities/obra.entity';
+import { Promotion } from '../../promotions/entities/promotion.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Usuario } from '../../usuarios/entities/usuario.entity';
 
 @ObjectType()
 @Entity( 'galerias' )
 export class Galeria {
   @Field( () => Int )
-  @PrimaryGeneratedColumn( { name: 'id_galeria' } )
+  @PrimaryGeneratedColumn()
   id_galeria: number;
 
   @Field()
@@ -18,14 +16,6 @@ export class Galeria {
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
-  email?: string;
-
-  @Field( { nullable: true } )
-  @Column( { nullable: true } )
-  telefono?: string;
-
-  @Field( { nullable: true } )
-  @Column( { type: 'text', nullable: true } )
   descripcion?: string;
 
   @Field( { nullable: true } )
@@ -42,22 +32,21 @@ export class Galeria {
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
-  picture: string;
+  telefono?: string;
 
-  @Field( () => Usuario, { nullable: true } )
-  @ManyToOne( () => Usuario, usuario => usuario.galerias, { nullable: true } )
-  @JoinColumn( { name: 'usuario_id' } )
-  propietario: Usuario;
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  email?: string;
 
-  @Field( () => [Exposicion], { nullable: true } )
-  @OneToMany( () => Exposicion, exposicion => exposicion.galeria )
-  exposiciones: Exposicion[];
-
-  @Field( () => [Artist], { nullable: true } )
-  @OneToMany( () => Artist, artist => artist.galeria )
-  artists: Artist[];
+  @Field( { nullable: true } )
+  @Column( { nullable: true } )
+  picture?: string;
 
   @Field( () => [Obra], { nullable: true } )
   @OneToMany( () => Obra, obra => obra.galeria )
-  obras: Obra[];
+  obras?: Obra[];
+
+  @Field( () => [Promotion], { nullable: true } )
+  @OneToMany( () => Promotion, promotion => promotion.galeria )
+  promotions?: Promotion[];
 }

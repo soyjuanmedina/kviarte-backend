@@ -13,7 +13,7 @@ import { GaleriasModule } from './galerias/galerias.module';
 import { ArtistsModule } from './artists/artists.module';
 import { ExposicionesModule } from './exposiciones/exposiciones.module';
 import { ObrasModule } from './obras/obras.module';
-import { OfertasModule } from './ofertas/ofertas.module';
+import { PromotionsModule } from './promotions/promotions.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
 
 const logger = new Logger( 'AppModule' );
@@ -87,7 +87,7 @@ const logger = new Logger( 'AppModule' );
     ArtistsModule,
     ExposicionesModule,
     ObrasModule,
-    OfertasModule,
+    PromotionsModule,
     NewsletterModule,
   ],
 } )
