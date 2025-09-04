@@ -8,11 +8,11 @@ import { Obra } from '../../obras/entities/obra.entity';
 export class Promotion {
   @Field( () => ID, { name: 'id_promotion' } )
   @PrimaryGeneratedColumn( { name: 'id_oferta' } )
-  id: number;
+  id: number; // propiedad interna de TS
 
   @Field( () => Float, { name: 'precio' } )
   @Column( 'decimal' )
-  discount: number;
+  discount: number; // propiedad interna de TS
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
@@ -31,7 +31,19 @@ export class Promotion {
   @JoinTable( {
     name: 'ofertas_obras',
     joinColumn: { name: 'id_oferta', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'id_obra', referencedColumnName: 'id_obra' }
+    inverseJoinColumn: { name: 'id_obra', referencedColumnName: 'id_obra' },
   } )
   artworks?: Obra[];
+
+  @Field( () => String, { nullable: true } )
+  @Column( { unique: true, nullable: true } )
+  code?: string;
+
+  @Field( () => Date )
+  @Column( { name: 'fecha_inicio', type: 'date' } )
+  startDate: Date;
+
+  @Field( () => Date )
+  @Column( { name: 'fecha_fin', type: 'date' } )
+  endDate: Date;
 }

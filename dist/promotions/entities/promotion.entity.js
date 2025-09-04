@@ -18,50 +18,55 @@ let Promotion = class Promotion {
 };
 exports.Promotion = Promotion;
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID),
+    (0, graphql_1.Field)(() => graphql_1.ID, { name: 'id_promotion' }),
     (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'id_oferta' }),
     __metadata("design:type", Number)
 ], Promotion.prototype, "id", void 0);
 __decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)({ unique: true }),
-    __metadata("design:type", String)
-], Promotion.prototype, "code", void 0);
+    (0, graphql_1.Field)(() => graphql_1.Float, { name: 'precio' }),
+    (0, typeorm_1.Column)('decimal'),
+    __metadata("design:type", Number)
+], Promotion.prototype, "discount", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Promotion.prototype, "description", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.Float),
-    (0, typeorm_1.Column)('decimal'),
-    __metadata("design:type", Number)
-], Promotion.prototype, "discount", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)({ name: 'fecha_inicio', type: 'date' }),
-    __metadata("design:type", Date)
-], Promotion.prototype, "startDate", void 0);
-__decorate([
-    (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)({ name: 'fecha_fin', type: 'date' }),
-    __metadata("design:type", Date)
-], Promotion.prototype, "endDate", void 0);
+    (0, graphql_1.Field)({ defaultValue: true }),
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], Promotion.prototype, "activa", void 0);
 __decorate([
     (0, graphql_1.Field)(() => galeria_entity_1.Galeria),
     (0, typeorm_1.ManyToOne)(() => galeria_entity_1.Galeria, galeria => galeria.promotions, { onDelete: 'CASCADE' }),
     __metadata("design:type", galeria_entity_1.Galeria)
 ], Promotion.prototype, "galeria", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => [obra_entity_1.Obra], { nullable: true }),
+    (0, graphql_1.Field)(() => [obra_entity_1.Obra], { nullable: true, name: 'obra' }),
     (0, typeorm_1.ManyToMany)(() => obra_entity_1.Obra, obra => obra.promotions, { cascade: true }),
     (0, typeorm_1.JoinTable)({
         name: 'ofertas_obras',
         joinColumn: { name: 'id_oferta', referencedColumnName: 'id' },
-        inverseJoinColumn: { name: 'id_obra', referencedColumnName: 'id_obra' }
+        inverseJoinColumn: { name: 'id_obra', referencedColumnName: 'id_obra' },
     }),
     __metadata("design:type", Array)
 ], Promotion.prototype, "artworks", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => String, { nullable: true }),
+    (0, typeorm_1.Column)({ unique: true, nullable: true }),
+    __metadata("design:type", String)
+], Promotion.prototype, "code", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => Date),
+    (0, typeorm_1.Column)({ name: 'fecha_inicio', type: 'date' }),
+    __metadata("design:type", Date)
+], Promotion.prototype, "startDate", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => Date),
+    (0, typeorm_1.Column)({ name: 'fecha_fin', type: 'date' }),
+    __metadata("design:type", Date)
+], Promotion.prototype, "endDate", void 0);
 exports.Promotion = Promotion = __decorate([
     (0, graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)('promotions')
