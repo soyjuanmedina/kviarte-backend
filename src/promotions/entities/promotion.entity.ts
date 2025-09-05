@@ -1,14 +1,14 @@
 // src/promotions/entities/promotion.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
-import { ObjectType, Field, ID, Float, GraphQLISODateTime } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Float, GraphQLISODateTime, Int } from '@nestjs/graphql';
 import { Gallery } from '../../galleries/entities/gallery.entity';
 import { Artwork } from '../../artworks/entities/artwork.entity';
 
 @ObjectType()
 @Entity( 'promotions' )
 export class Promotion {
-  @Field( () => ID, { name: 'id_promotion' } )
-  @PrimaryGeneratedColumn( { name: 'id' } )
+  @Field( () => Int )
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Field( () => Float )
