@@ -35,14 +35,27 @@ let AuthService = class AuthService {
         return this.usersRepo.save(user);
     }
     async login(input) {
-        const user = await this.usersRepo.findOne({ where: { email: input.email } });
-        if (!user)
+        const userEntity = await this.usersRepo.findOne({
+            where: { email: input.email },
+            select: ['id', 'name', 'email', 'role', 'password_hash'],
+        });
+        if (!userEntity)
             throw new common_1.UnauthorizedException('User no encontrado');
-        const valid = await bcrypt.compare(input.password, user.password_hash);
+        const valid = await bcrypt.compare(input.password, userEntity.password_hash);
         if (!valid)
             throw new common_1.UnauthorizedException('Contraseña incorrecta');
-        const token = this.jwtService.sign({ sub: user.id, email: user.email, role: user.role });
-        return { access_token: token, user };
+        const token = this.jwtService.sign({
+            sub: userEntity.id,
+            email: userEntity.email,
+            role: userEntity.role,
+        });
+        const user = {
+            id: userEntity.id,
+            name: userEntity.name,
+            email: userEntity.email,
+            role: userEntity.role,
+        };
+        return { token, user };
     }
 };
 exports.AuthService = AuthService;

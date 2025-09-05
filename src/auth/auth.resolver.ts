@@ -23,7 +23,7 @@ export class AuthResolver {
     console.log( 'User from service:', result.user );
 
     return {
-      token: result.access_token,
+      token: result.token,
       user: {
         id_user: result.user.id,  // coincide con @Field({ name: 'id_user' })
         name: result.user.name,          // coincide con @Field() nombre

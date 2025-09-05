@@ -33,7 +33,7 @@ let AuthResolver = class AuthResolver {
         const result = await this.authService.login(input);
         console.log('User from service:', result.user);
         return {
-            token: result.access_token,
+            token: result.token,
             user: {
                 id_user: result.user.id,
                 name: result.user.name,
