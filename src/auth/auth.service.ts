@@ -28,12 +28,31 @@ export class AuthService {
   }
 
   async login ( input: LoginInput ) {
-    const user = await this.usersRepo.findOne( { where: { email: input.email } } );
-    if ( !user ) throw new UnauthorizedException( 'User no encontrado' );
-    const valid = await bcrypt.compare( input.password, user.password_hash );
+    const userEntity = await this.usersRepo.findOne( {
+      where: { email: input.email },
+      select: ['id', 'name', 'email', 'role', 'password_hash'], // aseguramos traer lo necesario
+    } );
+
+    if ( !userEntity ) throw new UnauthorizedException( 'User no encontrado' );
+
+    const valid = await bcrypt.compare( input.password, userEntity.password_hash );
     if ( !valid ) throw new UnauthorizedException( 'Contraseña incorrecta' );
 
-    const token = this.jwtService.sign( { sub: user.id, email: user.email, role: user.role } );
-    return { access_token: token, user };
+    const token = this.jwtService.sign( {
+      sub: userEntity.id,
+      email: userEntity.email,
+      role: userEntity.role,
+    } );
+
+    // Retornamos un objeto User “limpio” para GraphQL
+    const user = {
+      id: userEntity.id,
+      name: userEntity.name,
+      email: userEntity.email,
+      role: userEntity.role,
+    };
+
+    return { token, user }; // ⚠️ llamamos token, no access_token
   }
+
 }
