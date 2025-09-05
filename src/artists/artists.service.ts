@@ -31,7 +31,7 @@ export class ArtistsService {
     const artist = this.artistRepo.create( rest );
 
     if ( gallery_id ) {
-      const gallery = await this.galleryRepository.findOneBy( { id_gallery: gallery_id } );
+      const gallery = await this.galleryRepository.findOneBy( { id: gallery_id } );
       artist.gallery = gallery;
     }
 

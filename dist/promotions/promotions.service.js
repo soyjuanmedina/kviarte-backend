@@ -41,7 +41,7 @@ let PromotionsService = class PromotionsService {
     }
     async create(input) {
         const gallery = await this.galleriesRepo.findOne({
-            where: { id_gallery: input.galleryId },
+            where: { id: input.galleryId },
         });
         if (!gallery)
             throw new common_1.NotFoundException(`Gallery ${input.galleryId} not found`);
@@ -65,7 +65,7 @@ let PromotionsService = class PromotionsService {
     async update(id, input) {
         const promotion = await this.findOne(id);
         if (input.galleryId) {
-            const gallery = await this.galleriesRepo.findOne({ where: { id_gallery: input.galleryId } });
+            const gallery = await this.galleriesRepo.findOne({ where: { id: input.galleryId } });
             if (!gallery)
                 throw new common_1.NotFoundException(`Gallery ${input.galleryId} not found`);
             promotion.gallery = gallery;

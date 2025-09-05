@@ -38,7 +38,7 @@ let ArtistsService = class ArtistsService {
         const { gallery_id, ...rest } = createArtistInput;
         const artist = this.artistRepo.create(rest);
         if (gallery_id) {
-            const gallery = await this.galleryRepository.findOneBy({ id_gallery: gallery_id });
+            const gallery = await this.galleryRepository.findOneBy({ id: gallery_id });
             artist.gallery = gallery;
         }
         return this.artistRepo.save(artist);

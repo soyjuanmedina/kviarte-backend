@@ -5,9 +5,9 @@ import { Gallery } from '../../galleries/entities/gallery.entity';
 @Entity( 'users' )
 @ObjectType()
 export class User {
-  @Field( () => Int, { name: 'id_user' } )
-  @PrimaryGeneratedColumn( { name: 'id' } )
-  id_user: number;
+  @Field( () => Int )
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Field()
   @Column( { name: 'name' } )

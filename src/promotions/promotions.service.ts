@@ -32,7 +32,7 @@ export class PromotionsService {
   async create ( input: CreatePromotionInput ): Promise<Promotion> {
     // Buscar la galería
     const gallery = await this.galleriesRepo.findOne( {
-      where: { id_gallery: input.galleryId },
+      where: { id: input.galleryId },
     } );
     if ( !gallery ) throw new NotFoundException( `Gallery ${input.galleryId} not found` );
 
@@ -62,7 +62,7 @@ export class PromotionsService {
     const promotion = await this.findOne( id );
 
     if ( input.galleryId ) {
-      const gallery = await this.galleriesRepo.findOne( { where: { id_gallery: input.galleryId } } );
+      const gallery = await this.galleriesRepo.findOne( { where: { id: input.galleryId } } );
       if ( !gallery ) throw new NotFoundException( `Gallery ${input.galleryId} not found` );
       promotion.gallery = gallery;
     }

@@ -10,8 +10,8 @@ import { User } from '../../users/entities/user.entity';
 @Entity( 'galleries' )
 export class Gallery {
   @Field( () => Int )
-  @PrimaryGeneratedColumn( { name: 'id' } ) // cambia de id_gallery a id
-  id_gallery: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Field()
   @Column( { default: 'Default name' } )

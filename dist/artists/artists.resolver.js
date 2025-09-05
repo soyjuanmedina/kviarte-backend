@@ -42,7 +42,7 @@ let ArtistsResolver = class ArtistsResolver {
         const updateData = { ...data };
         if (gallery_id !== undefined) {
             const gallery = gallery_id
-                ? await this.galleryRepository.findOneBy({ id_gallery: gallery_id })
+                ? await this.galleryRepository.findOneBy({ id: gallery_id })
                 : null;
             updateData.gallery = gallery;
         }

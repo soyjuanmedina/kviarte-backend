@@ -28,7 +28,7 @@ let GalleriesService = class GalleriesService {
     }
     async findOne(id) {
         return this.repo.findOne({
-            where: { id_gallery: id },
+            where: { id: id },
             relations: ['owner', 'exhibitions', 'artists', 'artworks', 'promotions'],
         });
     }
@@ -39,10 +39,10 @@ let GalleriesService = class GalleriesService {
             delete gallery.owner_id;
         }
         const saved = await this.repo.save(gallery);
-        return this.findOne(saved.id_gallery);
+        return this.findOne(saved.id);
     }
     async update(id, data) {
-        const gallery = await this.repo.findOne({ where: { id_gallery: id } });
+        const gallery = await this.repo.findOne({ where: { id: id } });
         if (!gallery)
             throw new common_1.NotFoundException(`Gallery with id ${id} not found`);
         Object.assign(gallery, data);

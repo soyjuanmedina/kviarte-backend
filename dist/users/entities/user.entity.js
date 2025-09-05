@@ -17,10 +17,10 @@ let User = class User {
 };
 exports.User = User;
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.Int, { name: 'id_user' }),
-    (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'id' }),
+    (0, graphql_1.Field)(() => graphql_1.Int),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], User.prototype, "id_user", void 0);
+], User.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     (0, typeorm_1.Column)({ name: 'name' }),

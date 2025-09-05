@@ -17,7 +17,7 @@ export class UsersService {
   }
 
   async findOne ( id: number ) {
-    const user = await this.repo.findOne( { where: { id_user: id }, relations: ['galleries'] } );
+    const user = await this.repo.findOne( { where: { id: id }, relations: ['galleries'] } );
     if ( !user ) throw new NotFoundException( `User with id ${id} not found` );
     return user;
   }

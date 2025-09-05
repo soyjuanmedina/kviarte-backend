@@ -18,7 +18,7 @@ export class GalleriesService {
 
   async findOne ( id: number ): Promise<Gallery> {
     return this.repo.findOne( {
-      where: { id_gallery: id },
+      where: { id: id },
       relations: ['owner', 'exhibitions', 'artists', 'artworks', 'promotions'],
     } );
   }
@@ -32,11 +32,11 @@ export class GalleriesService {
     }
 
     const saved = await this.repo.save( gallery );
-    return this.findOne( saved.id_gallery );
+    return this.findOne( saved.id );
   }
 
   async update ( id: number, data: Partial<Gallery> ): Promise<Gallery> {
-    const gallery = await this.repo.findOne( { where: { id_gallery: id } } );
+    const gallery = await this.repo.findOne( { where: { id: id } } );
     if ( !gallery ) throw new NotFoundException( `Gallery with id ${id} not found` );
 
     Object.assign( gallery, data );

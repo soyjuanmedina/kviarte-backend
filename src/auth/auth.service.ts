@@ -33,7 +33,7 @@ export class AuthService {
     const valid = await bcrypt.compare( input.password, user.password_hash );
     if ( !valid ) throw new UnauthorizedException( 'Contraseña incorrecta' );
 
-    const token = this.jwtService.sign( { sub: user.id_user, email: user.email, rol: user.rol } );
+    const token = this.jwtService.sign( { sub: user.id, email: user.email, rol: user.rol } );
     return { access_token: token, user };
   }
 }

@@ -7,9 +7,9 @@ import { Artist } from '../../artists/entities/artist.entity';
 @ObjectType()
 @Entity( { name: 'exhibitions' } )
 export class Exhibition {
-  @Field( () => Int, { name: 'id' } ) // lo expone como id en GraphQL
+  @Field( () => Int )
   @PrimaryGeneratedColumn()
-  id_exhibition: number;
+  id: number; number;
 
   @Field()
   @Column()

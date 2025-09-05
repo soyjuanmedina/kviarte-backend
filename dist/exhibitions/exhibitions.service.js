@@ -32,13 +32,13 @@ let ExhibitionsService = class ExhibitionsService {
     }
     async findOne(id) {
         return this.exhibitionRepo.findOne({
-            where: { id_exhibition: id },
+            where: { id: id },
             relations: ['gallery', 'artist', 'artworks'],
         });
     }
     async create(input) {
         const gallery = await this.galleryRepo.findOne({
-            where: { id_gallery: input.gallery_id },
+            where: { id: input.gallery_id },
         });
         if (!gallery)
             throw new Error('Gallery not found');
@@ -61,14 +61,14 @@ let ExhibitionsService = class ExhibitionsService {
     }
     async update(id, input) {
         const exhibition = await this.exhibitionRepo.findOne({
-            where: { id_exhibition: id },
+            where: { id: id },
             relations: ['gallery', 'artist', 'artworks'],
         });
         if (!exhibition)
             throw new Error('Exhibition not found');
         if (input.gallery_id) {
             const gallery = await this.galleryRepo.findOne({
-                where: { id_gallery: input.gallery_id },
+                where: { id: input.gallery_id },
             });
             if (!gallery)
                 throw new Error('Gallery not found');

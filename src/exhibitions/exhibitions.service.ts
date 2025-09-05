@@ -28,14 +28,14 @@ export class ExhibitionsService {
 
   async findOne ( id: number ): Promise<Exhibition> {
     return this.exhibitionRepo.findOne( {
-      where: { id_exhibition: id },
+      where: { id: id },
       relations: ['gallery', 'artist', 'artworks'],
     } );
   }
 
   async create ( input: CreateExhibitionInput ): Promise<Exhibition> {
     const gallery = await this.galleryRepo.findOne( {
-      where: { id_gallery: input.gallery_id },
+      where: { id: input.gallery_id },
     } );
     if ( !gallery ) throw new Error( 'Gallery not found' );
 
@@ -60,14 +60,14 @@ export class ExhibitionsService {
 
   async update ( id: number, input: UpdateExhibitionInput ): Promise<Exhibition> {
     const exhibition = await this.exhibitionRepo.findOne( {
-      where: { id_exhibition: id },
+      where: { id: id },
       relations: ['gallery', 'artist', 'artworks'],
     } );
     if ( !exhibition ) throw new Error( 'Exhibition not found' );
 
     if ( input.gallery_id ) {
       const gallery = await this.galleryRepo.findOne( {
-        where: { id_gallery: input.gallery_id },
+        where: { id: input.gallery_id },
       } );
       if ( !gallery ) throw new Error( 'Gallery not found' );
       exhibition.gallery = gallery;

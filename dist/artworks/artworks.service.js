@@ -41,10 +41,10 @@ let ArtworksService = class ArtworksService {
         if (!artist)
             throw new common_1.NotFoundException(`Artist with id ${input.artist_id} not found`);
         const exhibition = input.exhibition_id
-            ? await this.exhibitionRepo.findOne({ where: { id_exhibition: input.exhibition_id } })
+            ? await this.exhibitionRepo.findOne({ where: { id: input.exhibition_id } })
             : null;
         const gallery = input.gallery_id
-            ? await this.galleryRepo.findOne({ where: { id_gallery: input.gallery_id } })
+            ? await this.galleryRepo.findOne({ where: { id: input.gallery_id } })
             : null;
         const artwork = this.artworkRepo.create({
             title: input.title,
@@ -68,12 +68,12 @@ let ArtworksService = class ArtworksService {
         }
         if (input.exhibition_id !== undefined) {
             artwork.exhibition = input.exhibition_id
-                ? await this.exhibitionRepo.findOne({ where: { id_exhibition: input.exhibition_id } })
+                ? await this.exhibitionRepo.findOne({ where: { id: input.exhibition_id } })
                 : null;
         }
         if (input.gallery_id !== undefined) {
             artwork.gallery = input.gallery_id
-                ? await this.galleryRepo.findOne({ where: { id_gallery: input.gallery_id } })
+                ? await this.galleryRepo.findOne({ where: { id: input.gallery_id } })
                 : null;
         }
         if (input.title !== undefined)
@@ -99,7 +99,7 @@ let ArtworksService = class ArtworksService {
     }
     async findByExhibition(exhibition_id) {
         return this.artworkRepo.find({
-            where: { exhibition: { id_exhibition: exhibition_id } },
+            where: { exhibition: { id: exhibition_id } },
             relations: ['artist', 'gallery', 'exhibition', 'promotions'],
         });
     }
