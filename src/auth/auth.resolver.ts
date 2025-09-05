@@ -12,8 +12,8 @@ export class AuthResolver {
   constructor ( private authService: AuthService, private usersService: UsersService ) { }
 
   @Query( () => [User] )
-  usersPorRol ( @Args( 'rol' ) rol: UserRoleEnum ): Promise<User[]> {
-    return this.usersService.findByRole( rol );
+  usersPorRol ( @Args( 'role' ) role: UserRoleEnum ): Promise<User[]> {
+    return this.usersService.findByRole( role );
   }
 
 
@@ -28,7 +28,7 @@ export class AuthResolver {
         id_user: result.user.id,  // coincide con @Field({ name: 'id_user' })
         name: result.user.name,          // coincide con @Field() nombre
         email: result.user.email,
-        rol: result.user.rol,                // coincide con @Field() rol
+        role: result.user.role,                // coincide con @Field() rol
       },
     };
   }

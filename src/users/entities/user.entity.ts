@@ -21,8 +21,8 @@ export class User {
   password_hash: string;
 
   @Field()
-  @Column( { name: 'role', default: 'USER' } )
-  rol: 'ADMIN' | 'GALLERY' | 'USER' | 'ARTIST';
+  @Column( { default: 'USER' } )
+  role: 'ADMIN' | 'GALLERY' | 'USER' | 'ARTIST';
 
   @Field( () => String )
   @CreateDateColumn( { name: 'registration_date' } )

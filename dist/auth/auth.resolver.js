@@ -26,8 +26,8 @@ let AuthResolver = class AuthResolver {
         this.authService = authService;
         this.usersService = usersService;
     }
-    usersPorRol(rol) {
-        return this.usersService.findByRole(rol);
+    usersPorRol(role) {
+        return this.usersService.findByRole(role);
     }
     async login(input) {
         const result = await this.authService.login(input);
@@ -38,7 +38,7 @@ let AuthResolver = class AuthResolver {
                 id_user: result.user.id,
                 name: result.user.name,
                 email: result.user.email,
-                rol: result.user.rol,
+                role: result.user.role,
             },
         };
     }
@@ -50,7 +50,7 @@ let AuthResolver = class AuthResolver {
 exports.AuthResolver = AuthResolver;
 __decorate([
     (0, graphql_1.Query)(() => [user_entity_1.User]),
-    __param(0, (0, graphql_1.Args)('rol')),
+    __param(0, (0, graphql_1.Args)('role')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)

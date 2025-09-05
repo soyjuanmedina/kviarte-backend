@@ -22,7 +22,7 @@ export class AuthService {
       name: input.name,
       email: input.email,
       password_hash: hashed,
-      rol: input.rol?.toUpperCase() as UserRole || 'USER',
+      role: input.rol?.toUpperCase() as UserRole || 'USER',
     } );
     return this.usersRepo.save( user );
   }
@@ -33,7 +33,7 @@ export class AuthService {
     const valid = await bcrypt.compare( input.password, user.password_hash );
     if ( !valid ) throw new UnauthorizedException( 'Contraseña incorrecta' );
 
-    const token = this.jwtService.sign( { sub: user.id, email: user.email, rol: user.rol } );
+    const token = this.jwtService.sign( { sub: user.id, email: user.email, role: user.role } );
     return { access_token: token, user };
   }
 }

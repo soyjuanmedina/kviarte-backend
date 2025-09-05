@@ -32,7 +32,7 @@ let UsersService = class UsersService {
         return user;
     }
     findByRole(role) {
-        return this.repo.find({ where: { rol: role }, relations: ['galleries'] });
+        return this.repo.find({ where: { role: role }, relations: ['galleries'] });
     }
     async delete(id) {
         const result = await this.repo.delete(id);

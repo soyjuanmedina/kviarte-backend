@@ -37,9 +37,9 @@ __decorate([
 ], User.prototype, "password_hash", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)({ name: 'role', default: 'USER' }),
+    (0, typeorm_1.Column)({ default: 'USER' }),
     __metadata("design:type", String)
-], User.prototype, "rol", void 0);
+], User.prototype, "role", void 0);
 __decorate([
     (0, graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)({ name: 'registration_date' }),

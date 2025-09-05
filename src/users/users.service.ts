@@ -23,7 +23,7 @@ export class UsersService {
   }
 
   findByRole ( role: UserRole ) {
-    return this.repo.find( { where: { rol: role }, relations: ['galleries'] } );
+    return this.repo.find( { where: { role: role }, relations: ['galleries'] } );
   }
 
   async delete ( id: number ): Promise<boolean> {
