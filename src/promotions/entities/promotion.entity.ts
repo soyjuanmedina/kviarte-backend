@@ -25,7 +25,7 @@ export class Promotion {
 
   @Field( () => Gallery )
   @ManyToOne( () => Gallery, gallery => gallery.promotions, { onDelete: 'CASCADE' } )
-  @JoinColumn( { name: 'id_gallery' } )
+  @JoinColumn( { name: 'gallery_id' } )
   gallery: Gallery;
 
   @Field( () => [Artwork], { nullable: true } )
