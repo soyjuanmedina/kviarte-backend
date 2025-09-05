@@ -22,7 +22,7 @@ __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Exhibition.prototype, "id_exhibition", void 0);
+], Exhibition.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     (0, typeorm_1.Column)(),

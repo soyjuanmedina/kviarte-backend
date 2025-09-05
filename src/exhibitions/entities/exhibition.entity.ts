@@ -9,7 +9,7 @@ import { Artist } from '../../artists/entities/artist.entity';
 export class Exhibition {
   @Field( () => Int )
   @PrimaryGeneratedColumn()
-  id_exhibition: number;
+  id: number;
 
   @Field()
   @Column()

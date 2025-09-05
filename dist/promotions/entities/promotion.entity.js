@@ -15,6 +15,18 @@ const graphql_1 = require("@nestjs/graphql");
 const gallery_entity_1 = require("../../galleries/entities/gallery.entity");
 const artwork_entity_1 = require("../../artworks/entities/artwork.entity");
 let Promotion = class Promotion {
+    get startDate() {
+        return this._startDate ? new Date(this._startDate) : null;
+    }
+    set startDate(value) {
+        this._startDate = value ? value.toISOString().split('T')[0] : null;
+    }
+    get endDate() {
+        return this._endDate ? new Date(this._endDate) : null;
+    }
+    set endDate(value) {
+        this._endDate = value ? value.toISOString().split('T')[0] : null;
+    }
 };
 exports.Promotion = Promotion;
 __decorate([
@@ -59,15 +71,23 @@ __decorate([
     __metadata("design:type", String)
 ], Promotion.prototype, "code", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.GraphQLISODateTime),
     (0, typeorm_1.Column)({ name: 'start_date', type: 'date' }),
-    __metadata("design:type", Date)
-], Promotion.prototype, "startDate", void 0);
+    __metadata("design:type", String)
+], Promotion.prototype, "_startDate", void 0);
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.GraphQLISODateTime),
+    __metadata("design:type", Date),
+    __metadata("design:paramtypes", [Date])
+], Promotion.prototype, "startDate", null);
+__decorate([
     (0, typeorm_1.Column)({ name: 'end_date', type: 'date' }),
-    __metadata("design:type", Date)
-], Promotion.prototype, "endDate", void 0);
+    __metadata("design:type", String)
+], Promotion.prototype, "_endDate", void 0);
+__decorate([
+    (0, graphql_1.Field)(() => graphql_1.GraphQLISODateTime),
+    __metadata("design:type", Date),
+    __metadata("design:paramtypes", [Date])
+], Promotion.prototype, "endDate", null);
 exports.Promotion = Promotion = __decorate([
     (0, graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)('promotions')

@@ -33,7 +33,7 @@ export class ArtworksService {
     if ( !artist ) throw new NotFoundException( `Artist with id ${input.artist_id} not found` );
 
     const exhibition = input.exhibition_id
-      ? await this.exhibitionRepo.findOne( { where: { id_exhibition: input.exhibition_id } } )
+      ? await this.exhibitionRepo.findOne( { where: { id: input.exhibition_id } } )
       : null;
 
     const gallery = input.gallery_id
@@ -65,7 +65,7 @@ export class ArtworksService {
 
     if ( input.exhibition_id !== undefined ) {
       artwork.exhibition = input.exhibition_id
-        ? await this.exhibitionRepo.findOne( { where: { id_exhibition: input.exhibition_id } } )
+        ? await this.exhibitionRepo.findOne( { where: { id: input.exhibition_id } } )
         : null;
     }
 
@@ -95,7 +95,7 @@ export class ArtworksService {
 
   async findByExhibition ( exhibition_id: number ): Promise<Artwork[]> {
     return this.artworkRepo.find( {
-      where: { exhibition: { id_exhibition: exhibition_id } },
+      where: { exhibition: { id: exhibition_id } },
       relations: ['artist', 'gallery', 'exhibition', 'promotions'],
     } );
   }
