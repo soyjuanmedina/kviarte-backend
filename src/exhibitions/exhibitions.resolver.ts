@@ -48,8 +48,8 @@ export class ExhibitionsResolver {
 
   @ResolveField( () => [Artwork], { name: 'artworks' } )
   async artworks ( @Parent() exhibition: Exhibition ) {
-    const { id } = exhibition;
-    const artworks = await this.artworksService.findByExhibition( id );
+    const { id_exhibition } = exhibition;
+    const artworks = await this.artworksService.findByExhibition( id_exhibition );
     return artworks || []; // <-- DEVOLVER array vacío si no hay artworks
   }
 }

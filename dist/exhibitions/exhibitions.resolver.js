@@ -45,8 +45,8 @@ let ExhibitionsResolver = class ExhibitionsResolver {
         return this.service.update(id, data);
     }
     async artworks(exhibition) {
-        const { id } = exhibition;
-        const artworks = await this.artworksService.findByExhibition(id);
+        const { id_exhibition } = exhibition;
+        const artworks = await this.artworksService.findByExhibition(id_exhibition);
         return artworks || [];
     }
 };

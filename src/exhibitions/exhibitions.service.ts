@@ -28,7 +28,7 @@ export class ExhibitionsService {
 
   async findOne ( id: number ): Promise<Exhibition> {
     return this.exhibitionRepo.findOne( {
-      where: { id: id },
+      where: { id_exhibition: id },
       relations: ['gallery', 'artist', 'artworks'],
     } );
   }
@@ -60,7 +60,7 @@ export class ExhibitionsService {
 
   async update ( id: number, input: UpdateExhibitionInput ): Promise<Exhibition> {
     const exhibition = await this.exhibitionRepo.findOne( {
-      where: { id: id },
+      where: { id_exhibition: id },
       relations: ['gallery', 'artist', 'artworks'],
     } );
     if ( !exhibition ) throw new Error( 'Exhibition not found' );

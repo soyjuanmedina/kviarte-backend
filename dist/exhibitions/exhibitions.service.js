@@ -32,7 +32,7 @@ let ExhibitionsService = class ExhibitionsService {
     }
     async findOne(id) {
         return this.exhibitionRepo.findOne({
-            where: { id: id },
+            where: { id_exhibition: id },
             relations: ['gallery', 'artist', 'artworks'],
         });
     }
@@ -61,7 +61,7 @@ let ExhibitionsService = class ExhibitionsService {
     }
     async update(id, input) {
         const exhibition = await this.exhibitionRepo.findOne({
-            where: { id: id },
+            where: { id_exhibition: id },
             relations: ['gallery', 'artist', 'artworks'],
         });
         if (!exhibition)
