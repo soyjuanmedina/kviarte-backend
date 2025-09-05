@@ -25,10 +25,10 @@ export class AuthResolver {
     return {
       token: result.token,
       user: {
-        id_user: result.user.id,  // coincide con @Field({ name: 'id_user' })
-        name: result.user.name,          // coincide con @Field() nombre
+        id: result.user.id,
+        name: result.user.name,
         email: result.user.email,
-        role: result.user.role,                // coincide con @Field() rol
+        role: result.user.role,
       },
     };
   }
