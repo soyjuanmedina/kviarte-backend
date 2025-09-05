@@ -35,7 +35,7 @@ let AuthResolver = class AuthResolver {
         return {
             token: result.token,
             user: {
-                id_user: result.user.id,
+                id: result.user.id,
                 name: result.user.name,
                 email: result.user.email,
                 role: result.user.role,

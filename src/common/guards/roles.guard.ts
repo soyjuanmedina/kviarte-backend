@@ -22,9 +22,9 @@ export class RolesGuard implements CanActivate {
     // Tomamos el user de GraphQL o REST
     const user = ctx.user || ctx.req?.user;
 
-    if ( !user?.rol ) return false;
+    if ( !user?.role ) return false;
 
-    const userRole = user.rol.toUpperCase();
+    const userRole = user.role.toUpperCase();
     const rolesUpper = requiredRoles.map( r => r.toUpperCase() );
 
     console.log( 'User object:', user );
