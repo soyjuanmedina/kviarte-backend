@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import { Promotion } from './entities/promotion.entity';
 import { Gallery } from '../galleries/entities/gallery.entity';
 import { Artwork } from '../artworks/entities/artwork.entity';
 import { CreatePromotionInput } from './dto/create-promotion.input';
+import { Promotion } from './entities/promotion.entity';
 
 @Injectable()
 export class PromotionsService {

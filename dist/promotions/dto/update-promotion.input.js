@@ -28,11 +28,11 @@ __decorate([
 ], UpdatePromotionInput.prototype, "discount", void 0);
 __decorate([
     (0, graphql_1.Field)(() => Date, { nullable: true }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], UpdatePromotionInput.prototype, "startDate", void 0);
 __decorate([
     (0, graphql_1.Field)(() => Date, { nullable: true }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], UpdatePromotionInput.prototype, "endDate", void 0);
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),

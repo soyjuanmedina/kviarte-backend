@@ -22,7 +22,7 @@ let Gallery = class Gallery {
 exports.Gallery = Gallery;
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int),
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'id' }),
     __metadata("design:type", Number)
 ], Gallery.prototype, "id_gallery", void 0);
 __decorate([

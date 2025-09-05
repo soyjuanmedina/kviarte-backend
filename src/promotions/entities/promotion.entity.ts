@@ -1,6 +1,6 @@
 // src/promotions/entities/promotion.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
-import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
+import { ObjectType, Field, ID, Float, GraphQLISODateTime } from '@nestjs/graphql';
 import { Gallery } from '../../galleries/entities/gallery.entity';
 import { Artwork } from '../../artworks/entities/artwork.entity';
 
@@ -41,11 +41,11 @@ export class Promotion {
   @Column( { unique: true, nullable: true } )
   code?: string;
 
-  @Field( () => Date )
+  @Field( () => GraphQLISODateTime )
   @Column( { name: 'start_date', type: 'date' } )
   startDate: Date;
 
-  @Field( () => Date )
+  @Field( () => GraphQLISODateTime )
   @Column( { name: 'end_date', type: 'date' } )
   endDate: Date;
 }

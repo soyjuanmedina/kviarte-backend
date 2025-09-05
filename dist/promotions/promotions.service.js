@@ -16,9 +16,9 @@ exports.PromotionsService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const promotion_entity_1 = require("./entities/promotion.entity");
 const gallery_entity_1 = require("../galleries/entities/gallery.entity");
 const artwork_entity_1 = require("../artworks/entities/artwork.entity");
+const promotion_entity_1 = require("./entities/promotion.entity");
 let PromotionsService = class PromotionsService {
     constructor(promotionsRepo, galleriesRepo, artworksRepo) {
         this.promotionsRepo = promotionsRepo;

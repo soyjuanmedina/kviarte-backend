@@ -24,9 +24,9 @@ export class User {
   @Column( { name: 'role', default: 'USER' } )
   rol: 'ADMIN' | 'GALLERY' | 'USER' | 'ARTIST';
 
-  @Field( () => Date )
+  @Field( () => String )
   @CreateDateColumn( { name: 'registration_date' } )
-  registrationDate: Date;
+  registrationDate: String;
 
   // Relación con galerías (propietario)
   @Field( () => [Gallery], { nullable: true } )

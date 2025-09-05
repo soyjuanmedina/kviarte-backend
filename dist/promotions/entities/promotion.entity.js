@@ -40,7 +40,7 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(() => gallery_entity_1.Gallery),
     (0, typeorm_1.ManyToOne)(() => gallery_entity_1.Gallery, gallery => gallery.promotions, { onDelete: 'CASCADE' }),
-    (0, typeorm_1.JoinColumn)({ name: 'id_gallery' }),
+    (0, typeorm_1.JoinColumn)({ name: 'gallery_id' }),
     __metadata("design:type", gallery_entity_1.Gallery)
 ], Promotion.prototype, "gallery", void 0);
 __decorate([
@@ -49,7 +49,7 @@ __decorate([
     (0, typeorm_1.JoinTable)({
         name: 'promotions_artworks',
         joinColumn: { name: 'promotion_id', referencedColumnName: 'id' },
-        inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id_artwork' },
+        inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id' },
     }),
     __metadata("design:type", Array)
 ], Promotion.prototype, "artworks", void 0);
@@ -59,12 +59,12 @@ __decorate([
     __metadata("design:type", String)
 ], Promotion.prototype, "code", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => Date),
+    (0, graphql_1.Field)(() => graphql_1.GraphQLISODateTime),
     (0, typeorm_1.Column)({ name: 'start_date', type: 'date' }),
     __metadata("design:type", Date)
 ], Promotion.prototype, "startDate", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => Date),
+    (0, graphql_1.Field)(() => graphql_1.GraphQLISODateTime),
     (0, typeorm_1.Column)({ name: 'end_date', type: 'date' }),
     __metadata("design:type", Date)
 ], Promotion.prototype, "endDate", void 0);

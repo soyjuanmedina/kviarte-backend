@@ -41,9 +41,9 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "rol", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => Date),
+    (0, graphql_1.Field)(() => String),
     (0, typeorm_1.CreateDateColumn)({ name: 'registration_date' }),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], User.prototype, "registrationDate", void 0);
 __decorate([
     (0, graphql_1.Field)(() => [gallery_entity_1.Gallery], { nullable: true }),

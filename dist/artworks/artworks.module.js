@@ -14,12 +14,13 @@ const artist_entity_1 = require("../artists/entities/artist.entity");
 const exhibition_entity_1 = require("../exhibitions/entities/exhibition.entity");
 const artworks_service_1 = require("./artworks.service");
 const artworks_resolver_1 = require("./artworks.resolver");
+const gallery_entity_1 = require("../galleries/entities/gallery.entity");
 let ArtworksModule = class ArtworksModule {
 };
 exports.ArtworksModule = ArtworksModule;
 exports.ArtworksModule = ArtworksModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([artwork_entity_1.Artwork, artist_entity_1.Artist, exhibition_entity_1.Exhibition])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([artwork_entity_1.Artwork, artist_entity_1.Artist, exhibition_entity_1.Exhibition, gallery_entity_1.Gallery])],
         providers: [artworks_service_1.ArtworksService, artworks_resolver_1.ArtworksResolver],
         exports: [artworks_service_1.ArtworksService],
     })

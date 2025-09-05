@@ -13,10 +13,10 @@ export class UpdatePromotionInput {
   discount?: number;
 
   @Field( () => Date, { nullable: true } )
-  startDate?: Date;
+  startDate?: String;
 
   @Field( () => Date, { nullable: true } )
-  endDate?: Date;
+  endDate?: String;
 
   @Field( () => Int, { nullable: true } )
   galleryId?: number;
