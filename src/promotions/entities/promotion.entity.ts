@@ -32,8 +32,8 @@ export class Promotion {
   @ManyToMany( () => Artwork, artwork => artwork.promotions, { cascade: true } )
   @JoinTable( {
     name: 'promotions_artworks',
-    joinColumn: { name: 'promotion_id', referencedColumnName: 'id' },       // ✅ tu tabla Promotion tiene 'id'
-    inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id' }, // ✅ Artwork.id ahora
+    joinColumn: { name: 'promotion_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id' },
   } )
   artworks?: Artwork[];
 
@@ -41,11 +41,28 @@ export class Promotion {
   @Column( { unique: true, nullable: true } )
   code?: string;
 
-  @Field( () => GraphQLISODateTime )
+  // Guardar fecha en la base de datos como string "YYYY-MM-DD", pero exponer como Date a GraphQL
   @Column( { name: 'start_date', type: 'date' } )
-  startDate: Date;
+  private _startDate: string;
 
   @Field( () => GraphQLISODateTime )
+  get startDate (): Date {
+    return this._startDate ? new Date( this._startDate ) : null;
+  }
+
+  set startDate ( value: Date ) {
+    this._startDate = value ? value.toISOString().split( 'T' )[0] : null;
+  }
+
   @Column( { name: 'end_date', type: 'date' } )
-  endDate: Date;
+  private _endDate: string;
+
+  @Field( () => GraphQLISODateTime )
+  get endDate (): Date {
+    return this._endDate ? new Date( this._endDate ) : null;
+  }
+
+  set endDate ( value: Date ) {
+    this._endDate = value ? value.toISOString().split( 'T' )[0] : null;
+  }
 }
