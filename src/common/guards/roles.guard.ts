@@ -19,7 +19,7 @@ export class RolesGuard implements CanActivate {
     const ctxGql = GqlExecutionContext.create( context );
     const ctx = ctxGql.getContext();
 
-    // Tomamos el usuario de GraphQL o REST
+    // Tomamos el user de GraphQL o REST
     const user = ctx.user || ctx.req?.user;
 
     if ( !user?.rol ) return false;

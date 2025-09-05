@@ -15,11 +15,11 @@ const config_1 = require("@nestjs/config");
 const apollo_1 = require("@nestjs/apollo");
 const jwt_1 = require("@nestjs/jwt");
 const auth_module_1 = require("./auth/auth.module");
-const usuarios_module_1 = require("./usuarios/usuarios.module");
-const galerias_module_1 = require("./galerias/galerias.module");
+const users_module_1 = require("./users/users.module");
+const galleries_module_1 = require("./galleries/galleries.module");
 const artists_module_1 = require("./artists/artists.module");
-const exposiciones_module_1 = require("./exposiciones/exposiciones.module");
-const obras_module_1 = require("./obras/obras.module");
+const exhibitions_module_1 = require("./exhibitions/exhibitions.module");
+const artworks_module_1 = require("./artworks/artworks.module");
 const promotions_module_1 = require("./promotions/promotions.module");
 const newsletter_module_1 = require("./newsletter/newsletter.module");
 const logger = new common_1.Logger('AppModule');
@@ -82,11 +82,11 @@ exports.AppModule = AppModule = __decorate([
                 }),
             }),
             auth_module_1.AuthModule,
-            usuarios_module_1.UsuariosModule,
-            galerias_module_1.GaleriasModule,
+            users_module_1.UsersModule,
+            galleries_module_1.GalleriesModule,
             artists_module_1.ArtistsModule,
-            exposiciones_module_1.ExposicionesModule,
-            obras_module_1.ObrasModule,
+            exhibitions_module_1.ExhibitionsModule,
+            artworks_module_1.ArtworksModule,
             promotions_module_1.PromotionsModule,
             newsletter_module_1.NewsletterModule,
         ],

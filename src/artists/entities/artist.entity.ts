@@ -1,46 +1,47 @@
 // src/artistas/entities/artista.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
-import { Galeria } from '../../galerias/entities/galeria.entity';
-import { Obra } from '../../obras/entities/obra.entity';
-import { Exposicion } from '../../exposiciones/entities/exposicion.entity';
+import { Gallery } from '../../galleries/entities/gallery.entity';
+import { Artwork } from '../../artworks/entities/artwork.entity';
+import { Exhibition } from '../../exhibitions/entities/exhibition.entity';
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 
 @ObjectType()
-@Entity( 'artistas' )
+@Entity( 'artists' )   // <-- Antes era 'artistas'
 export class Artist {
   @Field( () => Int )
   @PrimaryGeneratedColumn()
-  id_artista: number;
+  id: number;  // <-- Antes id_artista, ahora simplemente id
 
   @Field()
   @Column()
-  nombre: string;
+  name: string;   // <-- Antes nombre
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
-  biografia?: string;
+  biography?: string;   // <-- Antes biografia
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
-  estilo?: string;
+  style?: string;   // <-- Antes estilo
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
-  picture: string;
+  picture?: string;
 
-  @Field( () => Galeria, { nullable: true } )
-  @ManyToOne( () => Galeria, galeria => galeria.artists, {
-    nullable: true,     // permite null en la DB
-    onDelete: 'SET NULL' // si se borra la galería, se limpia el campo
+  @Field( () => Gallery, { nullable: true } )
+  @ManyToOne( () => Gallery, gallery => gallery.artists, {
+    nullable: true,
+    onDelete: 'SET NULL'
   } )
-  @JoinColumn( { name: 'id_galeria' } )
-  galeria?: Galeria;
+  @JoinColumn( { name: 'gallery_id' } )  // <-- Antes 'id_gallery'
+  gallery?: Gallery;
 
-  @Field( () => [Obra], { nullable: true } )
-  @OneToMany( () => Obra, obra => obra.artist )
-  obras: Obra[];
+  @Field( () => [Artwork], { nullable: true } )
+  @OneToMany( () => Artwork, artwork => artwork.artist )
+  artworks: Artwork[];
 
-  @Field( () => [Exposicion], { nullable: true } )
-  @OneToMany( () => Exposicion, exposicion => exposicion.artist )
-  exposiciones: Exposicion[];
+  @Field( () => [Exhibition], { nullable: true } )
+  @OneToMany( () => Exhibition, exhibition => exhibition.artist )
+  exhibitions: Exhibition[];
 }
+

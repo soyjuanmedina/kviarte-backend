@@ -12,14 +12,14 @@ const typeorm_1 = require("@nestjs/typeorm");
 const promotions_service_1 = require("./promotions.service");
 const promotions_resolver_1 = require("./promotions.resolver");
 const promotion_entity_1 = require("./entities/promotion.entity");
-const galeria_entity_1 = require("../galerias/entities/galeria.entity");
-const obra_entity_1 = require("../obras/entities/obra.entity");
+const gallery_entity_1 = require("../galleries/entities/gallery.entity");
+const artwork_entity_1 = require("../artworks/entities/artwork.entity");
 let PromotionsModule = class PromotionsModule {
 };
 exports.PromotionsModule = PromotionsModule;
 exports.PromotionsModule = PromotionsModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([promotion_entity_1.Promotion, galeria_entity_1.Galeria, obra_entity_1.Obra])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([promotion_entity_1.Promotion, gallery_entity_1.Gallery, artwork_entity_1.Artwork])],
         providers: [promotions_service_1.PromotionsService, promotions_resolver_1.PromotionsResolver],
         exports: [promotions_service_1.PromotionsService],
     })

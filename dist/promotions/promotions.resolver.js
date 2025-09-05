@@ -15,11 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PromotionsResolver = void 0;
 const graphql_1 = require("@nestjs/graphql");
 const promotions_service_1 = require("./promotions.service");
-const create_promotion_input_1 = require("./dto/create-promotion.input");
 const promotion_entity_1 = require("./entities/promotion.entity");
 const common_1 = require("@nestjs/common");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
+const create_promotion_input_1 = require("./dto/create-promotion.input");
 let PromotionsResolver = class PromotionsResolver {
     constructor(service) {
         this.service = service;

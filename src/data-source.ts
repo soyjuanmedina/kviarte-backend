@@ -1,10 +1,10 @@
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
-import { Galeria } from './galerias/entities/galeria.entity';
-import { Usuario } from './usuarios/entities/usuario.entity';
-import { Exposicion } from './exposiciones/entities/exposicion.entity';
+import { Gallery } from './galleries/entities/gallery.entity';
+import { User } from './users/entities/user.entity';
+import { Exhibition } from './exhibitions/entities/exhibition.entity';
 import { Artist } from './artists/entities/artist.entity';
-import { Obra } from './obras/entities/obra.entity';
+import { Artwork } from './artworks/entities/artwork.entity';
 import { Promotion } from './promotions/entities/promotion.entity';
 
 config(); // carga .env
@@ -15,6 +15,6 @@ export const AppDataSource = new DataSource( {
   ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
   synchronize: false, // siempre false para producción
   logging: true,
-  entities: [Usuario, Galeria, Artist, Exposicion, Obra, Promotion],
+  entities: [User, Gallery, Artist, Exhibition, Artwork, Promotion],
   migrations: ['src/migrations/*.ts'],
 } );

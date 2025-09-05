@@ -18,15 +18,16 @@ const auth_service_1 = require("./auth.service");
 const login_input_1 = require("./dto/login.input");
 const register_input_1 = require("./dto/register.input");
 const login_response_dto_1 = require("./dto/login-response.dto");
-const usuario_entity_1 = require("../usuarios/entities/usuario.entity");
-const usuarios_service_1 = require("../usuarios/usuarios.service");
+const user_entity_1 = require("../users/entities/user.entity");
+const users_service_1 = require("../users/users.service");
+const user_role_enum_1 = require("../users/user-role.enum");
 let AuthResolver = class AuthResolver {
-    constructor(authService, usuariosService) {
+    constructor(authService, usersService) {
         this.authService = authService;
-        this.usuariosService = usuariosService;
+        this.usersService = usersService;
     }
-    usuariosPorRol(rol) {
-        return this.usuariosService.findByRole(rol);
+    usersPorRol(rol) {
+        return this.usersService.findByRole(rol);
     }
     async login(input) {
         const result = await this.authService.login(input);
@@ -34,7 +35,7 @@ let AuthResolver = class AuthResolver {
         return {
             token: result.access_token,
             user: {
-                id_usuario: result.user.id_usuario,
+                id_user: result.user.id_user,
                 nombre: result.user.nombre,
                 email: result.user.email,
                 rol: result.user.rol,
@@ -43,17 +44,17 @@ let AuthResolver = class AuthResolver {
     }
     async register(input) {
         const user = await this.authService.register(input);
-        return `Usuario ${user.nombre} registrado correctamente`;
+        return `User ${user.nombre} registrado correctamente`;
     }
 };
 exports.AuthResolver = AuthResolver;
 __decorate([
-    (0, graphql_1.Query)(() => [usuario_entity_1.Usuario]),
+    (0, graphql_1.Query)(() => [user_entity_1.User]),
     __param(0, (0, graphql_1.Args)('rol')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], AuthResolver.prototype, "usuariosPorRol", null);
+], AuthResolver.prototype, "usersPorRol", null);
 __decorate([
     (0, graphql_1.Mutation)(() => login_response_dto_1.LoginResponse),
     __param(0, (0, graphql_1.Args)('input')),
@@ -70,6 +71,6 @@ __decorate([
 ], AuthResolver.prototype, "register", null);
 exports.AuthResolver = AuthResolver = __decorate([
     (0, graphql_1.Resolver)(),
-    __metadata("design:paramtypes", [auth_service_1.AuthService, usuarios_service_1.UsuariosService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService, users_service_1.UsersService])
 ], AuthResolver);
 //# sourceMappingURL=auth.resolver.js.map

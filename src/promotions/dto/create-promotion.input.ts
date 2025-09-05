@@ -1,6 +1,6 @@
+// src/promotions/dto/create-promotion.input.ts
 import { InputType, Field, Int, Float } from '@nestjs/graphql';
 
-//Coment
 @InputType()
 export class CreatePromotionInput {
   @Field( () => String )
@@ -21,7 +21,7 @@ export class CreatePromotionInput {
   @Field( () => Int )
   galleryId: number;
 
-  // Opcional: asociar directamente a una o varias obras
+  // Opcional: asociar directamente a una o varias artworks
   @Field( () => [Int], { nullable: true } )
   artworkIds?: number[];
 }

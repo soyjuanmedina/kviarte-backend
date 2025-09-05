@@ -17,19 +17,19 @@ exports.CreateArtistInput = CreateArtistInput;
 __decorate([
     (0, graphql_1.Field)(),
     __metadata("design:type", String)
-], CreateArtistInput.prototype, "nombre", void 0);
+], CreateArtistInput.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], CreateArtistInput.prototype, "biografia", void 0);
+], CreateArtistInput.prototype, "biography", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], CreateArtistInput.prototype, "estilo", void 0);
+], CreateArtistInput.prototype, "style", void 0);
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
     __metadata("design:type", Number)
-], CreateArtistInput.prototype, "id_galeria", void 0);
+], CreateArtistInput.prototype, "gallery_id", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)

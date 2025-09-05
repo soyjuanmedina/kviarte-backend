@@ -2,48 +2,53 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Artist } from './entities/artist.entity';
-import { Galeria } from '../galerias/entities/galeria.entity';
+import { Gallery } from '../galleries/entities/gallery.entity';
 import { CreateArtistInput } from './dto/create-artist.input';
 
 @Injectable()
 export class ArtistsService {
   constructor (
     @InjectRepository( Artist ) private artistRepo: Repository<Artist>,
-    @InjectRepository( Galeria ) private galeryRepository: Repository<Galeria>,
+    @InjectRepository( Gallery ) private galleryRepository: Repository<Gallery>,
   ) { }
 
   async findAll (): Promise<Artist[]> {
-    return this.artistRepo.find( { relations: ['galeria', 'obras', 'exposiciones'] } );
+    return this.artistRepo.find( {
+      relations: ['gallery', 'artworks', 'exhibitions'], // singular: "gallery"
+    } );
   }
 
   async findOne ( id: number ): Promise<Artist> {
     return this.artistRepo.findOne( {
-      where: { id_artista: id },
-      relations: ['galeria', 'obras', 'exposiciones'],
+      where: { id }, // antes id_artista
+      relations: ['gallery', 'artworks', 'exhibitions'],
     } );
   }
 
   async create ( createArtistInput: CreateArtistInput ): Promise<Artist> {
-    const { id_galeria, ...rest } = createArtistInput;
+    const { gallery_id, ...rest } = createArtistInput;
 
     const artist = this.artistRepo.create( rest );
 
-    if ( id_galeria ) {
-      const galeria = await this.galeryRepository.findOneBy( { id_galeria } );
-      artist.galeria = galeria;
+    if ( gallery_id ) {
+      const gallery = await this.galleryRepository.findOneBy( { id_gallery: gallery_id } );
+      artist.gallery = gallery;
     }
 
     return this.artistRepo.save( artist );
   }
 
   async update ( id: number, data: Partial<Artist> ): Promise<Artist> {
-    const artista = await this.artistRepo.findOne( { where: { id_artista: id }, relations: ['galeria'] } );
-    if ( !artista ) throw new NotFoundException( `Artista con id ${id} no encontrado` );
+    const artist = await this.artistRepo.findOne( {
+      where: { id },
+      relations: ['gallery'],
+    } );
 
-    // Aquí ya data puede incluir galeria: null
-    Object.assign( artista, data );
+    if ( !artist ) throw new NotFoundException( `Artist with id ${id} not found` );
 
-    return this.artistRepo.save( artista );
+    Object.assign( artist, data );
+
+    return this.artistRepo.save( artist );
   }
 
   async delete ( id: number ): Promise<boolean> {

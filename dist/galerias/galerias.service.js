@@ -23,13 +23,13 @@ let GaleriasService = class GaleriasService {
     }
     findAll() {
         return this.repo.find({
-            relations: ['propietario', 'exposiciones', 'artists'],
+            relations: ['propietario', 'exhibitions', 'artists'],
         });
     }
     async findOne(id) {
         return this.repo.findOne({
             where: { id_galeria: id },
-            relations: ['propietario', 'exposiciones', 'artists'],
+            relations: ['propietario', 'exhibitions', 'artists'],
         });
     }
     async create(input) {

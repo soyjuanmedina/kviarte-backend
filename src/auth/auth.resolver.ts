@@ -3,16 +3,17 @@ import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
 import { RegisterInput } from './dto/register.input';
 import { LoginResponse } from './dto/login-response.dto';
-import { Usuario } from '../usuarios/entities/usuario.entity';
-import { UsuariosService } from '../usuarios/usuarios.service';
+import { User } from '../users/entities/user.entity';
+import { UsersService } from '../users/users.service';
+import { UserRoleEnum } from '../users/user-role.enum';
 
 @Resolver()
 export class AuthResolver {
-  constructor ( private authService: AuthService, private usuariosService: UsuariosService ) { }
+  constructor ( private authService: AuthService, private usersService: UsersService ) { }
 
-  @Query( () => [Usuario] )
-  usuariosPorRol ( @Args( 'rol' ) rol: string ): Promise<Usuario[]> {
-    return this.usuariosService.findByRole( rol );
+  @Query( () => [User] )
+  usersPorRol ( @Args( 'rol' ) rol: UserRoleEnum ): Promise<User[]> {
+    return this.usersService.findByRole( rol );
   }
 
 
@@ -24,7 +25,7 @@ export class AuthResolver {
     return {
       token: result.access_token,
       user: {
-        id_usuario: result.user.id_usuario,  // coincide con @Field({ name: 'id_usuario' })
+        id_user: result.user.id_user,  // coincide con @Field({ name: 'id_user' })
         nombre: result.user.nombre,          // coincide con @Field() nombre
         email: result.user.email,
         rol: result.user.rol,                // coincide con @Field() rol
@@ -35,6 +36,6 @@ export class AuthResolver {
   @Mutation( () => String )
   async register ( @Args( 'input' ) input: RegisterInput ) {
     const user = await this.authService.register( input );
-    return `Usuario ${user.nombre} registrado correctamente`;
+    return `User ${user.nombre} registrado correctamente`;
   }
 }

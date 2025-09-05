@@ -18,37 +18,37 @@ const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const usuario_entity_1 = require("../usuarios/entities/usuario.entity");
+const user_entity_1 = require("../users/entities/user.entity");
 let AuthService = class AuthService {
-    constructor(usuariosRepo, jwtService) {
-        this.usuariosRepo = usuariosRepo;
+    constructor(usersRepo, jwtService) {
+        this.usersRepo = usersRepo;
         this.jwtService = jwtService;
     }
     async register(input) {
         const hashed = await bcrypt.hash(input.password, 10);
-        const user = this.usuariosRepo.create({
+        const user = this.usersRepo.create({
             nombre: input.nombre,
             email: input.email,
             password_hash: hashed,
-            rol: input.rol || 'usuario',
+            rol: input.rol?.toUpperCase() || 'USER',
         });
-        return this.usuariosRepo.save(user);
+        return this.usersRepo.save(user);
     }
     async login(input) {
-        const user = await this.usuariosRepo.findOne({ where: { email: input.email } });
+        const user = await this.usersRepo.findOne({ where: { email: input.email } });
         if (!user)
-            throw new common_1.UnauthorizedException('Usuario no encontrado');
+            throw new common_1.UnauthorizedException('User no encontrado');
         const valid = await bcrypt.compare(input.password, user.password_hash);
         if (!valid)
             throw new common_1.UnauthorizedException('Contraseña incorrecta');
-        const token = this.jwtService.sign({ sub: user.id_usuario, email: user.email, rol: user.rol });
+        const token = this.jwtService.sign({ sub: user.id_user, email: user.email, rol: user.rol });
         return { access_token: token, user };
     }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(usuario_entity_1.Usuario)),
+    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         jwt_1.JwtService])
 ], AuthService);

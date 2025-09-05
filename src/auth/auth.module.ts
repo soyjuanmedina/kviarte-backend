@@ -6,13 +6,13 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthResolver } from './auth.resolver';
-import { Usuario } from '../usuarios/entities/usuario.entity';
-import { UsuariosModule } from '../usuarios/usuarios.module'; // 👈 IMPORTANTE
+import { User } from '../users/entities/user.entity';
+import { UsersModule } from '../users/users.module'; // 👈 IMPORTANTE
 
 @Module( {
   imports: [
     ConfigModule.forRoot( { isGlobal: true } ),
-    TypeOrmModule.forFeature( [Usuario] ),
+    TypeOrmModule.forFeature( [User] ),
     PassportModule.register( { defaultStrategy: 'jwt', session: false } ),
     JwtModule.registerAsync( {
       imports: [ConfigModule],
@@ -26,7 +26,7 @@ import { UsuariosModule } from '../usuarios/usuarios.module'; // 👈 IMPORTANTE
         };
       },
     } ),
-    UsuariosModule, // 👈 lo añades aquí
+    UsersModule, // 👈 lo añades aquí
   ],
   providers: [AuthService, JwtStrategy, AuthResolver],
   exports: [AuthService, PassportModule, JwtModule],

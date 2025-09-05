@@ -15,7 +15,7 @@ const graphql_1 = require("@nestjs/graphql");
 const obra_entity_1 = require("../../obras/entities/obra.entity");
 const promotion_entity_1 = require("../../promotions/entities/promotion.entity");
 const artist_entity_1 = require("../../artists/entities/artist.entity");
-const exposicion_entity_1 = require("../../exposiciones/entities/exposicion.entity");
+const exhibition_entity_1 = require("../../exhibitions/entities/exhibition.entity");
 const usuario_entity_1 = require("../../usuarios/entities/usuario.entity");
 let Galeria = class Galeria {
 };
@@ -81,10 +81,10 @@ __decorate([
     __metadata("design:type", Array)
 ], Galeria.prototype, "artists", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => [exposicion_entity_1.Exposicion], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => exposicion_entity_1.Exposicion, exposicion => exposicion.galeria),
+    (0, graphql_1.Field)(() => [exhibition_entity_1.Exhibition], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => exhibition_entity_1.Exhibition, exhibition => exhibition.galeria),
     __metadata("design:type", Array)
-], Galeria.prototype, "exposiciones", void 0);
+], Galeria.prototype, "exhibitions", void 0);
 __decorate([
     (0, graphql_1.Field)(() => usuario_entity_1.Usuario),
     (0, typeorm_1.ManyToOne)(() => usuario_entity_1.Usuario, usuario => usuario.galerias),

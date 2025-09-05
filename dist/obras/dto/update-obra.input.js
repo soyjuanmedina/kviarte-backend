@@ -37,11 +37,11 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
     __metadata("design:type", Number)
-], UpdateObraInput.prototype, "id_exposicion", void 0);
+], UpdateObraInput.prototype, "id_exhibition", void 0);
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
     __metadata("design:type", Number)
-], UpdateObraInput.prototype, "id_galeria", void 0);
+], UpdateObraInput.prototype, "id_gallery", void 0);
 exports.UpdateObraInput = UpdateObraInput = __decorate([
     (0, graphql_1.InputType)()
 ], UpdateObraInput);

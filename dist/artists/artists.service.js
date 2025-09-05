@@ -17,36 +17,41 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const artist_entity_1 = require("./entities/artist.entity");
-const galeria_entity_1 = require("../galerias/entities/galeria.entity");
+const gallery_entity_1 = require("../galleries/entities/gallery.entity");
 let ArtistsService = class ArtistsService {
-    constructor(artistRepo, galeryRepository) {
+    constructor(artistRepo, galleryRepository) {
         this.artistRepo = artistRepo;
-        this.galeryRepository = galeryRepository;
+        this.galleryRepository = galleryRepository;
     }
     async findAll() {
-        return this.artistRepo.find({ relations: ['galeria', 'obras', 'exposiciones'] });
+        return this.artistRepo.find({
+            relations: ['gallery', 'artworks', 'exhibitions'],
+        });
     }
     async findOne(id) {
         return this.artistRepo.findOne({
-            where: { id_artista: id },
-            relations: ['galeria', 'obras', 'exposiciones'],
+            where: { id },
+            relations: ['gallery', 'artworks', 'exhibitions'],
         });
     }
     async create(createArtistInput) {
-        const { id_galeria, ...rest } = createArtistInput;
+        const { gallery_id, ...rest } = createArtistInput;
         const artist = this.artistRepo.create(rest);
-        if (id_galeria) {
-            const galeria = await this.galeryRepository.findOneBy({ id_galeria });
-            artist.galeria = galeria;
+        if (gallery_id) {
+            const gallery = await this.galleryRepository.findOneBy({ id_gallery: gallery_id });
+            artist.gallery = gallery;
         }
         return this.artistRepo.save(artist);
     }
     async update(id, data) {
-        const artista = await this.artistRepo.findOne({ where: { id_artista: id }, relations: ['galeria'] });
-        if (!artista)
-            throw new common_1.NotFoundException(`Artista con id ${id} no encontrado`);
-        Object.assign(artista, data);
-        return this.artistRepo.save(artista);
+        const artist = await this.artistRepo.findOne({
+            where: { id },
+            relations: ['gallery'],
+        });
+        if (!artist)
+            throw new common_1.NotFoundException(`Artist with id ${id} not found`);
+        Object.assign(artist, data);
+        return this.artistRepo.save(artist);
     }
     async delete(id) {
         const result = await this.artistRepo.delete(id);
@@ -57,7 +62,7 @@ exports.ArtistsService = ArtistsService;
 exports.ArtistsService = ArtistsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(artist_entity_1.Artist)),
-    __param(1, (0, typeorm_1.InjectRepository)(galeria_entity_1.Galeria)),
+    __param(1, (0, typeorm_1.InjectRepository)(gallery_entity_1.Gallery)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository])
 ], ArtistsService);

@@ -8,11 +8,11 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { JwtService } from '@nestjs/jwt';
 
 import { AuthModule } from './auth/auth.module';
-import { UsuariosModule } from './usuarios/usuarios.module';
-import { GaleriasModule } from './galerias/galerias.module';
+import { UsersModule } from './users/users.module';
+import { GalleriesModule } from './galleries/galleries.module';
 import { ArtistsModule } from './artists/artists.module';
-import { ExposicionesModule } from './exposiciones/exposiciones.module';
-import { ObrasModule } from './obras/obras.module';
+import { ExhibitionsModule } from './exhibitions/exhibitions.module';
+import { ArtworksModule } from './artworks/artworks.module';
 import { PromotionsModule } from './promotions/promotions.module';
 import { NewsletterModule } from './newsletter/newsletter.module';
 
@@ -73,7 +73,7 @@ const logger = new Logger( 'AppModule' );
 
           try {
             const user = jwtService.verify( token );
-            return { req, user }; // usuario disponible en context.user
+            return { req, user }; // user disponible en context.user
           } catch ( err ) {
             return { req };
           }
@@ -82,11 +82,11 @@ const logger = new Logger( 'AppModule' );
     } ),
 
     AuthModule,
-    UsuariosModule,
-    GaleriasModule,
+    UsersModule,
+    GalleriesModule,
     ArtistsModule,
-    ExposicionesModule,
-    ObrasModule,
+    ExhibitionsModule,
+    ArtworksModule,
     PromotionsModule,
     NewsletterModule,
   ],

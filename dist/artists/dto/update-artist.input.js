@@ -17,15 +17,15 @@ exports.UpdateArtistInput = UpdateArtistInput;
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], UpdateArtistInput.prototype, "nombre", void 0);
+], UpdateArtistInput.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], UpdateArtistInput.prototype, "biografia", void 0);
+], UpdateArtistInput.prototype, "biography", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
-], UpdateArtistInput.prototype, "estilo", void 0);
+], UpdateArtistInput.prototype, "style", void 0);
 __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     __metadata("design:type", String)
@@ -33,7 +33,7 @@ __decorate([
 __decorate([
     (0, graphql_1.Field)(() => graphql_1.Int, { nullable: true }),
     __metadata("design:type", Number)
-], UpdateArtistInput.prototype, "id_galeria", void 0);
+], UpdateArtistInput.prototype, "gallery_id", void 0);
 exports.UpdateArtistInput = UpdateArtistInput = __decorate([
     (0, graphql_1.InputType)()
 ], UpdateArtistInput);

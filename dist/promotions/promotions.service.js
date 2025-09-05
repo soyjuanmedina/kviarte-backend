@@ -17,38 +17,38 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const promotion_entity_1 = require("./entities/promotion.entity");
-const galeria_entity_1 = require("../galerias/entities/galeria.entity");
-const obra_entity_1 = require("../obras/entities/obra.entity");
+const gallery_entity_1 = require("../galleries/entities/gallery.entity");
+const artwork_entity_1 = require("../artworks/entities/artwork.entity");
 let PromotionsService = class PromotionsService {
-    constructor(promotionsRepo, galeriasRepo, obrasRepo) {
+    constructor(promotionsRepo, galleriesRepo, artworksRepo) {
         this.promotionsRepo = promotionsRepo;
-        this.galeriasRepo = galeriasRepo;
-        this.obrasRepo = obrasRepo;
+        this.galleriesRepo = galleriesRepo;
+        this.artworksRepo = artworksRepo;
     }
     async findAll() {
         return this.promotionsRepo.find({
-            relations: ['galeria', 'artworks'],
+            relations: ['gallery', 'artworks'],
         });
     }
     async findOne(id) {
         const promo = await this.promotionsRepo.findOne({
             where: { id: id },
-            relations: ['galeria', 'artworks'],
+            relations: ['gallery', 'artworks'],
         });
         if (!promo)
             throw new common_1.NotFoundException(`Promotion with id ${id} not found`);
         return promo;
     }
     async create(input) {
-        const galeria = await this.galeriasRepo.findOne({
-            where: { id_galeria: input.galleryId },
+        const gallery = await this.galleriesRepo.findOne({
+            where: { id_gallery: input.galleryId },
         });
-        if (!galeria)
+        if (!gallery)
             throw new common_1.NotFoundException(`Gallery ${input.galleryId} not found`);
         let artworks = [];
         if (input.artworkIds?.length) {
-            artworks = await this.obrasRepo.find({
-                where: { id_obra: (0, typeorm_2.In)(input.artworkIds) },
+            artworks = await this.artworksRepo.find({
+                where: { id: (0, typeorm_2.In)(input.artworkIds) },
             });
         }
         const promotion = this.promotionsRepo.create({
@@ -57,7 +57,7 @@ let PromotionsService = class PromotionsService {
             discount: input.discount,
             startDate: input.startDate,
             endDate: input.endDate,
-            galeria,
+            gallery,
             artworks,
         });
         return this.promotionsRepo.save(promotion);
@@ -65,14 +65,14 @@ let PromotionsService = class PromotionsService {
     async update(id, input) {
         const promotion = await this.findOne(id);
         if (input.galleryId) {
-            const galeria = await this.galeriasRepo.findOne({ where: { id_galeria: input.galleryId } });
-            if (!galeria)
+            const gallery = await this.galleriesRepo.findOne({ where: { id_gallery: input.galleryId } });
+            if (!gallery)
                 throw new common_1.NotFoundException(`Gallery ${input.galleryId} not found`);
-            promotion.galeria = galeria;
+            promotion.gallery = gallery;
         }
         if (input.artworkIds) {
-            const artworks = await this.obrasRepo.find({
-                where: { id_obra: (0, typeorm_2.In)(input.artworkIds) },
+            const artworks = await this.artworksRepo.find({
+                where: { id: (0, typeorm_2.In)(input.artworkIds) },
             });
             promotion.artworks = artworks;
         }
@@ -94,8 +94,8 @@ exports.PromotionsService = PromotionsService;
 exports.PromotionsService = PromotionsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(promotion_entity_1.Promotion)),
-    __param(1, (0, typeorm_1.InjectRepository)(galeria_entity_1.Galeria)),
-    __param(2, (0, typeorm_1.InjectRepository)(obra_entity_1.Obra)),
+    __param(1, (0, typeorm_1.InjectRepository)(gallery_entity_1.Gallery)),
+    __param(2, (0, typeorm_1.InjectRepository)(artwork_entity_1.Artwork)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository])

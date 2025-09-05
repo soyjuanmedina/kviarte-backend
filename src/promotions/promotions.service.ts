@@ -2,28 +2,28 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { Promotion } from './entities/promotion.entity';
+import { Gallery } from '../galleries/entities/gallery.entity';
+import { Artwork } from '../artworks/entities/artwork.entity';
 import { CreatePromotionInput } from './dto/create-promotion.input';
-import { Galeria } from '../galerias/entities/galeria.entity';
-import { Obra } from '../obras/entities/obra.entity';
 
 @Injectable()
 export class PromotionsService {
   constructor (
     @InjectRepository( Promotion ) private promotionsRepo: Repository<Promotion>,
-    @InjectRepository( Galeria ) private galeriasRepo: Repository<Galeria>,
-    @InjectRepository( Obra ) private obrasRepo: Repository<Obra>,
+    @InjectRepository( Gallery ) private galleriesRepo: Repository<Gallery>,
+    @InjectRepository( Artwork ) private artworksRepo: Repository<Artwork>,
   ) { }
 
   async findAll (): Promise<Promotion[]> {
     return this.promotionsRepo.find( {
-      relations: ['galeria', 'artworks'],
+      relations: ['gallery', 'artworks'],
     } );
   }
 
   async findOne ( id: number ): Promise<Promotion> {
     const promo = await this.promotionsRepo.findOne( {
       where: { id: id },
-      relations: ['galeria', 'artworks'],
+      relations: ['gallery', 'artworks'],
     } );
     if ( !promo ) throw new NotFoundException( `Promotion with id ${id} not found` );
     return promo;
@@ -31,16 +31,16 @@ export class PromotionsService {
 
   async create ( input: CreatePromotionInput ): Promise<Promotion> {
     // Buscar la galería
-    const galeria = await this.galeriasRepo.findOne( {
-      where: { id_galeria: input.galleryId },
+    const gallery = await this.galleriesRepo.findOne( {
+      where: { id_gallery: input.galleryId },
     } );
-    if ( !galeria ) throw new NotFoundException( `Gallery ${input.galleryId} not found` );
+    if ( !gallery ) throw new NotFoundException( `Gallery ${input.galleryId} not found` );
 
-    // Buscar las obras (si se pasan IDs)
-    let artworks: Obra[] = [];
+    // Buscar las artworks (si se pasan IDs)
+    let artworks: Artwork[] = [];
     if ( input.artworkIds?.length ) {
-      artworks = await this.obrasRepo.find( {
-        where: { id_obra: In( input.artworkIds ) },
+      artworks = await this.artworksRepo.find( {
+        where: { id: In( input.artworkIds ) },
       } );
     }
 
@@ -51,7 +51,7 @@ export class PromotionsService {
       discount: input.discount,
       startDate: input.startDate,
       endDate: input.endDate,
-      galeria,
+      gallery,
       artworks,
     } );
 
@@ -62,14 +62,14 @@ export class PromotionsService {
     const promotion = await this.findOne( id );
 
     if ( input.galleryId ) {
-      const galeria = await this.galeriasRepo.findOne( { where: { id_galeria: input.galleryId } } );
-      if ( !galeria ) throw new NotFoundException( `Gallery ${input.galleryId} not found` );
-      promotion.galeria = galeria;
+      const gallery = await this.galleriesRepo.findOne( { where: { id_gallery: input.galleryId } } );
+      if ( !gallery ) throw new NotFoundException( `Gallery ${input.galleryId} not found` );
+      promotion.gallery = gallery;
     }
 
     if ( input.artworkIds ) {
-      const artworks = await this.obrasRepo.find( {
-        where: { id_obra: In( input.artworkIds ) },
+      const artworks = await this.artworksRepo.find( {
+        where: { id: In( input.artworkIds ) },
       } );
       promotion.artworks = artworks;
     }

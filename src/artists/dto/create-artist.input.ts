@@ -1,19 +1,18 @@
-// src/artistas/dto/create-artista.input.ts
 import { InputType, Field, Int } from '@nestjs/graphql';
 
 @InputType()
 export class CreateArtistInput {
   @Field()
-  nombre: string;
+  name: string;   // antes nombre
 
   @Field( { nullable: true } )
-  biografia?: string;
+  biography?: string;   // antes biografia
 
   @Field( { nullable: true } )
-  estilo?: string;
+  style?: string;   // antes estilo
 
   @Field( () => Int, { nullable: true } )
-  id_galeria?: number;
+  gallery_id?: number;   // antes id_gallery
 
   @Field( { nullable: true } )
   picture?: string;

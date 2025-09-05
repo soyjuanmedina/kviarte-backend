@@ -1,16 +1,17 @@
+// src/promotions/entities/promotion.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, JoinColumn } from 'typeorm';
 import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
-import { Galeria } from '../../galerias/entities/galeria.entity';
-import { Obra } from '../../obras/entities/obra.entity';
+import { Gallery } from '../../galleries/entities/gallery.entity';
+import { Artwork } from '../../artworks/entities/artwork.entity';
 
 @ObjectType()
 @Entity( 'promotions' )
 export class Promotion {
   @Field( () => ID, { name: 'id_promotion' } )
-  @PrimaryGeneratedColumn( { name: 'id' } ) // ya renombraste la columna en la BBDD
+  @PrimaryGeneratedColumn( { name: 'id' } )
   id: number;
 
-  @Field( () => Float, { name: 'precio' } )
+  @Field( () => Float )
   @Column( 'decimal' )
   discount: number;
 
@@ -20,21 +21,21 @@ export class Promotion {
 
   @Field( { defaultValue: true } )
   @Column( { default: true } )
-  activa: boolean;
+  active: boolean;
 
-  @Field( () => Galeria )
-  @ManyToOne( () => Galeria, galeria => galeria.promotions, { onDelete: 'CASCADE' } )
-  @JoinColumn( { name: 'id_galeria' } ) // indica explícitamente la columna FK
-  galeria: Galeria;
+  @Field( () => Gallery )
+  @ManyToOne( () => Gallery, gallery => gallery.promotions, { onDelete: 'CASCADE' } )
+  @JoinColumn( { name: 'id_gallery' } )
+  gallery: Gallery;
 
-  @Field( () => [Obra], { nullable: true, name: 'obra' } )
-  @ManyToMany( () => Obra, obra => obra.promotions, { cascade: true } )
+  @Field( () => [Artwork], { nullable: true } )
+  @ManyToMany( () => Artwork, artwork => artwork.promotions, { cascade: true } )
   @JoinTable( {
-    name: 'promotions_artworks', // renombraste la tabla intermedia
+    name: 'promotions_artworks',
     joinColumn: { name: 'promotion_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id_obra' },
+    inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id_artwork' },
   } )
-  artworks?: Obra[];
+  artworks?: Artwork[];
 
   @Field( () => String, { nullable: true } )
   @Column( { unique: true, nullable: true } )

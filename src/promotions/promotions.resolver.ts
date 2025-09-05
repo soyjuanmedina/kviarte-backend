@@ -1,10 +1,10 @@
 import { Resolver, Query, Args, Mutation, Int } from '@nestjs/graphql';
 import { PromotionsService } from './promotions.service';
-import { CreatePromotionInput } from './dto/create-promotion.input';
 import { Promotion } from './entities/promotion.entity';
 import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
+import { CreatePromotionInput } from './dto/create-promotion.input';
 
 @Resolver( () => Promotion )
 @UseGuards( RolesGuard )

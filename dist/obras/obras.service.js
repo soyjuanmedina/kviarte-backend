@@ -18,23 +18,23 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const obra_entity_1 = require("./entities/obra.entity");
 const artist_entity_1 = require("../artists/entities/artist.entity");
-const exposicion_entity_1 = require("../exposiciones/entities/exposicion.entity");
+const exhibition_entity_1 = require("../exhibitions/entities/exhibition.entity");
 let ObrasService = class ObrasService {
-    constructor(repo, artistRepo, exposicionRepo) {
+    constructor(repo, artistRepo, exhibitionRepo) {
         this.repo = repo;
         this.artistRepo = artistRepo;
-        this.exposicionRepo = exposicionRepo;
+        this.exhibitionRepo = exhibitionRepo;
     }
     async findAll() {
-        return this.repo.find({ relations: ['artist', 'exposicion'] });
+        return this.repo.find({ relations: ['artist', 'exhibition'] });
     }
     async findOne(id) {
         return this.repo.findOne({
             where: { id_obra: id },
             relations: [
                 'artist',
-                'exposicion',
-                'exposicion.galeria'
+                'exhibition',
+                'exhibition.gallery'
             ],
         });
     }
@@ -42,9 +42,9 @@ let ObrasService = class ObrasService {
         const artist = await this.artistRepo.findOne({
             where: { id_artista: input.id_artista },
         });
-        const exposicion = input.id_exposicion
-            ? await this.exposicionRepo.findOne({
-                where: { id_exposicion: input.id_exposicion },
+        const exhibition = input.id_exhibition
+            ? await this.exhibitionRepo.findOne({
+                where: { id_exhibition: input.id_exhibition },
             })
             : null;
         const obra = this.repo.create({
@@ -53,7 +53,7 @@ let ObrasService = class ObrasService {
             estilo: input.estilo,
             picture: input.picture,
             artist,
-            exposicion,
+            exhibition,
         });
         return this.repo.save(obra);
     }
@@ -66,11 +66,11 @@ let ObrasService = class ObrasService {
             const artist = await this.artistRepo.findOne({ where: { id_artista: input.id_artista } });
             obra.artist = artist;
         }
-        if (input.id_exposicion !== undefined) {
-            const exposicion = input.id_exposicion
-                ? await this.exposicionRepo.findOne({ where: { id_exposicion: input.id_exposicion } })
+        if (input.id_exhibition !== undefined) {
+            const exhibition = input.id_exhibition
+                ? await this.exhibitionRepo.findOne({ where: { id_exhibition: input.id_exhibition } })
                 : null;
-            obra.exposicion = exposicion;
+            obra.exhibition = exhibition;
         }
         if (input.titulo !== undefined)
             obra.titulo = input.titulo;
@@ -90,10 +90,10 @@ let ObrasService = class ObrasService {
         await this.repo.remove(obra);
         return true;
     }
-    async findByExposicion(id_exposicion) {
+    async findByExhibition(id_exhibition) {
         return this.repo.find({
-            where: { exposicion: { id_exposicion } },
-            relations: ['artist', 'galeria', 'exposicion'],
+            where: { exhibition: { id_exhibition } },
+            relations: ['artist', 'gallery', 'exhibition'],
         });
     }
 };
@@ -102,7 +102,7 @@ exports.ObrasService = ObrasService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(obra_entity_1.Obra)),
     __param(1, (0, typeorm_1.InjectRepository)(artist_entity_1.Artist)),
-    __param(2, (0, typeorm_1.InjectRepository)(exposicion_entity_1.Exposicion)),
+    __param(2, (0, typeorm_1.InjectRepository)(exhibition_entity_1.Exhibition)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository])
