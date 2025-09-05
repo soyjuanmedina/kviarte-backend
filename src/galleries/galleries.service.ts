@@ -12,14 +12,28 @@ export class GalleriesService {
 
   findAll (): Promise<Gallery[]> {
     return this.repo.find( {
-      relations: ['owner', 'exhibitions', 'artists', 'artworks', 'promotions'],
+      relations: [
+        'owner',
+        'exhibitions',
+        'artists',
+        'artworks',
+        'artworks.artist',   // <--- aquí se carga el artista de cada obra
+        'promotions',
+      ],
     } );
   }
 
   async findOne ( id: number ): Promise<Gallery> {
     return this.repo.findOne( {
-      where: { id: id },
-      relations: ['owner', 'exhibitions', 'artists', 'artworks', 'promotions'],
+      where: { id },
+      relations: [
+        'owner',
+        'exhibitions',
+        'artists',
+        'artworks',
+        'artworks.artist',   // <--- artista de cada obra
+        'promotions',
+      ],
     } );
   }
 
