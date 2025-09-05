@@ -36,7 +36,7 @@ let AuthResolver = class AuthResolver {
             token: result.access_token,
             user: {
                 id_user: result.user.id,
-                nombre: result.user.nombre,
+                name: result.user.name,
                 email: result.user.email,
                 rol: result.user.rol,
             },
@@ -44,7 +44,7 @@ let AuthResolver = class AuthResolver {
     }
     async register(input) {
         const user = await this.authService.register(input);
-        return `User ${user.nombre} registrado correctamente`;
+        return `User ${user.name} registrado correctamente`;
     }
 };
 exports.AuthResolver = AuthResolver;

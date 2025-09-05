@@ -26,7 +26,7 @@ export class AuthResolver {
       token: result.access_token,
       user: {
         id_user: result.user.id,  // coincide con @Field({ name: 'id_user' })
-        nombre: result.user.nombre,          // coincide con @Field() nombre
+        name: result.user.name,          // coincide con @Field() nombre
         email: result.user.email,
         rol: result.user.rol,                // coincide con @Field() rol
       },
@@ -36,6 +36,6 @@ export class AuthResolver {
   @Mutation( () => String )
   async register ( @Args( 'input' ) input: RegisterInput ) {
     const user = await this.authService.register( input );
-    return `User ${user.nombre} registrado correctamente`;
+    return `User ${user.name} registrado correctamente`;
   }
 }

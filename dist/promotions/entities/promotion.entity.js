@@ -30,8 +30,8 @@ let Promotion = class Promotion {
 };
 exports.Promotion = Promotion;
 __decorate([
-    (0, graphql_1.Field)(() => graphql_1.ID, { name: 'id_promotion' }),
-    (0, typeorm_1.PrimaryGeneratedColumn)({ name: 'id' }),
+    (0, graphql_1.Field)(() => graphql_1.Int),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Promotion.prototype, "id", void 0);
 __decorate([

@@ -5,7 +5,7 @@ import { IsEmail, IsString, IsOptional } from 'class-validator';
 export class RegisterInput {
   @Field()
   @IsString()
-  nombre: string;
+  name: string;
 
   @Field()
   @IsEmail()

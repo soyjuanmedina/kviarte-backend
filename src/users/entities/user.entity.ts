@@ -10,8 +10,8 @@ export class User {
   id: number;
 
   @Field()
-  @Column( { name: 'name' } )
-  nombre: string;
+  @Column()
+  name: string;
 
   @Field()
   @Column( { unique: true } )

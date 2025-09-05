@@ -19,7 +19,7 @@ export class AuthService {
   async register ( input: RegisterInput ): Promise<User> {
     const hashed = await bcrypt.hash( input.password, 10 );
     const user = this.usersRepo.create( {
-      nombre: input.nombre,
+      name: input.name,
       email: input.email,
       password_hash: hashed,
       rol: input.rol?.toUpperCase() as UserRole || 'USER',

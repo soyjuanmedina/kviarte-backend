@@ -23,9 +23,9 @@ __decorate([
 ], User.prototype, "id", void 0);
 __decorate([
     (0, graphql_1.Field)(),
-    (0, typeorm_1.Column)({ name: 'name' }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "nombre", void 0);
+], User.prototype, "name", void 0);
 __decorate([
     (0, graphql_1.Field)(),
     (0, typeorm_1.Column)({ unique: true }),
