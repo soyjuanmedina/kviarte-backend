@@ -32,8 +32,8 @@ export class Promotion {
   @ManyToMany( () => Artwork, artwork => artwork.promotions, { cascade: true } )
   @JoinTable( {
     name: 'promotions_artworks',
-    joinColumn: { name: 'promotion_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id_artwork' },
+    joinColumn: { name: 'promotion_id', referencedColumnName: 'id' },       // ✅ tu tabla Promotion tiene 'id'
+    inverseJoinColumn: { name: 'artwork_id', referencedColumnName: 'id' }, // ✅ Artwork.id ahora
   } )
   artworks?: Artwork[];
 
