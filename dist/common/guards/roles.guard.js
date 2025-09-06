@@ -27,9 +27,9 @@ let RolesGuard = class RolesGuard {
         const ctxGql = graphql_1.GqlExecutionContext.create(context);
         const ctx = ctxGql.getContext();
         const user = ctx.user || ctx.req?.user;
-        if (!user?.rol)
+        if (!user?.role)
             return false;
-        const userRole = user.rol.toUpperCase();
+        const userRole = user.role.toUpperCase();
         const rolesUpper = requiredRoles.map(r => r.toUpperCase());
         console.log('User object:', user);
         console.log('User role (upper):', userRole);

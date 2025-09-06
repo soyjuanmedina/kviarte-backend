@@ -40,7 +40,7 @@ let UsersService = class UsersService {
     }
     async create(input) {
         const hashed = await bcrypt.hash(input.password, 10);
-        const user = this.repo.create({ ...input, password_hash: hashed });
+        const user = this.repo.create({ ...input, password: hashed });
         return this.repo.save(user);
     }
     async update(id, input) {

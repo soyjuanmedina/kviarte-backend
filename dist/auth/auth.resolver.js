@@ -39,6 +39,7 @@ let AuthResolver = class AuthResolver {
                 name: result.user.name,
                 email: result.user.email,
                 role: result.user.role,
+                registrationDate: result.user.registrationDate,
             },
         };
     }

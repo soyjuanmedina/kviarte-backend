@@ -50,6 +50,7 @@ export class AuthService {
       name: userEntity.name,
       email: userEntity.email,
       role: userEntity.role,
+      registrationDate: userEntity.registrationDate,
     };
 
     return { token, user }; // ⚠️ llamamos token, no access_token
