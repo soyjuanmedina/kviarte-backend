@@ -22,7 +22,7 @@ export class AuthService {
       name: input.name,
       email: input.email,
       password: hashed,
-      role: input.rol?.toUpperCase() as UserRole || 'USER',
+      role: input.role?.toUpperCase() as UserRole || 'USER',
     } );
     return this.usersRepo.save( user );
   }

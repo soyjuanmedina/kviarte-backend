@@ -17,5 +17,5 @@ export class RegisterInput {
 
   @Field( { nullable: true } )
   @IsOptional()
-  rol?: string;
+  role?: string;
 }
