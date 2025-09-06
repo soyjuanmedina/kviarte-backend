@@ -34,7 +34,7 @@ __decorate([
     (0, graphql_1.Field)({ nullable: true }),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], RegisterInput.prototype, "rol", void 0);
+], RegisterInput.prototype, "role", void 0);
 exports.RegisterInput = RegisterInput = __decorate([
     (0, graphql_1.InputType)()
 ], RegisterInput);

@@ -30,7 +30,7 @@ let AuthService = class AuthService {
             name: input.name,
             email: input.email,
             password: hashed,
-            role: input.rol?.toUpperCase() || 'USER',
+            role: input.role?.toUpperCase() || 'USER',
         });
         return this.usersRepo.save(user);
     }

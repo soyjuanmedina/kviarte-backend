@@ -39,8 +39,8 @@ __decorate([
     __metadata("design:type", String)
 ], Exhibition.prototype, "picture", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => gallery_entity_1.Gallery),
-    (0, typeorm_1.ManyToOne)(() => gallery_entity_1.Gallery, gallery => gallery.exhibitions),
+    (0, graphql_1.Field)(() => gallery_entity_1.Gallery, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => gallery_entity_1.Gallery, gallery => gallery.exhibitions, { nullable: true }),
     (0, typeorm_1.JoinColumn)({ name: 'gallery_id' }),
     __metadata("design:type", gallery_entity_1.Gallery)
 ], Exhibition.prototype, "gallery", void 0);
