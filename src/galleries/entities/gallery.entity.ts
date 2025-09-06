@@ -63,8 +63,8 @@ export class Gallery {
   @OneToMany( () => Exhibition, exhibition => exhibition.gallery )
   exhibitions?: Exhibition[];
 
-  @Field( () => User )
-  @ManyToOne( () => User, user => user.galleries )
+  @Field( () => User, { nullable: true } )
+  @ManyToOne( () => User, user => user.galleries, { nullable: true } )
   @JoinColumn( { name: 'owner_id' } )
-  owner: User;
+  owner?: User;
 }

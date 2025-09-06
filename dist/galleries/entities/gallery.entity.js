@@ -86,8 +86,8 @@ __decorate([
     __metadata("design:type", Array)
 ], Gallery.prototype, "exhibitions", void 0);
 __decorate([
-    (0, graphql_1.Field)(() => user_entity_1.User),
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, user => user.galleries),
+    (0, graphql_1.Field)(() => user_entity_1.User, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, user => user.galleries, { nullable: true }),
     (0, typeorm_1.JoinColumn)({ name: 'owner_id' }),
     __metadata("design:type", user_entity_1.User)
 ], Gallery.prototype, "owner", void 0);
