@@ -9,31 +9,32 @@ import { Artist } from '../../artists/entities/artist.entity';
 export class Exhibition {
   @Field( () => Int )
   @PrimaryGeneratedColumn()
-  id: number; number;
+  id: number;
 
   @Field()
   @Column()
-  title: string; // cambiado de 'titulo'
+  title: string;
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
-  description?: string; // cambiado de 'descripcion'
+  description?: string;
 
   @Field( { nullable: true } )
   @Column( { nullable: true } )
   picture?: string;
 
-  @Field( () => Gallery )
-  @ManyToOne( () => Gallery, gallery => gallery.exhibitions )
-  @JoinColumn( { name: 'gallery_id' } ) // columna en inglés
-  gallery: Gallery;
+  @Field( () => Gallery, { nullable: true } )
+  @ManyToOne( () => Gallery, gallery => gallery.exhibitions, { nullable: true } )
+  @JoinColumn( { name: 'gallery_id' } )
+  gallery?: Gallery;
 
   @Field( () => Artist, { nullable: true } )
   @ManyToOne( () => Artist, artist => artist.exhibitions, { nullable: true } )
-  @JoinColumn( { name: 'artist_id' } ) // columna en inglés
+  @JoinColumn( { name: 'artist_id' } )
   artist?: Artist;
 
   @Field( () => [Artwork], { nullable: true } )
   @OneToMany( () => Artwork, artwork => artwork.exhibition )
   artworks?: Artwork[];
 }
+
