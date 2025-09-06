@@ -18,7 +18,7 @@ export class User {
   email: string;
 
   @Column( { name: 'password' } )
-  password_hash: string;
+  password: string;
 
   @Field()
   @Column( { default: 'USER' } )

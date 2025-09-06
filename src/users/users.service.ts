@@ -34,7 +34,7 @@ export class UsersService {
   // Crear usuario
   async create ( input: CreateUserInput ): Promise<User> {
     const hashed = await bcrypt.hash( input.password, 10 );
-    const user = this.repo.create( { ...input, password_hash: hashed } );
+    const user = this.repo.create( { ...input, password: hashed } );
     return this.repo.save( user );
   }
 

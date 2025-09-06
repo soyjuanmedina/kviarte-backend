@@ -21,7 +21,7 @@ export class AuthService {
     const user = this.usersRepo.create( {
       name: input.name,
       email: input.email,
-      password_hash: hashed,
+      password: hashed,
       role: input.rol?.toUpperCase() as UserRole || 'USER',
     } );
     return this.usersRepo.save( user );
@@ -30,12 +30,12 @@ export class AuthService {
   async login ( input: LoginInput ) {
     const userEntity = await this.usersRepo.findOne( {
       where: { email: input.email },
-      select: ['id', 'name', 'email', 'role', 'password_hash'], // aseguramos traer lo necesario
+      select: ['id', 'name', 'email', 'role', 'password'], // aseguramos traer lo necesario
     } );
 
     if ( !userEntity ) throw new UnauthorizedException( 'User no encontrado' );
 
-    const valid = await bcrypt.compare( input.password, userEntity.password_hash );
+    const valid = await bcrypt.compare( input.password, userEntity.password );
     if ( !valid ) throw new UnauthorizedException( 'Contraseña incorrecta' );
 
     const token = this.jwtService.sign( {
