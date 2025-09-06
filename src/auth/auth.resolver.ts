@@ -12,7 +12,7 @@ export class AuthResolver {
   constructor ( private authService: AuthService, private usersService: UsersService ) { }
 
   @Query( () => [User] )
-  usersPorRol ( @Args( 'role' ) role: UserRoleEnum ): Promise<User[]> {
+  usersByRole ( @Args( 'role' ) role: UserRoleEnum ): Promise<User[]> {
     return this.usersService.findByRole( role );
   }
 
