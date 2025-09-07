@@ -5,6 +5,7 @@ import { Gallery } from '../galleries/entities/gallery.entity';
 import { Artwork } from '../artworks/entities/artwork.entity';
 import { CreatePromotionInput } from './dto/create-promotion.input';
 import { Promotion } from './entities/promotion.entity';
+import { UpdatePromotionInput } from './dto/update-promotion.input';
 
 @Injectable()
 export class PromotionsService {
@@ -58,7 +59,7 @@ export class PromotionsService {
     return this.promotionsRepo.save( promotion );
   }
 
-  async update ( id: number, input: Partial<CreatePromotionInput> ): Promise<Promotion> {
+  async update ( id: number, input: Partial<UpdatePromotionInput> ): Promise<Promotion> {
     const promotion = await this.findOne( id );
 
     if ( input.galleryId ) {

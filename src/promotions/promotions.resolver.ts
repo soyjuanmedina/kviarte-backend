@@ -5,6 +5,7 @@ import { UseGuards } from '@nestjs/common';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { CreatePromotionInput } from './dto/create-promotion.input';
+import { UpdatePromotionInput } from './dto/update-promotion.input';
 
 @Resolver( () => Promotion )
 @UseGuards( RolesGuard )
@@ -33,7 +34,7 @@ export class PromotionsResolver {
   @Roles( 'ADMIN', 'GALLERY' )
   updatePromotion (
     @Args( 'id', { type: () => Int } ) id: number,
-    @Args( 'input' ) input: CreatePromotionInput, // podrías crear un UpdatePromotionInput más limpio
+    @Args( 'input' ) input: UpdatePromotionInput,
   ) {
     return this.service.update( id, input );
   }
